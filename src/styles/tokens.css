@@ -32,6 +32,15 @@
   --brand-150: #9fbeff;
   --brand-100: #bbd4ff;
 
+  /*
+   * Glass surfaces. Cards and bars use these rather than the opaque surfaces
+   * above, so the era backdrop reads faintly through every section instead of
+   * being boxed out by them.
+   */
+  --surface-glass: rgba(10, 12, 15, 0.76);
+  --surface-glass-hover: rgba(14, 18, 24, 0.88);
+  --bg-glass: rgba(8, 9, 10, 0.72);
+
   /* Translucent brand + hairlines */
   --brand-a08: rgba(37, 99, 255, 0.08);
   --brand-a10: rgba(37, 99, 255, 0.1);

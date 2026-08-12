@@ -3,11 +3,11 @@
 All eight images are **public domain** or **CC0**, sourced from
 [Wikimedia Commons](https://commons.wikimedia.org/). None carry a share-alike or
 attribution obligation, but they are credited here and in a line beneath the
-carousel because it is the decent thing to do and it records provenance for
+backdrop because it is the decent thing to do and it records provenance for
 whoever maintains this next.
 
 Each file was cropped to 3:2 and re-encoded to WebP at 900×600. Colour grading
-is **not** baked in — it is applied at runtime in `EraCarousel.css`, so the
+is **not** baked in — it is applied at runtime in `EraBackdrop.css`, so the
 originals stay neutral and a theme change re-grades them for free.
 
 | File               | Year | Age                     | Creator                                    | Licence       |
@@ -39,6 +39,6 @@ originals stay neutral and a theme change re-grades them for free.
 3. Drop it in this folder, then add an entry to `eras` in `src/site.config.js` —
    import the file, and fill in `year`, `age`, `place`, `artist`, `license` and
    `source`.
-4. Keep `eras` sorted by year. The carousel reads as a timeline, and the loop
-   duration in `EraCarousel.css` assumes a roughly even run of slides.
+4. Keep `eras` sorted by year. The backdrop columns are cut from the sequence,
+   and the loop speeds in `EraBackdrop.jsx` assume an even run of slides.
 5. Record it in the table above.

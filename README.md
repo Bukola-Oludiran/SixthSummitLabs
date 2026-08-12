@@ -38,54 +38,73 @@ components.
 
 ## Image slots
 
-The design export had drag-and-drop image placeholders. Here they render a
-labelled placeholder until you supply a source. To fill one:
+The three project cards in the work section render a labelled placeholder until
+you supply a screenshot. To fill one:
 
 1. Drop the file into `src/assets/`.
 2. Import it at the top of `src/site.config.js` and assign it:
 
 ```js
-import heroMountain from './assets/mountain.jpg'
+import marketplaceShot from './assets/marketplace.png'
 
 export const images = {
-  heroMountain,
-  ctaMountain: null,
-  work1: null,
-  // ...
+  work1: marketplaceShot,
+  work2: null,
+  work3: null,
 }
 ```
 
-The hero and CTA slots behave as "plates": once filled they expand to bleed off
-the section edges and are automatically desaturated and dimmed so headline text
-stays legible on top. The three `work*` slots are ordinary project screenshots.
+Site-wide imagery is handled separately by the era backdrop, below.
 
-## The era carousel
+## The era backdrop
 
-A vertical carousel of city views, one per technological age, running 1572 to
-2012. It sits between the marquee and the services grid.
+City views from 1572 to 2012 — print, sail, steam, rail, electricity, the
+network — drifting continuously behind every section as the page's ground.
+It is fixed to the viewport, so it keeps moving wherever the visitor has
+scrolled, and it is decorative: hidden from assistive tech and inert to
+pointers.
 
 - **Content** lives in `eras` in [`src/site.config.js`](src/site.config.js), one
-  entry per age. Keep it sorted by year — the carousel reads as a timeline.
+  entry per age. Keep it sorted by year — the columns are cut from that sequence.
 - **Images** are in [`src/assets/eras/`](src/assets/eras/), all public domain or
-  CC0 from Wikimedia Commons, cropped to 3:2 at 900×600. Full provenance and
-  instructions for swapping one out are in
-  [`ATTRIBUTION.md`](src/assets/eras/ATTRIBUTION.md).
-- **Colour grading is applied in CSS**, not baked into the files: the images are
-  desaturated and darkened, then the brand blue is laid over with a `color`
-  blend, which takes the hue from the overlay and keeps the artwork's luminance.
-  Change `--brand` and every image re-grades. Adjust the look in the
-  `.era__img` / `.era__tint` / `.era__frame` rules of `EraCarousel.css`.
-- **Motion is pure CSS.** The sequence is rendered twice and the track slides up
-  by exactly 50%, so the second copy lands where the first began and the loop
-  never seams. Change the speed via the `eraScroll` animation duration. It pauses
-  on hover, and reduced-motion visitors get a static, scrollable column instead.
+  CC0 from Wikimedia Commons, cropped to 3:2 at 900×600 (~600KB total).
+  Provenance and instructions for swapping one out are in
+  [`ATTRIBUTION.md`](src/assets/eras/ATTRIBUTION.md); the footer carries a credit.
+- **Colour grading is applied in CSS**, not baked into the files: the artwork is
+  desaturated and sunk towards the page ground, then brand blue is laid over the
+  whole layer with a `color` blend, which takes the hue from the overlay and
+  keeps the artwork's luminance. Change `--brand` and it all re-grades. Tune via
+  `.backdrop__img`, `.backdrop__tint` and `.backdrop__scrim` in
+  [`EraBackdrop.css`](src/components/EraBackdrop.css).
+- **Motion is pure CSS.** Three columns start at different points in the sequence
+  and travel at slightly different speeds so they never line up into a grid. Each
+  renders its run twice and slides up 50%, landing the second copy exactly where
+  the first began. Speeds are the `COLUMNS` array in
+  [`EraBackdrop.jsx`](src/components/EraBackdrop.jsx). Reduced motion freezes it
+  in place rather than hiding it.
 
-One caveat worth knowing if you edit it: the slides deliberately do **not** use
-`loading="lazy"`. Native lazy loading judges an image by its position in the
-document, but these sit thousands of pixels down inside a clipped, animated
-track — the browser reads them as far off-screen and leaves them blank while
-they are visibly cycling past. Instead `useNearViewport` watches the section and
-attaches all eight sources as it approaches.
+Two things to know before editing it:
+
+**Spacing is a `margin-bottom`, not a flex `gap`, and that matters.** With a gap,
+a track of 2N slides is `2N·h + (2N−1)·g` tall, so `translateY(-50%)` lands one
+gap short of the seam and the loop jumps every cycle. As a margin each slide
+contributes exactly `h + m`, and half the track is precisely one sequence.
+
+**The slides deliberately avoid `loading="lazy"`.** Native lazy loading judges an
+image by its position in the document, but these sit inside a clipped, animated
+track — the browser reads them as far off-screen and leaves them blank while they
+are visibly cycling past. Sources are attached on the first effect instead, which
+still lets the hero paint first, and `fetchpriority="low"` keeps them from
+competing with fonts and the bundle.
+
+## Readability over the backdrop
+
+Because the backdrop sits under every section, card and bar surfaces use the
+`--surface-glass` / `--bg-glass` tokens rather than the opaque `--surface` /
+`--bg`, so the imagery reads faintly through them instead of being boxed out.
+If you add a new card, reach for the glass tokens. If text ever feels hard to
+read, the two dials are `.backdrop__scrim` (how far back the imagery sits) and
+the `opacity` on `.backdrop__img`.
 
 ## Structure
 

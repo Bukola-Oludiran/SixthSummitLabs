@@ -15,7 +15,7 @@
 .services__card {
   position: relative;
   padding: 38px 32px 42px;
-  background: var(--surface);
+  background: var(--surface-glass);
   min-height: 280px;
   display: flex;
   flex-direction: column;
@@ -27,7 +27,7 @@
 }
 
 .services__card:hover {
-  background: var(--surface-raised);
+  background: var(--surface-glass-hover);
 }
 
 .services__card-top {

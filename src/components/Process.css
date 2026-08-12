@@ -38,7 +38,7 @@
 }
 
 .process__step {
-  background: var(--bg);
+  background: var(--bg-glass);
   padding: 36px 28px 40px;
   display: flex;
   flex-direction: column;
@@ -50,7 +50,7 @@
 }
 
 .process__step:hover {
-  background: var(--surface-hover);
+  background: rgba(12, 15, 20, 0.88);
 }
 
 .process__when {
@@ -108,7 +108,7 @@
   padding: 30px;
   border: 1px solid var(--border);
   border-radius: 16px;
-  background: var(--surface);
+  background: var(--surface-glass);
 }
 
 .process__principle-title {

@@ -15,23 +15,19 @@ import machineAge from './assets/eras/machine.webp'
 import networkAge from './assets/eras/network.webp'
 
 /**
- * Image slots.
+ * Image slots for the work section.
  *
  * Each slot renders a labelled placeholder until you give it a source. To fill
  * one, drop the file into `src/assets/`, import it at the top of this file, and
  * assign it below:
  *
- *   import heroMountain from './assets/mountain.jpg'
+ *   import marketplaceShot from './assets/marketplace.png'
  *   ...
- *   heroMountain: heroMountain,
+ *   work1: marketplaceShot,
  *
- * The hero and CTA slots are treated as "plates": once filled they expand to
- * bleed off the edge of their section and are desaturated to sit behind the
- * text. See Hero.css / Contact.css.
+ * Site-wide imagery is handled separately by the era backdrop — see `eras`.
  */
 export const images = {
-  heroMountain: null,
-  ctaMountain: null,
   work1: null,
   work2: null,
   work3: null,
@@ -74,22 +70,16 @@ export const marqueeItems = [
 ]
 
 /**
- * The era carousel.
+ * The era backdrop.
  *
- * A chronological run of city views, one per technological age. Order matters —
- * the carousel reads as a timeline, so keep these sorted by year.
+ * A chronological run of city views, one per technological age, drifting
+ * continuously behind every section of the page. Order matters — the columns
+ * are cut from this sequence, so keep it sorted by year.
  *
  * Every image is public domain or CC0, sourced from Wikimedia Commons and
- * cropped to 3:2. `artist` and `source` drive the on-page credit line; see
- * src/assets/eras/ATTRIBUTION.md for the full record.
+ * cropped to 3:2. `artist`, `license` and `source` are the provenance record;
+ * see src/assets/eras/ATTRIBUTION.md for the full detail.
  */
-export const eraCarousel = {
-  eyebrow: 'Five centuries of build cycles',
-  title: 'Every age rebuilt the city.',
-  body: 'Print, sail, steam, rail, electricity, the network. Each age shipped faster than the one before it. We build for the one measured in weeks.',
-  creditPrefix: 'City views, 1572–2012 — public domain and CC0 via',
-}
-
 export const eras = [
   {
     id: 'print',
@@ -322,4 +312,9 @@ export const footer = {
     { label: 'Contact', href: '#contact' },
   ],
   note: '© 2026 — Built at altitude',
+  credit: {
+    text: 'Backdrop: city views 1572–2012, public domain and CC0 via',
+    linkLabel: 'Wikimedia Commons',
+    href: 'https://commons.wikimedia.org/',
+  },
 }

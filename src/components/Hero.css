@@ -35,44 +35,6 @@
   overflow: hidden;
 }
 
-/* ── Mountain plate ───────────────────────────────────────────────── */
-
-/*
- * Empty, this is a modest panel in the top-right corner. Once an image is set
- * it becomes a full-bleed backdrop: it bleeds past the section edges, is
- * desaturated, and is dimmed so the headline stays legible on top of it.
- */
-.hero__plate {
-  position: absolute;
-  top: 96px;
-  right: 24px;
-  width: min(34%, 300px);
-  height: 200px;
-  pointer-events: auto;
-  animation: ssFade 1.8s ease-out both;
-  will-change: transform;
-}
-
-.hero__plate.is-filled {
-  inset: -10% -2% -4%;
-  width: auto;
-  height: auto;
-  filter: grayscale(1) contrast(1.18) brightness(0.58);
-}
-
-/* Vertical scrim that fades the artwork into the page background. */
-.hero__scrim {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(
-    180deg,
-    rgba(8, 9, 10, 0.86) 0%,
-    rgba(8, 9, 10, 0.42) 34%,
-    rgba(8, 9, 10, 0.8) 74%,
-    var(--bg) 100%
-  );
-}
-
 .hero__bloom {
   position: absolute;
   inset: 0;
@@ -246,11 +208,6 @@
 @media (max-width: 760px) {
   .hero {
     padding-top: 120px;
-  }
-
-  /* The empty placeholder crowds the headline at this width; artwork still shows. */
-  .hero__plate:not(.is-filled) {
-    display: none;
   }
 
   .hero__intro {

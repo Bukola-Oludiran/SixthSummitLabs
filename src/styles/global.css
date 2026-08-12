@@ -154,6 +154,12 @@ p {
   mix-blend-mode: screen;
 }
 
+/* Lifts all page content above the fixed era backdrop (z-index 0). */
+.page {
+  position: relative;
+  z-index: 1;
+}
+
 .shell {
   max-width: var(--shell);
   margin: 0 auto;

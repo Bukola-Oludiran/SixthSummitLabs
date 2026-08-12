@@ -1,0 +1,126 @@
+/*
+ * Ambient backdrop layer.
+ *
+ * Fixed to the viewport and pinned under everything else, so it reads as the
+ * page's ground rather than as content. Content sits on `.page` (z-index 1);
+ * the header and grain overlay carry their own higher stacking.
+ */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.backdrop__cols {
+  position: absolute;
+  /* Overscans the viewport so column edges and the travelling seam never show. */
+  inset: -6% -2%;
+  display: flex;
+  justify-content: center;
+  gap: 2.4vw;
+}
+
+.backdrop__col {
+  flex: 1 1 0;
+  max-width: 30%;
+  overflow: hidden;
+}
+
+.backdrop__track {
+  display: flex;
+  flex-direction: column;
+  animation: backdropRise var(--speed, 140s) linear infinite;
+  will-change: transform;
+}
+
+/*
+ * Spacing lives on the slide, not as a flex `gap`.
+ *
+ * With `gap`, a track of 2N items is `2N·h + (2N-1)·g` tall — half of that is
+ * not one whole sequence, so `-50%` lands a gap short and the loop visibly
+ * jumps. As a margin, every item contributes exactly `h + m`, the track is
+ * `2N·(h + m)`, and half of it is precisely one sequence.
+ */
+.backdrop__slide {
+  margin-bottom: 2.6vh;
+}
+
+.backdrop__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  border-radius: 12px;
+  /* Strip the original colour and sink it towards the page ground. */
+  filter: grayscale(1) contrast(1.16) brightness(0.52);
+  opacity: 0.58;
+}
+
+@keyframes backdropRise {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+/*
+ * Brand hue over the whole layer in one composite: `color` takes the hue from
+ * this element and keeps the luminance of the artwork beneath.
+ */
+.backdrop__tint {
+  position: absolute;
+  inset: 0;
+  background: var(--brand);
+  mix-blend-mode: color;
+  opacity: 0.55;
+}
+
+/*
+ * Pushes the imagery back far enough for body copy to sit on top of it, and
+ * darkens the edges so the columns fade out rather than ending on a hard line.
+ */
+.backdrop__scrim {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 96% 78% at 50% 45%, rgba(8, 9, 10, 0.34) 0%, rgba(8, 9, 10, 0.76) 100%),
+    linear-gradient(180deg, rgba(8, 9, 10, 0.82) 0%, rgba(8, 9, 10, 0.4) 32%, rgba(8, 9, 10, 0.4) 68%, rgba(8, 9, 10, 0.82) 100%);
+}
+
+@media (max-width: 900px) {
+  .backdrop__cols {
+    gap: 3vw;
+  }
+
+  /* Two columns is plenty at this width; a third would be a sliver. */
+  .backdrop__col:nth-child(3) {
+    display: none;
+  }
+
+  .backdrop__col {
+    max-width: 46%;
+  }
+}
+
+@media (max-width: 560px) {
+  .backdrop__col:nth-child(2) {
+    display: none;
+  }
+
+  .backdrop__col {
+    max-width: 78%;
+  }
+}
+
+/* Motion is the whole point of the layer, so reduced motion freezes it in place
+   rather than hiding it. */
+@media (prefers-reduced-motion: reduce) {
+  .backdrop__track {
+    animation: none;
+  }
+}

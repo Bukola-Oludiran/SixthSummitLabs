@@ -1,46 +1,19 @@
 .contact {
   position: relative;
-  padding: 130px var(--gutter) 252px;
+  padding: 130px var(--gutter) 120px;
   overflow: hidden;
 }
 
-/* Filled, the artwork bleeds to the edges and no longer needs reserved space. */
-.contact--plate-filled {
-  padding-bottom: 120px;
-}
-
-.contact__backdrop {
-  position: absolute;
-  inset: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.contact__plate {
-  position: absolute;
-  right: 24px;
-  bottom: 24px;
-  width: min(30%, 200px);
-  height: 88px;
-  pointer-events: auto;
-  will-change: transform;
-}
-
-.contact__plate.is-filled {
-  inset: -14% 0 -6%;
-  width: auto;
-  height: auto;
-  filter: grayscale(1) contrast(1.15) brightness(0.42);
-}
-
+/* Settles the era backdrop behind the closing call to action. */
 .contact__scrim {
   position: absolute;
   inset: 0;
+  pointer-events: none;
   background: linear-gradient(
     180deg,
-    var(--bg) 0%,
+    rgba(8, 9, 10, 0.55) 0%,
     rgba(8, 9, 10, 0.72) 40%,
-    rgba(8, 9, 10, 0.9) 100%
+    rgba(8, 9, 10, 0.88) 100%
   );
 }
 
@@ -116,10 +89,6 @@
 @media (max-width: 760px) {
   .contact {
     padding-top: 90px;
-    padding-bottom: 200px;
-  }
-
-  .contact--plate-filled {
     padding-bottom: 90px;
   }
 

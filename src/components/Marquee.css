@@ -2,7 +2,7 @@
   position: relative;
   overflow: hidden;
   border-bottom: 1px solid var(--hairline);
-  background: var(--surface-marquee);
+  background: rgba(10, 11, 13, 0.82);
   padding: 20px 0;
 }
 

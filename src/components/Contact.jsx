@@ -1,28 +1,14 @@
 import Reveal from './Reveal'
-import ImageSlot from './ImageSlot'
 import { ArrowRight } from './icons'
-import { contact, images, settings } from '../site.config'
+import { contact, settings } from '../site.config'
 import './Contact.css'
 
 export default function Contact() {
-  const plateFilled = Boolean(images.ctaMountain)
   const mailto = `mailto:${settings.email}`
 
   return (
-    <section
-      id="contact"
-      className={`contact${plateFilled ? ' contact--plate-filled' : ''}`}
-    >
-      <div className="contact__backdrop" aria-hidden="true">
-        <div
-          className={`contact__plate${plateFilled ? ' is-filled' : ''}`}
-          data-depth="0.10"
-        >
-          <ImageSlot src={images.ctaMountain} alt="" hint="Drop a second engraving — optional" />
-        </div>
-        <div className="contact__scrim" />
-      </div>
-
+    <section id="contact" className="contact">
+      <div className="contact__scrim" aria-hidden="true" />
       <div className="contact__glow" aria-hidden="true" />
 
       <Reveal className="contact__inner">

@@ -21,6 +21,13 @@ export default function Footer() {
 
         <span className="footer__note">{footer.note}</span>
       </div>
+
+      <p className="shell footer__credit">
+        {footer.credit.text}{' '}
+        <a href={footer.credit.href} target="_blank" rel="noreferrer noopener">
+          {footer.credit.linkLabel}
+        </a>
+      </p>
     </footer>
   )
 }

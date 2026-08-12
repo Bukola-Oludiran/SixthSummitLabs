@@ -2,7 +2,7 @@
   position: relative;
   padding: 40px var(--gutter);
   border-top: 1px solid var(--hairline-strong);
-  background: var(--bg);
+  background: var(--bg-glass);
 }
 
 .footer__inner {
@@ -45,4 +45,22 @@
   font-size: 11px;
   letter-spacing: 0.08em;
   color: var(--text-dim-4);
+}
+
+.footer__credit {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid var(--hairline);
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.07em;
+  color: var(--text-dim-4);
+}
+
+.footer__credit a {
+  color: var(--text-dim-2);
+}
+
+.footer__credit a:hover {
+  color: var(--brand-200);
 }

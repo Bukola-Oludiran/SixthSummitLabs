@@ -1,30 +1,13 @@
-import ImageSlot from './ImageSlot'
 import { ArrowRight } from './icons'
-import { hero, images, settings } from '../site.config'
+import { hero, settings } from '../site.config'
 import './Hero.css'
 
 export default function Hero() {
-  const plateFilled = Boolean(images.heroMountain)
-
   return (
     <section id="top" className="hero">
       <div className="hero__glow" aria-hidden="true" />
 
       <div id="ss-ridge" className="hero__ridge" aria-hidden="true">
-        {/* Drifts slowly and grows a touch as the page scrolls — see useParallax. */}
-        <div
-          className={`hero__plate${plateFilled ? ' is-filled' : ''}`}
-          data-depth="0.22"
-          data-scale=""
-        >
-          <ImageSlot
-            src={images.heroMountain}
-            alt=""
-            hint="Drop a Renaissance mountain engraving — grayscale is applied automatically"
-          />
-        </div>
-
-        <div className="hero__scrim" />
         <div className="hero__bloom" />
 
         <div className="hero__lines" data-depth="0.42">
