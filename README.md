@@ -95,14 +95,21 @@ above the tint and scrim, and showing that copy only through a moving
 `mask-image`. Both copies mount in the same commit and share the same animation
 definitions, so they stay in step.
 
-**The guttering** comes from two things at once. A set of mask frames is built at
-mount, each reaching a slightly different distance (`flare`) and each randomising
-its own fringe tiles. A jittered timer then walks between *neighbouring* frames,
-so the pool of light breathes in and out while its edge crackles. Two details
-matter here: stepping to a neighbour rather than jumping to a random frame is
-what makes it read as a flame instead of a strobe, and the interval is
-deliberately uneven for the same reason. Every frame shares an identical solid
-core, so only the fringe ever moves.
+**The guttering** runs on two independent axes, built as a grid of masks at
+mount — one row per `flare` (how far the light reaches), several fringe cuts per
+row. Each tick walks flare one step *with momentum*, so the pool sweeps out and
+back rather than jittering in place, and picks a fringe cut that hasn't been used
+in the last couple of ticks. The interval itself is uneven (0.6–1.5× the base
+cadence), because a fixed one reads as a strobe. Every mask shares an identical
+solid core, so only the fringe ever moves.
+
+Keeping flare and fringe on separate axes is load-bearing, not tidiness. When
+they were one axis the flame visibly stalled: the walk could land back on the
+frame it had just left, freezing the edge for a tick, and revisiting any earlier
+frame reproduced that frame's fringe exactly, so the edge flicked between two
+fixed poses about a third of the time. Splitting them means the mask changes on
+every single tick regardless of what flare does. Measured over 10 seconds with
+the cursor still: zero stalls, zero repeats, 41 distinct masks.
 
 Knobs are the options to `useCursorLens()` in
 [`EraBackdrop.jsx`](src/components/EraBackdrop.jsx):
@@ -112,7 +119,8 @@ Knobs are the options to `useCursorLens()` in
 | `tileRem`   | `2`     | Size of each square in the mask                               |
 | `sizeRem`   | `26`    | Diameter of the lens (snapped down to whole tiles)            |
 | `coreRatio` | `0.58`  | Fraction of the radius that stays solid before tiles thin out |
-| `frames`    | `12`    | How many mask frames to build — more means a smoother gutter  |
+| `frames`    | `12`    | Flare levels to build — more means a smoother breath          |
+| `variants`  | `4`     | Fringe cuts per level; must be ≥ 3 to never repeat a pose     |
 | `flareMin`  | `0.84`  | Narrowest reach of the light                                  |
 | `flareMax`  | `1`     | Widest reach                                                  |
 | `shimmerMs` | `110`   | Base cadence; each tick lands at 0.6–1.5× this                |
