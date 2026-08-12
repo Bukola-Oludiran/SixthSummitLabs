@@ -1,0 +1,224 @@
+.era {
+  position: relative;
+  padding: var(--section-y) var(--gutter) 60px;
+  overflow: hidden;
+}
+
+.era__glow {
+  position: absolute;
+  left: 50%;
+  top: 12%;
+  width: 1000px;
+  height: 900px;
+  max-width: 170vw;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, rgba(37, 99, 255, 0.14) 0%, transparent 64%);
+  pointer-events: none;
+}
+
+.era__inner {
+  position: relative;
+}
+
+.era__head {
+  max-width: 62ch;
+  margin: 0 auto 56px;
+  text-align: center;
+}
+
+.era__title {
+  font-size: clamp(32px, 4.4vw, 58px);
+  line-height: 1.03;
+  margin-bottom: 20px;
+}
+
+.era__body {
+  font-size: 17px;
+  line-height: 1.6;
+  color: var(--text-muted-2);
+  max-width: 56ch;
+  margin: 0 auto;
+}
+
+/* ── Carousel ─────────────────────────────────────────────────────── */
+
+/*
+ * The mask dissolves slides into the page at both edges, so the strip reads as
+ * continuous motion rather than a box with content scrolling inside it.
+ */
+.era__viewport {
+  position: relative;
+  height: 620px;
+  overflow: hidden;
+  -webkit-mask-image: linear-gradient(
+    180deg,
+    transparent 0%,
+    #000 16%,
+    #000 84%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(180deg, transparent 0%, #000 16%, #000 84%, transparent 100%);
+}
+
+.era__track {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+  width: 100%;
+  /*
+   * Travels exactly -50%: the second copy of the sequence arrives where the
+   * first started, so the loop is seamless. Duration scales with slide count.
+   */
+  animation: eraScroll 72s linear infinite;
+  will-change: transform;
+}
+
+@keyframes eraScroll {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-50%);
+  }
+}
+
+.era__viewport:hover .era__track,
+.era__viewport:focus-within .era__track {
+  animation-play-state: paused;
+}
+
+.era__slide {
+  margin: 0;
+  width: min(560px, 78vw);
+  flex: none;
+}
+
+.era__frame {
+  position: relative;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  /* Translucent, so the page ground reads through the artwork. */
+  opacity: 0.62;
+  transition: opacity 400ms ease;
+}
+
+.era__viewport:hover .era__frame {
+  opacity: 0.78;
+}
+
+/*
+ * Colour grading, in two steps:
+ *   1. strip the original colour and crush it down towards the page ground
+ *   2. lay the brand blue over it with a `color` blend, which takes the hue
+ *      from the overlay and keeps the luminance of the artwork underneath
+ * Kept in CSS rather than baked into the files so a theme change re-grades
+ * every image without reprocessing assets.
+ */
+.era__img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 3 / 2;
+  object-fit: cover;
+  filter: grayscale(1) contrast(1.24) brightness(0.56);
+}
+
+.era__tint {
+  position: absolute;
+  inset: 0;
+  background: var(--brand);
+  mix-blend-mode: color;
+  opacity: 0.52;
+  pointer-events: none;
+}
+
+.era__caption {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  padding: 14px 4px 0;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.era__year {
+  color: var(--brand-300);
+}
+
+.era__age {
+  color: var(--text-nav);
+}
+
+.era__place {
+  margin-left: auto;
+  color: var(--text-dim-3);
+  text-transform: none;
+  letter-spacing: 0.06em;
+}
+
+.era__credit {
+  position: relative;
+  margin-top: 44px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 10.5px;
+  letter-spacing: 0.08em;
+  color: var(--text-dim-4);
+}
+
+.era__credit a {
+  color: var(--text-dim-2);
+}
+
+.era__credit a:hover {
+  color: var(--brand-200);
+}
+
+/* ── Responsive ───────────────────────────────────────────────────── */
+
+@media (max-width: 760px) {
+  .era__viewport {
+    height: 460px;
+  }
+
+  .era__head {
+    margin-bottom: 40px;
+  }
+
+  .era__body {
+    font-size: 16px;
+  }
+
+  .era__caption {
+    font-size: 10px;
+    gap: 10px;
+  }
+}
+
+/*
+ * Reduced motion: stop the travel and show the sequence as a static column the
+ * visitor scrolls themselves. The mask is dropped too, since without motion a
+ * faded top and bottom just looks like clipped images.
+ */
+@media (prefers-reduced-motion: reduce) {
+  .era__track {
+    animation: none;
+  }
+
+  .era__viewport {
+    height: auto;
+    max-height: 620px;
+    overflow-y: auto;
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .era__frame {
+    opacity: 0.72;
+  }
+}

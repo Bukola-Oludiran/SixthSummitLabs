@@ -59,6 +59,34 @@ The hero and CTA slots behave as "plates": once filled they expand to bleed off
 the section edges and are automatically desaturated and dimmed so headline text
 stays legible on top. The three `work*` slots are ordinary project screenshots.
 
+## The era carousel
+
+A vertical carousel of city views, one per technological age, running 1572 to
+2012. It sits between the marquee and the services grid.
+
+- **Content** lives in `eras` in [`src/site.config.js`](src/site.config.js), one
+  entry per age. Keep it sorted by year — the carousel reads as a timeline.
+- **Images** are in [`src/assets/eras/`](src/assets/eras/), all public domain or
+  CC0 from Wikimedia Commons, cropped to 3:2 at 900×600. Full provenance and
+  instructions for swapping one out are in
+  [`ATTRIBUTION.md`](src/assets/eras/ATTRIBUTION.md).
+- **Colour grading is applied in CSS**, not baked into the files: the images are
+  desaturated and darkened, then the brand blue is laid over with a `color`
+  blend, which takes the hue from the overlay and keeps the artwork's luminance.
+  Change `--brand` and every image re-grades. Adjust the look in the
+  `.era__img` / `.era__tint` / `.era__frame` rules of `EraCarousel.css`.
+- **Motion is pure CSS.** The sequence is rendered twice and the track slides up
+  by exactly 50%, so the second copy lands where the first began and the loop
+  never seams. Change the speed via the `eraScroll` animation duration. It pauses
+  on hover, and reduced-motion visitors get a static, scrollable column instead.
+
+One caveat worth knowing if you edit it: the slides deliberately do **not** use
+`loading="lazy"`. Native lazy loading judges an image by its position in the
+document, but these sit thousands of pixels down inside a clipped, animated
+track — the browser reads them as far off-screen and leaves them blank while
+they are visibly cycling past. Instead `useNearViewport` watches the section and
+attaches all eight sources as it approaches.
+
 ## Structure
 
 ```

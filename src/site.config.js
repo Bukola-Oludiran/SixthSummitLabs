@@ -5,6 +5,15 @@
  * never hardcode copy of their own.
  */
 
+import printAge from './assets/eras/print.webp'
+import sailAge from './assets/eras/sail.webp'
+import enlightenmentAge from './assets/eras/enlightenment.webp'
+import steamAge from './assets/eras/steam.webp'
+import railAge from './assets/eras/rail.webp'
+import electricAge from './assets/eras/electric.webp'
+import machineAge from './assets/eras/machine.webp'
+import networkAge from './assets/eras/network.webp'
+
 /**
  * Image slots.
  *
@@ -62,6 +71,110 @@ export const marqueeItems = [
   'Mobile apps',
   'Design systems',
   'Technical discovery',
+]
+
+/**
+ * The era carousel.
+ *
+ * A chronological run of city views, one per technological age. Order matters —
+ * the carousel reads as a timeline, so keep these sorted by year.
+ *
+ * Every image is public domain or CC0, sourced from Wikimedia Commons and
+ * cropped to 3:2. `artist` and `source` drive the on-page credit line; see
+ * src/assets/eras/ATTRIBUTION.md for the full record.
+ */
+export const eraCarousel = {
+  eyebrow: 'Five centuries of build cycles',
+  title: 'Every age rebuilt the city.',
+  body: 'Print, sail, steam, rail, electricity, the network. Each age shipped faster than the one before it. We build for the one measured in weeks.',
+  creditPrefix: 'City views, 1572–2012 — public domain and CC0 via',
+}
+
+export const eras = [
+  {
+    id: 'print',
+    year: '1572',
+    age: 'The print age',
+    place: 'Antwerp',
+    image: printAge,
+    artist: 'Braun, Hogenberg, Hoefnagel & Novellanus',
+    license: 'CC0',
+    source:
+      'https://commons.wikimedia.org/wiki/File:Anverpia_from_Braun_and_Hogenberg%27s_Civitates_Orbis_Terrarum_MET_DP325824.jpg',
+  },
+  {
+    id: 'sail',
+    year: '1611',
+    age: 'The age of sail',
+    place: 'Amsterdam',
+    image: sailAge,
+    artist: 'Pieter Bast & Claes Janszoon Visscher II',
+    license: 'Public domain',
+    source: 'https://commons.wikimedia.org/wiki/File:Profile_of_Amsterdam,_1611.jpg',
+  },
+  {
+    id: 'enlightenment',
+    year: '1750',
+    age: 'The enlightenment',
+    place: 'London',
+    image: enlightenmentAge,
+    artist: 'Unknown',
+    license: 'CC0',
+    source:
+      'https://commons.wikimedia.org/wiki/File:Gezicht_op_Londen,_asset_pXSWUZ7EAiEsbgR6QgeGE7JR.jpg',
+  },
+  {
+    id: 'steam',
+    year: '1801',
+    age: 'The age of steam',
+    place: 'Coalbrookdale',
+    image: steamAge,
+    artist: 'Philip James de Loutherbourg',
+    license: 'Public domain',
+    source: 'https://commons.wikimedia.org/wiki/File:Philipp_Jakob_Loutherbourg_d._J._002.jpg',
+  },
+  {
+    id: 'rail',
+    year: '1872',
+    age: 'The railway city',
+    place: 'London',
+    image: railAge,
+    artist: 'Gustave Doré',
+    license: 'Public domain',
+    source: 'https://commons.wikimedia.org/wiki/File:YCBA_London_a_Pilgrimage_06_(cropped).jpg',
+  },
+  {
+    id: 'electric',
+    year: '1921',
+    age: 'The electric metropolis',
+    place: 'New York',
+    image: electricAge,
+    artist: 'Irving Underhill',
+    license: 'Public domain',
+    source:
+      'https://commons.wikimedia.org/wiki/File:New_York_skyline_from_Jersey_City_LCCN97519723.jpg',
+  },
+  {
+    id: 'machine',
+    year: '1945',
+    age: 'The machine age',
+    place: 'Manhattan',
+    image: machineAge,
+    artist: 'Tom Blackmore (restoration)',
+    license: 'Public domain',
+    source:
+      'https://commons.wikimedia.org/wiki/File:Panorama_of_Manhattan%27s_West_Side_from_Across_the_Hudson,_restored.jpg',
+  },
+  {
+    id: 'network',
+    year: '2012',
+    age: 'The network age',
+    place: 'North America at night',
+    image: networkAge,
+    artist: 'NASA Earth Observatory',
+    license: 'Public domain',
+    source: 'https://commons.wikimedia.org/wiki/File:City_Lights_of_the_United_States_2012.jpg',
+  },
 ]
 
 export const services = [
