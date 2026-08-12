@@ -1,0 +1,48 @@
+.footer {
+  position: relative;
+  padding: 40px var(--gutter);
+  border-top: 1px solid var(--hairline-strong);
+  background: var(--bg);
+}
+
+.footer__inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.footer__brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.footer__wordmark {
+  font-family: var(--font-display);
+  font-size: 14px;
+  color: var(--text-nav);
+}
+
+.footer__links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 26px;
+  font-size: 13px;
+}
+
+.footer__link {
+  color: var(--text-dim-2);
+}
+
+.footer__link:hover {
+  color: var(--text-nav);
+}
+
+.footer__note {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--text-dim-4);
+}

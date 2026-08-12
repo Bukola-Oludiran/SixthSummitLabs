@@ -1,0 +1,106 @@
+/*
+ * The 1px gap is the divider: the container's light background shows through
+ * between opaque cards, so adjacent cards never stack two borders on one edge.
+ */
+.services__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1px;
+  background: var(--hairline-strong);
+  border: 1px solid var(--hairline-strong);
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.services__card {
+  position: relative;
+  padding: 38px 32px 42px;
+  background: var(--surface);
+  min-height: 280px;
+  display: flex;
+  flex-direction: column;
+  /* Restates the .reveal transitions — this shorthand would otherwise drop them. */
+  transition:
+    background 200ms ease,
+    opacity 700ms cubic-bezier(0.16, 0.8, 0.3, 1),
+    transform 700ms cubic-bezier(0.16, 0.8, 0.3, 1);
+}
+
+.services__card:hover {
+  background: var(--surface-raised);
+}
+
+.services__card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: auto;
+}
+
+.services__num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--text-dim-4);
+}
+
+.services__tag {
+  width: 34px;
+  height: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  border: 1px solid var(--brand-a35);
+  background: var(--brand-a08);
+  color: var(--brand-200);
+  font-family: var(--font-display);
+  font-size: 13px;
+}
+
+.services__title {
+  margin: 44px 0 12px;
+  font-size: 24px;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.services__body {
+  margin-bottom: 20px;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text-muted-2);
+}
+
+.services__meta {
+  color: var(--brand-300);
+}
+
+/* ── Closing card ─────────────────────────────────────────────────── */
+
+.services__card--cta {
+  justify-content: flex-end;
+  padding-bottom: 38px;
+  overflow: hidden;
+}
+
+.services__card-ridge {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.services__card-cta-body {
+  position: relative;
+}
+
+.services__card--cta .services__title {
+  margin-top: 0;
+}
+
+.services__card--cta .services__body {
+  margin-bottom: 22px;
+}

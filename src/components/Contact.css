@@ -1,0 +1,130 @@
+.contact {
+  position: relative;
+  padding: 130px var(--gutter) 252px;
+  overflow: hidden;
+}
+
+/* Filled, the artwork bleeds to the edges and no longer needs reserved space. */
+.contact--plate-filled {
+  padding-bottom: 120px;
+}
+
+.contact__backdrop {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.contact__plate {
+  position: absolute;
+  right: 24px;
+  bottom: 24px;
+  width: min(30%, 200px);
+  height: 88px;
+  pointer-events: auto;
+  will-change: transform;
+}
+
+.contact__plate.is-filled {
+  inset: -14% 0 -6%;
+  width: auto;
+  height: auto;
+  filter: grayscale(1) contrast(1.15) brightness(0.42);
+}
+
+.contact__scrim {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    var(--bg) 0%,
+    rgba(8, 9, 10, 0.72) 40%,
+    rgba(8, 9, 10, 0.9) 100%
+  );
+}
+
+.contact__glow {
+  position: absolute;
+  left: 50%;
+  bottom: -120px;
+  width: 900px;
+  height: 520px;
+  max-width: 170vw;
+  transform: translateX(-50%);
+  background: radial-gradient(ellipse at center, rgba(37, 99, 255, 0.22) 0%, transparent 65%);
+  pointer-events: none;
+}
+
+.contact__inner {
+  position: relative;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.contact__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 16px;
+  border-radius: 99px;
+  border: 1px solid var(--brand-a35);
+  background: var(--brand-a08);
+  margin-bottom: 32px;
+}
+
+.contact__badge-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 99px;
+  background: var(--brand);
+  box-shadow: 0 0 10px 2px rgba(37, 99, 255, 0.9);
+  animation: ssPulse 2.4s ease-in-out infinite;
+}
+
+.contact__badge-text {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--brand-150);
+}
+
+.contact__title {
+  margin-bottom: 22px;
+  font-size: clamp(38px, 6vw, 80px);
+  line-height: 0.98;
+  letter-spacing: -0.04em;
+}
+
+.contact__body {
+  margin: 0 auto 40px;
+  max-width: 52ch;
+  font-size: 18px;
+  line-height: 1.6;
+  color: var(--text-muted);
+}
+
+.contact__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 14px;
+  justify-content: center;
+}
+
+@media (max-width: 760px) {
+  .contact {
+    padding-top: 90px;
+    padding-bottom: 200px;
+  }
+
+  .contact--plate-filled {
+    padding-bottom: 90px;
+  }
+
+  .contact__actions .btn {
+    flex: 1 1 100%;
+    justify-content: center;
+  }
+}

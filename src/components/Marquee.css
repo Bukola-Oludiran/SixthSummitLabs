@@ -1,0 +1,44 @@
+.marquee {
+  position: relative;
+  overflow: hidden;
+  border-bottom: 1px solid var(--hairline);
+  background: var(--surface-marquee);
+  padding: 20px 0;
+}
+
+.marquee__rail {
+  display: flex;
+  width: 200%;
+  animation: ssMarquee 34s linear infinite;
+}
+
+.marquee__track {
+  display: flex;
+  align-items: center;
+  gap: 44px;
+  width: 50%;
+  flex: none;
+  padding-right: 44px;
+  font-family: var(--font-mono);
+  font-size: 12px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--text-dim-2);
+  white-space: nowrap;
+}
+
+.marquee__item {
+  display: flex;
+  align-items: center;
+  gap: 44px;
+}
+
+.marquee__sep {
+  color: var(--brand);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee__rail {
+    animation: none;
+  }
+}

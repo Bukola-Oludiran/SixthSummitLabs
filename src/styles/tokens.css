@@ -1,0 +1,68 @@
+/**
+ * SixthSummit Labs — design tokens.
+ * Every colour, font and elevation used by the site resolves to a variable here.
+ */
+
+:root {
+  /* Surfaces, darkest to lightest */
+  --bg: #08090a;
+  --surface: #0a0c0f;
+  --surface-raised: #0e1218;
+  --surface-hover: #0c0f14;
+  --surface-marquee: #0a0b0d;
+
+  /* Text, brightest to dimmest */
+  --text: #f2f5f9;
+  --text-soft: #dde4ec;
+  --text-muted: #9ba5b1;
+  --text-muted-2: #8a94a0;
+  --text-nav: #98a2ae;
+  --text-dim: #79828e;
+  --text-dim-2: #5c6672;
+  --text-dim-3: #4c5561;
+  --text-dim-4: #3e4855;
+
+  /* Brand blue */
+  --brand: #2563ff;
+  --brand-hover: #3b78ff;
+  --brand-stroke: #2f6bff;
+  --brand-300: #5e9bff;
+  --brand-250: #6fa8ff;
+  --brand-200: #7fb0ff;
+  --brand-150: #9fbeff;
+  --brand-100: #bbd4ff;
+
+  /* Translucent brand + hairlines */
+  --brand-a08: rgba(37, 99, 255, 0.08);
+  --brand-a10: rgba(37, 99, 255, 0.1);
+  --brand-a30: rgba(37, 99, 255, 0.3);
+  --brand-a35: rgba(37, 99, 255, 0.35);
+  --ridge-line: rgba(127, 176, 255, 0.22);
+  --hairline: rgba(255, 255, 255, 0.06);
+  --hairline-strong: rgba(255, 255, 255, 0.07);
+  --border: rgba(255, 255, 255, 0.08);
+  --border-soft: rgba(255, 255, 255, 0.14);
+
+  /* Type */
+  --font-display: 'Space Grotesk', system-ui, sans-serif;
+  --font-body: 'Instrument Sans', system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', ui-monospace, monospace;
+
+  /* Elevation */
+  --glow-btn: 0 0 0 1px rgba(110, 160, 255, 0.5), 0 8px 30px rgba(37, 99, 255, 0.35);
+  --glow-btn-lg: 0 0 0 1px rgba(110, 160, 255, 0.5), 0 12px 44px rgba(37, 99, 255, 0.4);
+  --glow-btn-hover: 0 0 0 1px rgba(150, 190, 255, 0.7), 0 10px 40px rgba(37, 99, 255, 0.55);
+  --glow-btn-lg-hover: 0 0 0 1px rgba(160, 200, 255, 0.8), 0 16px 60px rgba(37, 99, 255, 0.6);
+
+  /* Layout */
+  --shell: 1240px;
+  --gutter: 40px;
+  --section-y: 120px;
+}
+
+@media (max-width: 760px) {
+  :root {
+    --gutter: 22px;
+    --section-y: 80px;
+  }
+}

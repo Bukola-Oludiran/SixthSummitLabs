@@ -1,0 +1,30 @@
+.image-slot {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 20px;
+  text-align: center;
+  border: 1px dashed rgba(255, 255, 255, 0.16);
+  border-radius: 10px;
+  background: rgba(255, 255, 255, 0.015);
+  color: var(--text-dim-2);
+}
+
+.image-slot__hint {
+  max-width: 30ch;
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--text-dim-2);
+}
+
+.image-slot__img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+}
