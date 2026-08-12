@@ -83,34 +83,50 @@ pointers.
   [`EraBackdrop.jsx`](src/components/EraBackdrop.jsx). Reduced motion freezes it
   in place rather than hiding it.
 
-### The cursor lens
+### The cursor lens — a pixelated torch
 
 Moving the cursor reveals the artwork's original colour through a disc of
-square tiles — solid in the middle, dissolving into scattered tiles at the rim.
-It is what the blue grading is hiding: warm paper on the engravings, amber city
-lights on the NASA plate.
+square tiles, solid in the middle and dissolving into scatter at the rim. It is
+what the blue grading is hiding: warm paper on the engravings, amber city lights
+on the NASA plate.
 
 It works by rendering the columns a second time with no grading at all, stacked
 above the tint and scrim, and showing that copy only through a moving
 `mask-image`. Both copies mount in the same commit and share the same animation
 definitions, so they stay in step.
 
+**The guttering** comes from two things at once. A set of mask frames is built at
+mount, each reaching a slightly different distance (`flare`) and each randomising
+its own fringe tiles. A jittered timer then walks between *neighbouring* frames,
+so the pool of light breathes in and out while its edge crackles. Two details
+matter here: stepping to a neighbour rather than jumping to a random frame is
+what makes it read as a flame instead of a strobe, and the interval is
+deliberately uneven for the same reason. Every frame shares an identical solid
+core, so only the fringe ever moves.
+
 Knobs are the options to `useCursorLens()` in
 [`EraBackdrop.jsx`](src/components/EraBackdrop.jsx):
 
-| Option      | Default | Does                                                          |
-| ----------- | ------- | ------------------------------------------------------------- |
-| `tileRem`   | `2`     | Size of each square in the mask                                |
-| `sizeRem`   | `26`    | Diameter of the lens (snapped down to whole tiles)             |
-| `coreRatio` | `0.58`  | Fraction of the radius that stays solid before tiles thin out  |
+| Option      | Default | Does                                                         |
+| ----------- | ------- | ------------------------------------------------------------ |
+| `tileRem`   | `2`     | Size of each square in the mask                               |
+| `sizeRem`   | `26`    | Diameter of the lens (snapped down to whole tiles)            |
+| `coreRatio` | `0.58`  | Fraction of the radius that stays solid before tiles thin out |
+| `frames`    | `12`    | How many mask frames to build — more means a smoother gutter  |
+| `flareMin`  | `0.84`  | Narrowest reach of the light                                  |
+| `flareMax`  | `1`     | Widest reach                                                  |
+| `shimmerMs` | `110`   | Base cadence; each tick lands at 0.6–1.5× this                |
 
-`coreRatio` is the one that changes the character most: drop it toward `0.3` and
-the reveal becomes mostly scatter, which looks like static and loses the image.
+`coreRatio` changes the character most: drop it toward `0.3` and the reveal
+becomes mostly scatter, which looks like static and loses the image. Widening the
+gap between `flareMin` and `flareMax` makes the flame wilder.
 
 A cursor move costs two CSS custom-property writes and nothing else — no React
 render, no layout — which holds a steady frame rate while the backdrop is also
-animating. The lens is skipped entirely on coarse pointers, since there is no
-cursor to follow on a touchscreen.
+animating. The gutter pauses whenever the lens is off screen, the whole thing is
+skipped on coarse pointers (no cursor to follow on a touchscreen), and
+`prefers-reduced-motion` holds the flame still, since a flickering edge is
+precisely what that preference is asking us not to do.
 
 One tradeoff to be aware of: the revealed artwork is shown at full brightness,
 so where the lens passes under pale imagery it lifts the area behind the
