@@ -83,7 +83,43 @@ pointers.
   [`EraBackdrop.jsx`](src/components/EraBackdrop.jsx). Reduced motion freezes it
   in place rather than hiding it.
 
-Two things to know before editing it:
+### The cursor lens
+
+Moving the cursor reveals the artwork's original colour through a disc of
+square tiles — solid in the middle, dissolving into scattered tiles at the rim.
+It is what the blue grading is hiding: warm paper on the engravings, amber city
+lights on the NASA plate.
+
+It works by rendering the columns a second time with no grading at all, stacked
+above the tint and scrim, and showing that copy only through a moving
+`mask-image`. Both copies mount in the same commit and share the same animation
+definitions, so they stay in step.
+
+Knobs are the options to `useCursorLens()` in
+[`EraBackdrop.jsx`](src/components/EraBackdrop.jsx):
+
+| Option      | Default | Does                                                          |
+| ----------- | ------- | ------------------------------------------------------------- |
+| `tileRem`   | `2`     | Size of each square in the mask                                |
+| `sizeRem`   | `26`    | Diameter of the lens (snapped down to whole tiles)             |
+| `coreRatio` | `0.58`  | Fraction of the radius that stays solid before tiles thin out  |
+
+`coreRatio` is the one that changes the character most: drop it toward `0.3` and
+the reveal becomes mostly scatter, which looks like static and loses the image.
+
+A cursor move costs two CSS custom-property writes and nothing else — no React
+render, no layout — which holds a steady frame rate while the backdrop is also
+animating. The lens is skipped entirely on coarse pointers, since there is no
+cursor to follow on a touchscreen.
+
+One tradeoff to be aware of: the revealed artwork is shown at full brightness,
+so where the lens passes under pale imagery it lifts the area behind the
+headline and slightly softens the contrast of white text over it. That is the
+cost of showing genuinely true colour. If it ever bothers you, a
+`filter: brightness(0.85)` on `.backdrop__cols--true .backdrop__img` takes the
+edge off without changing hue.
+
+Two things to know before editing the backdrop:
 
 **Spacing is a `margin-bottom`, not a flex `gap`, and that matters.** With a gap,
 a track of 2N slides is `2N·h + (2N−1)·g` tall, so `translateY(-50%)` lands one

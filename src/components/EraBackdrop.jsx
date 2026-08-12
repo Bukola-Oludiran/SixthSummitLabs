@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import useCursorLens from '../hooks/useCursorLens'
 import { eras } from '../site.config'
 import './EraBackdrop.css'
 
@@ -17,6 +18,49 @@ const COLUMNS = [
 const rotate = (list, n) => [...list.slice(n), ...list.slice(0, n)]
 
 /**
+ * One full set of columns.
+ *
+ * Rendered twice by EraBackdrop — once graded, once in original colour for the
+ * cursor lens to reveal. Both copies mount in the same commit and share the
+ * same animation definitions, so they stay in step with each other.
+ */
+function Columns({ ready, trueColour }) {
+  return (
+    <div className={`backdrop__cols${trueColour ? ' backdrop__cols--true' : ''}`}>
+      {COLUMNS.map((column) => {
+        const sequence = rotate(eras, column.offset)
+
+        return (
+          <div
+            key={column.offset}
+            className="backdrop__col"
+            style={{ '--speed': `${column.speed}s` }}
+          >
+            {/* Rendered twice: the track travels -50%, landing the second run
+                exactly where the first began. */}
+            <div className="backdrop__track">
+              {[...sequence, ...sequence].map((era, i) => (
+                <div className="backdrop__slide" key={`${era.id}-${i}`}>
+                  <img
+                    className="backdrop__img"
+                    src={ready ? era.image : undefined}
+                    alt=""
+                    width="900"
+                    height="600"
+                    fetchPriority="low"
+                    draggable="false"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+
+/**
  * Ambient page backdrop: city views from 1572 to 2012 rising continuously
  * behind every section.
  *
@@ -28,9 +72,15 @@ const rotate = (list, n) => [...list.slice(n), ...list.slice(0, n)]
  * Sources attach on the first effect rather than during render, which lets the
  * hero paint before ~600KB of imagery starts downloading. `fetchpriority="low"`
  * keeps it from competing with fonts and the initial bundle.
+ *
+ * Layer order matters: the reveal copy paints last, above the tint and scrim,
+ * so what shows inside the lens is the original colour rather than the graded
+ * version with the blue laid back over it.
  */
 export default function EraBackdrop() {
   const [ready, setReady] = useState(false)
+
+  useCursorLens()
 
   useEffect(() => {
     setReady(true)
@@ -38,42 +88,16 @@ export default function EraBackdrop() {
 
   return (
     <div className="backdrop" aria-hidden="true">
-      <div className="backdrop__cols">
-        {COLUMNS.map((column) => {
-          const sequence = rotate(eras, column.offset)
-
-          return (
-            <div
-              key={column.offset}
-              className="backdrop__col"
-              style={{ '--speed': `${column.speed}s` }}
-            >
-              {/* Rendered twice: the track travels -50%, landing the second run
-                  exactly where the first began. */}
-              <div className="backdrop__track">
-                {[...sequence, ...sequence].map((era, i) => (
-                  <div className="backdrop__slide" key={`${era.id}-${i}`}>
-                    <img
-                      className="backdrop__img"
-                      src={ready ? era.image : undefined}
-                      alt=""
-                      width="900"
-                      height="600"
-                      fetchPriority="low"
-                      draggable="false"
-                    />
-                  </div>
-                ))}
-              </div>
-            </div>
-          )
-        })}
-      </div>
+      <Columns ready={ready} />
 
       {/* One tint and one scrim for the whole layer — cheaper than compositing
           a blend element per slide. */}
       <div className="backdrop__tint" />
       <div className="backdrop__scrim" />
+
+      <div className="backdrop__reveal">
+        <Columns ready={ready} trueColour />
+      </div>
     </div>
   )
 }

@@ -92,6 +92,44 @@
     linear-gradient(180deg, rgba(8, 9, 10, 0.82) 0%, rgba(8, 9, 10, 0.4) 32%, rgba(8, 9, 10, 0.4) 68%, rgba(8, 9, 10, 0.82) 100%);
 }
 
+/* ── Cursor lens ──────────────────────────────────────────────────── */
+
+/*
+ * A second, ungraded copy of the columns, shown only through a moving mask of
+ * square tiles so the original colour of the artwork surfaces around the
+ * cursor.
+ *
+ * It paints after the tint and scrim, so what appears inside the lens is the
+ * untouched image rather than the graded one with blue laid back over it.
+ *
+ * Hidden until `useCursorLens` adds `.has-lens` to the root, which it only
+ * does for fine pointers — on a touchscreen there is no cursor to follow.
+ */
+.backdrop__reveal {
+  display: none;
+  position: absolute;
+  inset: 0;
+  opacity: var(--lens-on, 0);
+  transition: opacity 260ms ease;
+  -webkit-mask-image: var(--lens-mask);
+  mask-image: var(--lens-mask);
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  /* Parked off-screen until the first pointer move places it. */
+  -webkit-mask-position: var(--lens-x, -9999px) var(--lens-y, -9999px);
+  mask-position: var(--lens-x, -9999px) var(--lens-y, -9999px);
+}
+
+.has-lens .backdrop__reveal {
+  display: block;
+}
+
+/* The whole point of the lens: no desaturation, no dimming. */
+.backdrop__cols--true .backdrop__img {
+  filter: none;
+  opacity: 1;
+}
+
 @media (max-width: 900px) {
   .backdrop__cols {
     gap: 3vw;
