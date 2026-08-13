@@ -58,7 +58,7 @@ Site-wide imagery is handled separately by the era backdrop, below.
 
 ## The era backdrop
 
-City views from 1572 to 2012 — print, sail, steam, rail, electricity, the
+City views from 1599 to 2014 — renaissance, sail, steam, gaslight, electricity, the
 network — drifting continuously behind every section as the page's ground.
 It is fixed to the viewport, so it keeps moving wherever the visitor has
 scrolled, and it is decorative: hidden from assistive tech and inert to
@@ -87,8 +87,8 @@ pointers.
 
 Moving the cursor reveals the artwork's original colour through a disc of
 square tiles, solid in the middle and dissolving into scatter at the rim. It is
-what the blue grading is hiding: warm paper on the engravings, amber city lights
-on the NASA plate.
+what the blue grading is hiding: El Greco's storm over Toledo, gaslight amber on
+Liverpool's docks, the neon of 52nd Street.
 
 It works by rendering the columns a second time with no grading at all, stacked
 above the tint and scrim, and showing that copy only through a moving

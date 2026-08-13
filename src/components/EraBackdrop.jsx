@@ -61,7 +61,7 @@ function Columns({ ready, trueColour }) {
 }
 
 /**
- * Ambient page backdrop: city views from 1572 to 2012 rising continuously
+ * Ambient page backdrop: city views from 1599 to 2014 rising continuously
  * behind every section.
  *
  * Fixed to the viewport rather than placed in the document, so it sits under

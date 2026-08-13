@@ -5,7 +5,7 @@
  * never hardcode copy of their own.
  */
 
-import printAge from './assets/eras/print.webp'
+import renaissanceAge from './assets/eras/renaissance.webp'
 import sailAge from './assets/eras/sail.webp'
 import enlightenmentAge from './assets/eras/enlightenment.webp'
 import steamAge from './assets/eras/steam.webp'
@@ -82,15 +82,14 @@ export const marqueeItems = [
  */
 export const eras = [
   {
-    id: 'print',
-    year: '1572',
-    age: 'The print age',
-    place: 'Antwerp',
-    image: printAge,
-    artist: 'Braun, Hogenberg, Hoefnagel & Novellanus',
+    id: 'renaissance',
+    year: '1599',
+    age: 'The renaissance city',
+    place: 'Toledo',
+    image: renaissanceAge,
+    artist: 'El Greco',
     license: 'CC0',
-    source:
-      'https://commons.wikimedia.org/wiki/File:Anverpia_from_Braun_and_Hogenberg%27s_Civitates_Orbis_Terrarum_MET_DP325824.jpg',
+    source: 'https://commons.wikimedia.org/wiki/File:View_of_Toledo_MET_DP349564.jpg',
   },
   {
     id: 'sail',
@@ -157,13 +156,13 @@ export const eras = [
   },
   {
     id: 'network',
-    year: '2012',
+    year: '2014',
     age: 'The network age',
-    place: 'North America at night',
+    place: 'Dallas',
     image: networkAge,
-    artist: 'NASA Earth Observatory',
+    artist: 'Carol M. Highsmith',
     license: 'Public domain',
-    source: 'https://commons.wikimedia.org/wiki/File:City_Lights_of_the_United_States_2012.jpg',
+    source: 'https://commons.wikimedia.org/wiki/File:Downtown_Dallas_at_dusk.jpg',
   },
 ]
 
@@ -313,7 +312,7 @@ export const footer = {
   ],
   note: '© 2026 — Built at altitude',
   credit: {
-    text: 'Backdrop: city views 1572–2012, public domain and CC0 via',
+    text: 'Backdrop: city views 1599–2014, public domain and CC0 via',
     linkLabel: 'Wikimedia Commons',
     href: 'https://commons.wikimedia.org/',
   },
