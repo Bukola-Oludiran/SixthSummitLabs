@@ -1,8 +1,8 @@
-# SixthSummit Labs
+# 6ixSummit Labs
 
-Marketing site for SixthSummit Labs, built with Vite and React.
+Marketing site for 6ixSummit Labs, built with Vite and React.
 
-Ported from the `SixthSummit Labs branding.zip` design export (`.dc.html`), which
+Ported from the `6ixSummit Labs branding.zip` design export (`.dc.html`), which
 used a proprietary template runtime. The visual design is unchanged; the
 templating, styling and behaviour have been rebuilt as standard React.
 

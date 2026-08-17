@@ -8,7 +8,7 @@ export default function Header() {
       <a href="#top" className="header__brand">
         <Logo />
         <span className="header__wordmark">
-          SixthSummit<span className="header__wordmark-sub"> Labs</span>
+          6ixSummit<span className="header__wordmark-sub"> Labs</span>
         </span>
       </a>
 

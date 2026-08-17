@@ -1,4 +1,4 @@
-/** The SixthSummit peak mark. */
+/** The 6ixSummit peak mark. */
 export function Logo({ size = 26, withRidge = true }) {
   return (
     <svg width={size} height={size} viewBox="0 0 26 26" fill="none" aria-hidden="true">

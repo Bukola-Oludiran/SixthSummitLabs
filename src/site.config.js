@@ -39,7 +39,7 @@ export const settings = {
   ctaLabel: 'Book an intro call',
   showMarquee: true,
   showWork: true,
-  email: 'hello@sixthsummitlabs.com',
+  email: 'hello@6ixsummitlabs.com',
 }
 
 export const nav = [
