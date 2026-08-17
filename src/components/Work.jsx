@@ -25,7 +25,7 @@ export default function Work() {
               <div className="work__shot">
                 <ImageSlot
                   src={images[project.slot]}
-                  alt={project.name}
+                  alt={project.alt ?? project.name}
                   hint={project.slotHint}
                 />
               </div>
@@ -35,7 +35,21 @@ export default function Work() {
                   <span className="work__kind">{project.kind}</span>
                   <span className="work__year">{project.year}</span>
                 </div>
-                <h3 className="work__name">{project.name}</h3>
+                <h3 className="work__name">
+                  {project.href ? (
+                    <a
+                      className="work__link"
+                      href={project.href}
+                      target="_blank"
+                      rel="noreferrer"
+                    >
+                      {project.name}
+                      <span aria-hidden="true"> ↗</span>
+                    </a>
+                  ) : (
+                    project.name
+                  )}
+                </h3>
                 <p className="work__copy">{project.body}</p>
                 <div className="work__footer">
                   <span className="work__result mono-label">{project.result}</span>

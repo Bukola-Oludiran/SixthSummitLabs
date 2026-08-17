@@ -13,6 +13,7 @@ import railAge from './assets/eras/rail.webp'
 import electricAge from './assets/eras/electric.webp'
 import machineAge from './assets/eras/machine.webp'
 import networkAge from './assets/eras/network.webp'
+import luxeStyleBraids from './assets/luxestylebraids.jpg'
 
 /**
  * Image slots for the work section.
@@ -28,7 +29,7 @@ import networkAge from './assets/eras/network.webp'
  * Site-wide imagery is handled separately by the era backdrop — see `eras`.
  */
 export const images = {
-  work1: null,
+  work1: luxeStyleBraids,
   work2: null,
   work3: null,
 }
@@ -207,13 +208,14 @@ export const services = [
 export const projects = [
   {
     slot: 'work1',
-    slotHint: 'Drop a product screenshot',
-    kind: 'MVP build',
+    alt: 'A LuxeStyleBraids client photographed after a knotless braid install',
+    kind: 'Web app',
     year: '2026',
-    name: 'Client MVP — name pending',
-    body: 'A two-sided marketplace taken from whiteboard to paying users in seven weeks.',
-    result: 'Live in 7 weeks',
-    stack: 'Next.js · Postgres',
+    name: 'LuxeStyleBraids',
+    href: 'https://luxestylebraids.com',
+    body: 'Online booking, deposits and an owner’s dashboard for a luxury braiding studio in Regina.',
+    result: 'Live and taking bookings',
+    stack: 'React · Vite · REST API',
   },
   {
     slot: 'work2',

@@ -74,6 +74,23 @@
   color: var(--text);
 }
 
+/* Linked titles keep the weight of the unlinked ones — the arrow carries the
+   affordance, and colour only arrives on hover. */
+.work__link {
+  color: inherit;
+}
+
+.work__link span {
+  font-size: 0.7em;
+  color: var(--text-dim-2);
+  transition: color 160ms ease;
+}
+
+.work__link:hover,
+.work__link:hover span {
+  color: var(--brand-200);
+}
+
 .work__copy {
   margin-bottom: 18px;
   font-size: 15px;
