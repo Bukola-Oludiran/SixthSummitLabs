@@ -191,6 +191,17 @@ src/
 - Both respect `prefers-reduced-motion`, as do the marquee and the page's
   entrance animations.
 
+## Logo kit
+
+The Ascent 6 identity lives in [`design/brand/`](design/brand/README.md), with
+editable VectorCraft sources, outlined SVGs, transparent PNGs, a presentation
+PDF, and social avatar. The complete kit is also available as
+[`design/6ixsummit-logo-kit.zip`](design/6ixsummit-logo-kit.zip).
+
+The header and footer use the shared `Logo` component and the exported mark in
+`src/assets/brand/`. The favicon and Apple touch icon live in `public/`.
+See the kit README to regenerate the artwork and sync the website assets.
+
 ## Fonts
 
 Space Grotesk (display), Instrument Sans (body) and JetBrains Mono (labels) load

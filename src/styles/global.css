@@ -32,6 +32,11 @@ a:hover {
   color: var(--brand-100);
 }
 
+.brand-mark {
+  display: block;
+  flex-shrink: 0;
+}
+
 ::selection {
   background: var(--brand);
   color: #fff;

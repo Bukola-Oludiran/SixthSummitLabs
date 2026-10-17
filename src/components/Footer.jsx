@@ -7,7 +7,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="shell footer__inner">
         <div className="footer__brand">
-          <Logo size={20} withRidge={false} />
+          <Logo size={26} />
           <span className="footer__wordmark">6ixSummit Labs</span>
         </div>
 

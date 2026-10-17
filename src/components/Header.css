@@ -19,6 +19,7 @@
   display: flex;
   align-items: center;
   gap: 12px;
+  flex-shrink: 0;
   color: var(--text);
 }
 
@@ -31,16 +32,42 @@
   font-weight: 600;
   font-size: 16px;
   letter-spacing: -0.01em;
+  white-space: nowrap;
 }
 
 .header__wordmark-sub {
-  color: #6b7580;
+  color: var(--text-muted);
 }
 
 .header__nav {
   display: flex;
   align-items: center;
   gap: 32px;
+  flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+  .header {
+    gap: 12px;
+  }
+
+  .header__brand {
+    gap: 8px;
+  }
+
+  .header__brand .brand-mark {
+    width: 28px;
+    height: 28px;
+  }
+
+  .header__wordmark {
+    font-size: 14px;
+  }
+
+  .header__nav .btn {
+    padding: 10px 12px;
+    font-size: 12px;
+  }
 }
 
 .header__link {

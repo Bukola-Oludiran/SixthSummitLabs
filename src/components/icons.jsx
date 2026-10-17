@@ -1,15 +1,16 @@
-/** The 6ixSummit peak mark. */
-export function Logo({ size = 26, withRidge = true }) {
+import ascentMark from '../assets/brand/6ixsummit-mark-blue.svg'
+
+/** The Ascent 6 mark, exported from the editable logo kit. */
+export function Logo({ size = 32 }) {
   return (
-    <svg width={size} height={size} viewBox="0 0 26 26" fill="none" aria-hidden="true">
-      <path
-        d="M2 22 L9.5 8 L14 15.5 L17 10 L24 22 Z"
-        stroke="var(--brand-stroke)"
-        strokeWidth="1.4"
-        strokeLinejoin="round"
-      />
-      {withRidge && <path d="M7 16 L12 16" stroke="var(--brand-250)" strokeWidth="1.4" />}
-    </svg>
+    <img
+      className="brand-mark"
+      src={ascentMark}
+      width={size}
+      height={size}
+      alt=""
+      aria-hidden="true"
+    />
   )
 }
 
