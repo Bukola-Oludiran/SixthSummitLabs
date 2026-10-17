@@ -17,6 +17,8 @@
 }
 
 .work__card {
+  display: flex;
+  flex-direction: column;
   border: 1px solid var(--border);
   border-radius: 18px;
   overflow: hidden;
@@ -33,12 +35,16 @@
 
 .work__shot {
   position: relative;
+  flex-shrink: 0;
   height: 250px;
   background: var(--surface-raised);
   border-bottom: 1px solid var(--hairline-strong);
 }
 
 .work__body {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
   padding: 26px 26px 30px;
 }
 
@@ -103,6 +109,7 @@
   align-items: center;
   justify-content: space-between;
   gap: 12px;
+  margin-top: auto;
   padding-top: 16px;
   border-top: 1px solid var(--hairline);
 }

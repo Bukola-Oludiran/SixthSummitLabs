@@ -27,13 +27,14 @@ export default function Work() {
                   src={images[project.slot]}
                   alt={project.alt ?? project.name}
                   hint={project.slotHint}
+                  position={project.imagePosition}
                 />
               </div>
 
               <div className="work__body">
                 <div className="work__tags">
                   <span className="work__kind">{project.kind}</span>
-                  <span className="work__year">{project.year}</span>
+                  {project.year && <span className="work__year">{project.year}</span>}
                 </div>
                 <h3 className="work__name">
                   {project.href ? (
@@ -53,7 +54,7 @@ export default function Work() {
                 <p className="work__copy">{project.body}</p>
                 <div className="work__footer">
                   <span className="work__result mono-label">{project.result}</span>
-                  <span className="work__stack">{project.stack}</span>
+                  {project.stack && <span className="work__stack">{project.stack}</span>}
                 </div>
               </div>
             </Reveal>

@@ -14,6 +14,8 @@ import electricAge from './assets/eras/electric.webp'
 import machineAge from './assets/eras/machine.webp'
 import networkAge from './assets/eras/network.webp'
 import luxeStyleBraids from './assets/luxestylebraids.jpg'
+import ayoeEventHouse from './assets/portfolio/ayoe-event-house.jpg'
+import akiliDevelopmentGroup from './assets/portfolio/akili-development-group.jpg'
 
 /**
  * Image slots for the work section.
@@ -30,8 +32,8 @@ import luxeStyleBraids from './assets/luxestylebraids.jpg'
  */
 export const images = {
   work1: luxeStyleBraids,
-  work2: null,
-  work3: null,
+  work2: ayoeEventHouse,
+  work3: akiliDevelopmentGroup,
 }
 
 /** Toggles that were editor props on the original design file. */
@@ -219,23 +221,23 @@ export const projects = [
   },
   {
     slot: 'work2',
-    slotHint: 'Drop a product screenshot',
-    kind: 'AI product',
-    year: '2025',
-    name: 'Internal AI assistant',
-    body: 'A document assistant for an operations team, with evaluation harness and audit trail.',
-    result: '40% less manual review',
-    stack: 'Python · Claude',
+    alt: 'Ayoé Event House homepage featuring an elegant wedding table setting',
+    imagePosition: 'top',
+    kind: 'Website',
+    name: 'Ayoé Event House',
+    href: 'https://ayoeevents.com',
+    body: 'A luxury event planning website for an Edmonton event house, showcasing weddings, social celebrations and corporate events with a dedicated enquiry flow.',
+    result: 'Live website',
   },
   {
     slot: 'work3',
-    slotHint: 'Drop a screenshot of your own product',
-    kind: 'Own product',
-    year: '2025',
-    name: 'In-house product',
-    body: 'Something we built for ourselves, kept running, and learned from in public.',
-    result: 'Still shipping',
-    stack: 'React Native',
+    alt: 'AKILI Development Group homepage featuring an aerial view of a highway interchange',
+    imagePosition: 'top',
+    kind: 'Website',
+    name: 'AKILI Development Group',
+    href: 'https://akilidevgroup.com',
+    body: 'A bilingual website for a project and construction management firm, presenting its services, sectors and approach to infrastructure delivery across Africa.',
+    result: 'Live website',
   },
 ]
 

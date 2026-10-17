@@ -8,7 +8,7 @@ import './ImageSlot.css'
  * are wired up in `src/site.config.js`; until one is provided the slot shows the
  * hint so unfinished areas of the page are obvious rather than blank.
  */
-export default function ImageSlot({ src, alt = '', hint, fit = 'cover', className = '' }) {
+export default function ImageSlot({ src, alt = '', hint, fit = 'cover', position = 'center', className = '' }) {
   if (src) {
     return (
       <img
@@ -16,7 +16,7 @@ export default function ImageSlot({ src, alt = '', hint, fit = 'cover', classNam
         alt={alt}
         loading="lazy"
         className={`image-slot__img${className ? ` ${className}` : ''}`}
-        style={{ objectFit: fit }}
+        style={{ objectFit: fit, objectPosition: position }}
       />
     )
   }
