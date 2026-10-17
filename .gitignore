@@ -5,6 +5,10 @@ dist-ssr
 .DS_Store
 .vite
 
+.env
+.env.*
+!.env.example
+
 logs
 *.log
 npm-debug.log*
