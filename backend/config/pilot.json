@@ -13,7 +13,7 @@
   "existingLogoPolicy": "preserve_original_in_all_concepts",
   "existingPalettePolicy": "use_observed_palette_in_concept_1",
   "outreach": "human_calls_only",
-  "previewVisibility": "private",
+  "previewVisibility": "unlisted_after_review",
   "conceptDirections": [
     { "number": 1, "name": "Brand continuity", "preservePalette": true },
     { "number": 2, "name": "Clear service and contact", "preservePalette": false },

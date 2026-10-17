@@ -35,7 +35,7 @@ await withWorkerLock(async () => {
   await writeFile(path.join(folder, `${runKey}.json`), JSON.stringify(candidates, null, 2), { mode: 0o600 })
   const run = await crm.create('six_runs', { runKey, budgetDate: budgetDate(), target: pilot.dailyQualifiedLeadTarget, qualifiedCount: 0, status: 'running', startedAt: new Date().toISOString() })
   try {
-    const summary = { ...await ingestCandidates(crm, candidates, pilot), sourceErrors: errors }
+    const summary = { ...await ingestCandidates(crm, candidates, pilot, new Date(), { publicSiteUrl: env.PUBLIC_SITE_URL }), sourceErrors: errors }
     await crm.update('six_runs', run.id, { status: errors.length ? 'failed' : 'finished', qualifiedCount: summary.qualified, finishedAt: new Date().toISOString(), summary })
     console.log(JSON.stringify(summary, null, 2))
     if (errors.length) process.exitCode = 1

@@ -1,9 +1,43 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
+function sharedOriginRoutes(server) {
+  server.middlewares.use((req, res, next) => {
+    const url = new URL(req.url, 'http://localhost')
+    if (['/crm', '/crm/'].includes(url.pathname)) {
+      res.writeHead(302, { Location: '/crm/admin/sixsummit' }); res.end(); return
+    }
+    // NocoBase's development HTML uses these two root-relative public files.
+    if (['/global.css', '/browser-checker.js'].includes(url.pathname)) {
+      res.writeHead(302, { Location: `/crm${req.url}` }); res.end(); return
+    }
+    if (/^\/designs(?:\/|$)/.test(url.pathname)) {
+      res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive')
+      res.setHeader('Referrer-Policy', 'no-referrer')
+      res.setHeader('Cache-Control', 'no-store')
+    }
+    next()
+  })
+}
+
 export default defineConfig({
-  plugins: [react()],
   server: {
     port: 5173,
+    strictPort: true,
+    proxy: {
+      '/crm': { target: 'http://127.0.0.1:13000', changeOrigin: false, ws: true },
+      '/prospect-api': { target: 'http://127.0.0.1:13010', changeOrigin: false },
+    },
   },
+  preview: {
+    proxy: {
+      '/crm': { target: 'http://127.0.0.1:13000', changeOrigin: false, ws: true },
+      '/prospect-api': { target: 'http://127.0.0.1:13010', changeOrigin: false },
+    },
+  },
+  plugins: [react(), {
+    name: 'sixsummit-shared-origin',
+    configureServer: sharedOriginRoutes,
+    configurePreviewServer: sharedOriginRoutes,
+  }],
 })

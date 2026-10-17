@@ -8,8 +8,8 @@ await withWorkerLock(async () => {
   const { crm, env, pilot } = await context()
   // Repair an interrupted enqueue operation without creating duplicate job keys.
   const pending = await crm.list('six_leads', { qualifiedAt: { $not: null }, designStatus: 'not_queued' }, { paginate: false })
-  for (const lead of pending) if (qualify(lead, pilot).qualified) await queueConcepts(crm, lead, pilot)
-  const result = await runDesignQueue(crm, pilot, (job, lead) => renderConcept(job, lead, { backendRoot, env }))
+  for (const lead of pending) if (qualify(lead, pilot).qualified) await queueConcepts(crm, lead, pilot, { publicSiteUrl: env.PUBLIC_SITE_URL })
+  const result = await runDesignQueue(crm, pilot, (job, lead) => renderConcept(job, lead, { backendRoot, env }), { publicSiteUrl: env.PUBLIC_SITE_URL })
   console.log(JSON.stringify(result))
   if (result.failed) process.exitCode = 1
 })

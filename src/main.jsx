@@ -5,9 +5,12 @@ import { createRoot } from 'react-dom/client'
 // can override it predictably.
 import './styles/global.css'
 import App from './App'
+import DesignGallery from './components/DesignGallery'
+
+const prospectPage = /^\/designs(?:\/|$)/.test(window.location.pathname)
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
-    <App />
+    {prospectPage ? <DesignGallery /> : <App />}
   </StrictMode>,
 )

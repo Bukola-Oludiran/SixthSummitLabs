@@ -1,6 +1,8 @@
 export class NocoBaseClient {
   constructor({ url, token, role, fetch: request = globalThis.fetch }) {
-    this.url = new URL('/api/', url)
+    const application = new URL(url)
+    application.pathname = `${application.pathname.replace(/\/+$/, '')}/`
+    this.url = new URL('api/', application)
     this.token = token
     this.role = role
     this.fetch = request

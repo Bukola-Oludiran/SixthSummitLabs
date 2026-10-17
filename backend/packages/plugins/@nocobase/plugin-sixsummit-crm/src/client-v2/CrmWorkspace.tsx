@@ -30,6 +30,7 @@ interface Business {
   contactStatus: string;
   assignedTo?: string;
   nextFollowUpAt?: string;
+  designShareUrl?: string;
 }
 interface Summary {
   callerNames: Record<string, string>;
@@ -242,6 +243,18 @@ export default function CrmWorkspace() {
                       render: (value: string) => <Tag>{t(label(value))}</Tag>,
                     },
                     { title: t('Caller'), dataIndex: 'assignedTo' },
+                    {
+                      title: t('Designs'),
+                      dataIndex: 'designShareUrl',
+                      render: (url: string) =>
+                        url ? (
+                          <a href={url} target="_blank" rel="noreferrer">
+                            {t('View designs')}
+                          </a>
+                        ) : (
+                          '—'
+                        ),
+                    },
                     {
                       title: t('Next action'),
                       dataIndex: 'nextFollowUpAt',

@@ -10,8 +10,9 @@ Local NocoBase CRM and workers for researching small businesses, preparing priva
 - Analytics for call attempts, connections, distinct meeting bookings, distinct won projects, CAD project value, overdue follow-ups and meeting-cohort conversion. Filters cover date, city and caller.
 - OpenStreetMap discovery, evidence-based qualification, deduplication, restart-safe daily allowance and three versioned design jobs per qualified business.
 - Freeform ASA handoff, original-logo copying, observed-palette requirements, browser checks and an explicit human visual-review state.
+- Same-origin `/crm` and `/designs/<token>` routes, automatic CRM gallery/concept links, and a read-only prospect service that freezes reviewed designs for sharing.
 
-**Still to configure:** a permitted search endpoint for live website verification and an author runner for unattended ASA generation. Discovery alone does not qualify a business. No daily schedule, automated outreach or public preview hosting is enabled. The initial live discoveries remain unverified; demonstration records do not count toward real leads or sales metrics.
+**Still to configure:** a permitted search endpoint for live website verification and an author runner for unattended ASA generation. Discovery alone does not qualify a business. No daily schedule, automated outreach or live hosting is enabled. The initial live discoveries remain unverified; demonstration records do not count toward real leads or sales metrics.
 
 ## Local setup
 
@@ -31,7 +32,9 @@ npm run crm:dev
 
 In another terminal, from `backend`, run `npm run crm:bootstrap` once the API is available. Bootstrap adds missing fields and managed views without dropping existing collections. Restart the development process after first enabling the plugin if necessary.
 
-Open **http://127.0.0.1:13000/admin/sixsummit**. The generated login email and password are in **`backend/.env`**. `setup:env` generates private local credentials without overwriting an existing file, and links the upstream checkout to that environment file. The marketing site's `.env` and Git token are not loaded by these workers.
+Run the marketing site with `npm run dev` from the repository root and the prospect service with `npm run prospects:dev` from `backend`. Open **http://127.0.0.1:5173/crm** to sign in on the same origin as the marketing site. Direct NocoBase access is **http://127.0.0.1:13000/crm/admin/sixsummit**. The generated login email and password are in **`backend/.env`**. `setup:env` generates private local credentials without overwriting an existing file, and links the upstream checkout to that environment file. The marketing site's `.env` and Git token are not loaded by these workers.
+
+Existing local installs must add `APP_PUBLIC_PATH=/crm/`, `PUBLIC_SITE_URL=http://127.0.0.1:5173`, `PROSPECT_PORT=13010` and set `NOCOBASE_URL=http://127.0.0.1:13000/crm` before restarting NocoBase. Keep `API_BASE_PATH=/api/`, `WS_PATH=/ws` and `PLUGIN_STATICS_PATH=/static/plugins/` unprefixed: NocoBase adds `/crm` automatically. Run bootstrap again to add gallery fields and upgrade the existing managed tables.
 
 PostgreSQL listens on `127.0.0.1:55439`; its data persists in the Docker volume. `npm run db:down` stops the database without deleting data. This is a local development installation; production deployment is a separate task.
 
@@ -61,13 +64,23 @@ Without an author, jobs become `awaiting_author`, not failed or ready. A human c
 
 Set `ASA_DIR` to the ASA checkout with its installed dependencies, and optionally `CODEX_SKILLS_DIR` to the installed skills directory. The browser helper captures four widths and audits assets, interactions and basic accessibility. Passing technical checks produces **`needs_review`**; a person must inspect the page and approve it before setting it ready. Existing rendered jobs require an explicit versioned rebrief to regenerate. This backend no longer automatically produces V7 template pages.
 
+## Prospect design galleries
+
+Lead imports now store a unique, unlisted **`designShareUrl`** on each CRM lead and a **`previewUrl`** on each concept. The gallery link is available immediately, including when research or authoring is still pending. Prospects see only approved, published designs; unfinished concepts show a preparation message. The call workspace and managed Leads/Homepage concepts tables expose the links.
+
+After reviewing a concept, change its status to **`ready`** in the Homepage concepts table. The prospect service syncs every 30 seconds, or run `npm run designs:publish` explicitly. It copies the authored site and desktop/mobile captures into an immutable snapshot and writes `publicationKey`, `publishedAt` and `previewUrl` back to the concept. All three concepts can share one lead gallery. `needs_review`, failed, old-version and unapproved designs are never served. A new brief version is required to replace a published snapshot.
+
+The public endpoint is `/prospect-api/designs/<token>`, with an explicit allowlist of business name, city and design display fields. It does not expose call notes, lead IDs, evidence, author instructions or credentials. Live concept documents run in a sandbox with no access to the CRM's browser storage, no network API access and no form submission. Staff and prospects share the website origin, so this isolation is required. Gallery links are unlisted bearer links, not client accounts: anyone with a link can view it. Disable **Enable prospect design link** on a lead to revoke future metadata and asset requests.
+
+`PUBLIC_SITE_URL` sets the website origin used in CRM links. Use `http://127.0.0.1:5173` locally. Once hosted, change it to the final HTTPS origin, restart the service and run `designs:publish` to refresh stored URLs without changing tokens. See [deployment routing](../deploy/README.md) and the [workflow agent contract](AGENT-WORKFLOW.md). The service binds to loopback on port 13010; only its public routes should be exposed through the website proxy. Publication storage must persist across deployments.
+
 `designs:demo` prepares three briefs for a fictional business without writing CRM records or consuming lead allowance. The separate, reviewed skill test is in `../design/experiments/asa-v5-prairie-bloom`.
 
 ## Sales flow and reporting
 
 Use **Call workspace & analytics** in the CRM menu. Claim a business, record a call attempt or a sales update, and supply the required follow-up time, meeting time, loss reason or project value. Calls without an answer do not move an advanced opportunity backward. Closed outcomes clear next actions. Add your partner as a NocoBase user with the `sixsummit_caller` role; the root account is for administration.
 
-API actions are authenticated NocoBase resources under `/api/six_crm:ACTION`:
+API actions are authenticated NocoBase resources under `/crm/api/six_crm:ACTION`:
 
 | Action | Method | Purpose |
 | --- | --- | --- |

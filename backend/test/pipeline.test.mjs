@@ -39,6 +39,18 @@ test('daily cap is shared across all cities and survives repeat imports', async 
   assert.equal(crm.rows.six_concepts.length, 36)
 })
 
+test('lead generation writes stable gallery and individual concept links into the CRM', async () => {
+  const crm = new MemoryCRM()
+  const options = { publicSiteUrl: 'https://studio.example' }
+  await ingestCandidates(crm, [business()], pilot, now, options)
+  const link = crm.rows.six_leads[0].designShareUrl
+  assert.match(link, /^https:\/\/studio\.example\/designs\/[A-Za-z0-9_-]{43}$/)
+  assert.deepEqual(crm.rows.six_concepts.map(job => job.previewUrl), [1, 2, 3].map(number => `${link}?concept=${number}`))
+  await ingestCandidates(crm, [business()], pilot, now, options)
+  assert.equal(crm.rows.six_leads[0].designShareUrl, link)
+  assert.equal(crm.rows.six_concepts.length, 3)
+})
+
 test('stable source identity tolerates an updated address and retains do-not-call state', async () => {
   const crm = new MemoryCRM()
   const lead = business()

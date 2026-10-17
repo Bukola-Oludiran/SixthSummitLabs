@@ -4,6 +4,7 @@ const json = (name, title) => ({ name, type: 'json', interface: 'json', uiSchema
 const date = (name, title) => ({ name, type: 'date', interface: 'datetime', uiSchema: { title, type: 'string', 'x-component': 'DatePicker', 'x-component-props': { showTime: true } } })
 const number = (name, title, extra = {}) => ({ name, type: 'integer', interface: 'integer', uiSchema: { title, type: 'number', 'x-component': 'InputNumber' }, ...extra })
 const boolean = (name, title) => ({ name, type: 'boolean', interface: 'checkbox', defaultValue: false, uiSchema: { title, type: 'boolean', 'x-component': 'Checkbox' } })
+const url = (name, title) => ({ name, type: 'string', interface: 'url', uiSchema: { title, type: 'string', 'x-component': 'Input.URL' } })
 const select = (name, title, values, defaultValue) => ({ name, type: 'string', interface: 'select', defaultValue, uiSchema: { title, type: 'string', 'x-component': 'Select', enum: values.map((value) => ({ value, label: value.replaceAll('_', ' ') })) } })
 const lead = () => ({ name: 'lead', type: 'belongsTo', interface: 'm2o', target: 'six_leads', foreignKey: 'leadId', uiSchema: { title: 'Business', 'x-component': 'AssociationField', 'x-component-props': { fieldNames: { label: 'businessName', value: 'id' } } } })
 
@@ -30,6 +31,7 @@ export const collections = [
     date('lostAt', 'Closed lost at'), text('lossReason', 'Loss reason'), date('optedOutAt', 'Opted out at'), boolean('isDemo', 'Demonstration record'),
     select('designStatus', 'Design status', ['not_queued', 'queued', 'generating', 'needs_review', 'ready', 'failed'], 'not_queued'),
     number('briefVersion', 'Brief version', { defaultValue: 1 }),
+    string('designShareToken', 'Unlisted design token', { unique: true }), url('designShareUrl', 'Prospect design gallery'), boolean('designSharingEnabled', 'Enable prospect design link'),
   ], 'businessName'),
   collection('six_sources', 'Lead evidence', [
     lead(), string('sourceKey', 'Source record key', { unique: true }),
@@ -49,6 +51,7 @@ export const collections = [
     json('brief', 'Design brief'), json('palette', 'Colour palette'),
     string('htmlPath', 'Homepage file'), string('desktopPath', 'Desktop preview'), string('mobilePath', 'Mobile preview'),
     json('findings', 'Quality checks'), text('error', 'Last error'),
+    url('previewUrl', 'Prospect concept link'), string('publicationKey', 'Published snapshot key'), date('publishedAt', 'Published at'),
   ]),
   collection('six_activities', 'Calls and follow-ups', [
     lead(), select('kind', 'Activity', ['call', 'stage_update', 'note', 'follow_up', 'opt_out', 'reopen', 'assignment'], 'note'),

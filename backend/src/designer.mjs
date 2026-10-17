@@ -35,7 +35,7 @@ export async function prepareConcept(job, lead, { backendRoot, env }) {
     'Use only confirmed business facts. Keep internal research and call notes out of visitor copy. Do not invent offers, prices, hours, reviews or statistics.',
     'The requiredPalette, when supplied, must appear in the rendered page. Preserve an original logo in every concept.',
     'Capture and inspect all viewports with the skill preview helper, exercise interactions, and record visual-review notes in REVIEW.txt.',
-    'Keep previews private. Do not contact the business or publish the site.',
+    'Keep drafts private. Do not contact the business or publish directly. The CRM review and sharing workflow handles approved unlisted previews.',
   ].join('\n')
   await writeFile(path.join(source, 'AUTHORING.txt'), `${instruction}\n`, { mode: 0o600 })
   return { folder, source, brief, skills }

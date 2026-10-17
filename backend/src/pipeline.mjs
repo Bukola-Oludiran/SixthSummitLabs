@@ -1,10 +1,12 @@
 import { fingerprint, mergeDiscoveredLead, normalizePhone, qualify, conceptBriefs } from './leads.mjs'
+import { newDesignShare, ensureDesignShare, conceptShareUrl } from './design-sharing.mjs'
 
 export function budgetDate(now = new Date()) {
   return new Intl.DateTimeFormat('en-CA', { timeZone: 'America/Edmonton', year: 'numeric', month: '2-digit', day: '2-digit' }).format(now)
 }
 
-export async function queueConcepts(crm, lead, pilot) {
+export async function queueConcepts(crm, lead, pilot, options = {}) {
+  await ensureDesignShare(crm, lead, options)
   // Research must establish whether there is a logo before proposing a replacement.
   if (!['found', 'not_found'].includes(lead.logoStatus)) return { queued: 0, needsBrandReview: true }
   const jobs = conceptBriefs(lead, pilot)
@@ -13,7 +15,7 @@ export async function queueConcepts(crm, lead, pilot) {
   let queued = 0
   for (const job of jobs) {
     if (keys.has(job.jobKey)) continue
-    await crm.create('six_concepts', job)
+    await crm.create('six_concepts', { ...job, previewUrl: conceptShareUrl(lead, job.conceptNumber) })
     queued++
   }
   if (lead.designStatus === 'not_queued' || !lead.designStatus) await crm.update('six_leads', lead.id, { designStatus: 'queued' })
@@ -22,7 +24,7 @@ export async function queueConcepts(crm, lead, pilot) {
 
 // Caller holds the local worker lock. The quota is reconstructed from lead rows,
 // rather than an in-memory counter, so restarting cannot reset today's allowance.
-export async function ingestCandidates(crm, candidates, pilot, now = new Date()) {
+export async function ingestCandidates(crm, candidates, pilot, now = new Date(), options = {}) {
   const date = budgetDate(now)
   const timestamp = now.toISOString()
   const previous = await crm.list('six_leads', { qualifiedAt: { $not: null } }, { paginate: false })
@@ -48,8 +50,9 @@ export async function ingestCandidates(crm, candidates, pilot, now = new Date())
       if (Object.keys(updates).length) await crm.update('six_leads', lead.id, updates)
       lead = merged
     } else {
-      lead = await crm.create('six_leads', { ...facts, fingerprint: key, phone: normalizePhone(facts.phone), contactStatus: facts.contactStatus === 'do_not_call' ? 'do_not_call' : 'new', designStatus: 'not_queued', briefVersion: 1 })
+      lead = await crm.create('six_leads', { ...facts, ...newDesignShare(options.publicSiteUrl), fingerprint: key, phone: normalizePhone(facts.phone), contactStatus: facts.contactStatus === 'do_not_call' ? 'do_not_call' : 'new', designStatus: 'not_queued', briefVersion: 1 })
     }
+    await ensureDesignShare(crm, lead, options)
     if (!evidence.length) await crm.create('six_sources', { ...source, leadId: lead.id })
     const result = qualify(lead, pilot, now)
     if (!result.qualified) { summary.held++; continue }
@@ -60,7 +63,7 @@ export async function ingestCandidates(crm, candidates, pilot, now = new Date())
       summary.qualified++
       used++
     }
-    const queued = await queueConcepts(crm, lead, pilot)
+    const queued = await queueConcepts(crm, lead, pilot, options)
     summary.queued += queued.queued
     summary.needsBrandReview += Number(queued.needsBrandReview)
   }
@@ -68,7 +71,7 @@ export async function ingestCandidates(crm, candidates, pilot, now = new Date())
   return summary
 }
 
-export async function runDesignQueue(crm, pilot, render, { limit = 30, now = new Date() } = {}) {
+export async function runDesignQueue(crm, pilot, render, { limit = 30, now = new Date(), publicSiteUrl } = {}) {
   const queued = await crm.list('six_concepts', { status: 'queued' }, { sort: ['id'], pageSize: limit })
   const waiting = queued.length < limit ? await crm.list('six_concepts', { status: 'awaiting_author' }, { sort: ['id'], pageSize: limit - queued.length }) : []
   const jobs = [...queued, ...waiting]
@@ -76,6 +79,8 @@ export async function runDesignQueue(crm, pilot, render, { limit = 30, now = new
   for (const job of jobs) {
     const [lead] = await crm.list('six_leads', { id: job.leadId })
     if (!lead || !lead.qualifiedAt || !qualify(lead, pilot, now).qualified) { result.held++; continue }
+    await ensureDesignShare(crm, lead, { publicSiteUrl })
+    await crm.update('six_concepts', job.id, { previewUrl: conceptShareUrl(lead, job.conceptNumber) })
     await crm.update('six_concepts', job.id, { status: 'running', error: null })
     await crm.update('six_leads', lead.id, { designStatus: 'generating' })
     try {

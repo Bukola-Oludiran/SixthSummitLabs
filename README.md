@@ -19,9 +19,17 @@ npm run dev      # http://localhost:5173
 | `npm run build`   | Production build into `dist/`              |
 | `npm run preview` | Serve the production build locally         |
 
+## CRM and prospect designs
+
+The website now includes **`/designs`**, where a prospect can open their personal design link, and **`/designs/<token>`**, where they can compare the three directions with desktop/mobile previews. Gallery links appear automatically on CRM lead records; concept links appear on design records. Only reviewed, published concepts are visible. Unlisted galleries are not indexed and can be disabled from the lead record.
+
+Staff sign in at **http://127.0.0.1:5173/crm**, on the same local origin as the website. Run PostgreSQL, `npm run crm:dev` and `npm run prospects:dev` from `backend`, alongside the marketing site's dev server. The footer links to both the design page and team CRM. Credentials stay in `backend/.env` and are never included in the frontend bundle.
+
+See [backend setup](backend/README.md), the [workflow agent contract](backend/AGENT-WORKFLOW.md) and [future domain routing](deploy/README.md). Hosting and DNS have not been set up yet.
+
 ## Editing the site
 
-**All copy lives in [`src/site.config.js`](src/site.config.js).** Components read
+**Marketing page copy lives in [`src/site.config.js`](src/site.config.js).** Its components read
 from it and contain no hardcoded text, so most content changes are a one-file
 edit.
 

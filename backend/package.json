@@ -24,6 +24,8 @@
     "leads:import": "node scripts/leads.mjs import",
     "designs:run": "node scripts/designs.mjs",
     "designs:demo": "node scripts/demo.mjs",
+    "designs:publish": "node scripts/publish-designs.mjs",
+    "prospects:dev": "node scripts/prospects.mjs",
     "test": "node --test test/*.test.mjs"
   }
 }

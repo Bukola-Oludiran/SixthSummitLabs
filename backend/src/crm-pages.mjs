@@ -1,8 +1,8 @@
 import { collections } from './schema.mjs'
 
 const views = [
-  { collection: 'six_leads', title: 'Leads', columns: ['businessName', 'phone', 'city', 'category', 'websiteStatus', 'qualifiedAt', 'logoStatus', 'contactStatus', 'assignedTo', 'nextFollowUpAt', 'designStatus'], edit: ['businessNotes', 'logoStatus', 'logoAssetPath', 'brandPalette', 'motifs', 'services', 'websiteStatus', 'websiteCheckedAt', 'websiteEvidence'] },
-  { collection: 'six_concepts', title: 'Homepage concepts', columns: ['lead', 'conceptNumber', 'direction', 'status', 'archetype', 'htmlPath', 'desktopPath', 'mobilePath', 'error'], edit: ['status'] },
+  { collection: 'six_leads', title: 'Leads', columns: ['businessName', 'phone', 'city', 'category', 'websiteStatus', 'qualifiedAt', 'logoStatus', 'contactStatus', 'assignedTo', 'nextFollowUpAt', 'designStatus', 'designShareUrl', 'designSharingEnabled'], edit: ['businessNotes', 'logoStatus', 'logoAssetPath', 'brandPalette', 'motifs', 'services', 'websiteStatus', 'websiteCheckedAt', 'websiteEvidence', 'designSharingEnabled'] },
+  { collection: 'six_concepts', title: 'Homepage concepts', columns: ['lead', 'conceptNumber', 'direction', 'status', 'previewUrl', 'publishedAt', 'archetype', 'htmlPath', 'desktopPath', 'mobilePath', 'error'], edit: ['status'] },
   { collection: 'six_activities', title: 'Calls and follow-ups', columns: ['lead', 'kind', 'disposition', 'caller', 'occurredAt', 'notes', 'followUpAt'] },
   { collection: 'six_sources', title: 'Lead evidence', columns: ['lead', 'sourceName', 'sourceUrl', 'observedAt', 'facts', 'attribution'] },
   { collection: 'six_brand_assets', title: 'Brand assets', columns: ['lead', 'kind', 'sourceUrl', 'path', 'colours', 'notes'] },
@@ -57,16 +57,17 @@ export function pageDefinition(view) {
   return { route, schema }
 }
 
-export async function bootstrapPages(crm) {
+export async function bootstrapPages(crm, { crmPublicPath = '/crm/' } = {}) {
   const existing = await crm.list('desktopRoutes', {}, { paginate: false })
-  if (!existing.some((route) => route.menuSchemaUid === 'sixsummit-workspace-link')) {
-    await crm.request('desktopRoutes', 'create', { query: { layout: 'admin-layout-model' }, body: { type: 'link', title: 'Call workspace & analytics', menuSchemaUid: 'sixsummit-workspace-link', options: { href: '/admin/sixsummit', openInNewTab: false } } })
-  }
+  const workspace = existing.find((route) => route.menuSchemaUid === 'sixsummit-workspace-link')
+  const workspaceOptions = { href: `${crmPublicPath.replace(/\/$/, '')}/admin/sixsummit`, openInNewTab: false }
+  if (!workspace) await crm.request('desktopRoutes', 'create', { query: { layout: 'admin-layout-model' }, body: { type: 'link', title: 'Call workspace & analytics', menuSchemaUid: 'sixsummit-workspace-link', options: workspaceOptions } })
+  else await crm.update('desktopRoutes', workspace.id, { options: workspaceOptions })
   for (const view of views) {
     const { route, schema } = pageDefinition(view)
     if (existing.some((item) => item.schemaUid === route.schemaUid)) {
       const stored = await crm.request('uiSchemas', 'getJsonSchema', { query: { resourceIndex: route.schemaUid, includeAsyncNode: true } })
-      const walk = async (node) => {
+      const walk = async (node, desired) => {
         const oldCallField = view.collection === 'six_leads' && ['six_leads.contactStatus', 'six_leads.assignedTo', 'six_leads.nextFollowUpAt'].includes(node['x-collection-field']) && node['x-decorator'] === 'FormItem'
         const oldEventEdit = view.collection === 'six_activities' && node['x-action'] === 'update'
         if ((oldCallField || oldEventEdit) && node['x-uid']) {
@@ -77,9 +78,15 @@ export async function bootstrapPages(crm) {
           const props = node['x-decorator-props'] || {}
           await crm.request('uiSchemas', 'patch', { body: { 'x-uid': node['x-uid'], 'x-decorator-props': { ...props, params: { ...props.params, filter: { ...props.params?.filter, isDemo: { $ne: true } } } } } })
         }
-        for (const child of Object.values(node.properties || {})) await walk(child)
+        // Add new managed table/form fields without replacing a user's configured page.
+        if ((node['x-component'] === 'TableV2' || node['x-component'] === 'FormV2') && node['x-uid']) {
+          for (const [name, child] of Object.entries(desired?.properties || {})) {
+            if (!node.properties?.[name]) await crm.request('uiSchemas', 'insertAdjacent', { query: { resourceIndex: node['x-uid'], position: 'beforeEnd' }, body: { schema: { ...child, name } } })
+          }
+        }
+        for (const [name, child] of Object.entries(node.properties || {})) await walk(child, desired?.properties?.[name])
       }
-      await walk(stored.data)
+      await walk(stored.data, schema)
       continue
     }
     const stored = await crm.request('uiSchemas', 'getJsonSchema', { query: { resourceIndex: route.schemaUid } })

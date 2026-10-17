@@ -313,6 +313,8 @@ export const footer = {
     { label: 'Work', href: '#work' },
     { label: 'Process', href: '#route' },
     { label: 'Contact', href: '#contact' },
+    { label: 'Your designs', href: '/designs' },
+    { label: 'Team CRM', href: '/crm' },
   ],
   note: '© 2026 — Built at altitude',
   credit: {

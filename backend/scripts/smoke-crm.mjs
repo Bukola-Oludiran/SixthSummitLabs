@@ -8,7 +8,7 @@ const before = (await crm.request('six_crm', 'summary')).data.metrics
 const key = randomUUID()
 const password = `${randomUUID()}aA1!`
 const account = await crm.create('users', { username: `crm-test-${key.slice(0, 12)}`, nickname: 'CRM integration fixture', email: `${key}@example.invalid`, password, roles: ['sixsummit_caller'] })
-const staff = new NocoBaseClient({ url: env.NOCOBASE_URL || 'http://127.0.0.1:13000' })
+const staff = new NocoBaseClient({ url: env.NOCOBASE_URL || 'http://127.0.0.1:13000/crm' })
 const post = (client, action, body) => client.request('six_crm', action, { body })
 const count = async (leadId) => (await crm.list('six_activities', { leadId }, { paginate: false })).length
 let checks = 0
@@ -51,7 +51,7 @@ try {
   await assert.rejects(post(crm, 'reopen', { leadId: lead.id, reason: 'This must fail for opt-outs.' }), /409/); checks++
   const after = (await crm.request('six_crm', 'summary')).data.metrics
   assert.deepEqual(after, before); checks++
-  const unauthenticated = await fetch(new URL('/api/six_crm:summary', env.NOCOBASE_URL || 'http://127.0.0.1:13000'))
+  const unauthenticated = await fetch(new URL('six_crm:summary', crm.url))
   assert.ok([401, 403].includes(unauthenticated.status)); checks++
   console.log(JSON.stringify({ ok: true, checks, fixtureLeadId: lead.id, demoRecordsExcludedFromAnalytics: true }))
 } finally {

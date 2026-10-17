@@ -4,7 +4,7 @@ import { collections, leadRelations } from '../src/schema.mjs'
 import { bootstrapPages } from '../src/crm-pages.mjs'
 
 const env = await environment()
-const crm = new NocoBaseClient({ url: env.NOCOBASE_URL || 'http://127.0.0.1:13000', token: env.NOCOBASE_API_KEY })
+const crm = new NocoBaseClient({ url: env.NOCOBASE_URL || 'http://127.0.0.1:13000/crm', token: env.NOCOBASE_API_KEY })
 if (!crm.token) await crm.signIn(env.INIT_ROOT_EMAIL, env.INIT_ROOT_PASSWORD)
 const existing = await crm.list('collections', {}, { paginate: false })
 const names = new Set(existing.map((entry) => entry.name))
@@ -28,7 +28,7 @@ for (const relation of leadRelations) {
   if (!fieldNames.has(relation.name)) await crm.create('collections/six_leads/fields', relation)
 }
 console.log('Lead, evidence, brand, concept, call and daily-run collections are ready.')
-await bootstrapPages(crm)
+await bootstrapPages(crm, { crmPublicPath: env.APP_PUBLIC_PATH || '/crm/' })
 console.log('CRM pages are ready in the NocoBase sidebar.')
 const callerRoles = await crm.list('roles', { name: 'sixsummit_caller' })
 if (!callerRoles.length) await crm.create('roles', { name: 'sixsummit_caller', title: '6ixSummit Caller', snippets: ['ui.sixsummit-crm'], allowConfigure: false, allowNewMenu: false })

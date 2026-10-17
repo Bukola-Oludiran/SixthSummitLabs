@@ -2,6 +2,13 @@ import test from 'node:test'
 import assert from 'node:assert/strict'
 import { NocoBaseClient } from '../src/crm.mjs'
 
+test('CRM authentication preserves the shared-domain /crm application prefix', async () => {
+  let captured
+  const crm = new NocoBaseClient({ url: 'https://studio.example/crm', fetch: async (url) => { captured = url; return Response.json({ data: [] }) } })
+  await crm.list('six_leads')
+  assert.equal(captured.toString().split('?')[0], 'https://studio.example/crm/api/six_leads:list')
+})
+
 test('encodes NocoBase filters and keeps credentials in headers', async () => {
   let captured
   const crm = new NocoBaseClient({ url: 'http://127.0.0.1:13000', token: 'test-placeholder', fetch: async (url, options) => {
