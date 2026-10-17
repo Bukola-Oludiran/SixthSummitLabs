@@ -1,0 +1,39 @@
+PRAIRIE BLOOM — LOCAL ASSET RECORD
+
+All browser-facing assets are bundled locally. The page needs no remote font,
+image service, package installation, API key or build step.
+
+PHOTOGRAPHY
+assets/flowers-01.jpg
+Source: https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?auto=format&fit=crop&w=1600&q=90
+Use: single-stem editorial image in the flowers section.
+
+assets/flowers-02.jpg
+Source: https://images.unsplash.com/photo-1563241527-3004b7be0ffd?auto=format&fit=crop&w=1600&q=90
+Use: bouquet image in the opening composition.
+
+Downloaded 17 October 2026 from Unsplash's public image service.
+Unsplash license reference: https://unsplash.com/license
+These are illustrative stock images, not evidence of Prairie Bloom's own work,
+inventory, available stems or product offerings. Photographer names were not
+provided by the image endpoint; no photographer attribution is invented here.
+
+TYPE
+assets/cormorant-garamond.ttf
+Source: https://github.com/google/fonts/tree/main/ofl/cormorantgaramond
+Font file: CormorantGaramond[wght].ttf
+License: SIL Open Font License 1.1; bundled as assets/FONT-LICENSE.txt.
+Body type uses the visitor's Arial/Helvetica/system sans-serif.
+
+PROPOSED IDENTITY
+assets/flower.svg and assets/flower-cream.svg
+Original simple SVG artwork authored for this concept: six open, overlapping
+petals inspired by the supplied brief. The wordmark is editable HTML text.
+There was no existing logo to preserve. This is a proposed identity treatment.
+
+BUSINESS CONTENT
+Only business fixture facts were used: Prairie Bloom; florist; Regina, SK;
+three supplied service names/descriptions; +13065550101; hello@example.invalid;
+forest #174b3a, apricot #e4b075, cream #f8f4e8; six-petal inspiration.
+No address, hours, pricing, delivery coverage, reviews, business history,
+credentials or quantitative business claims have been invented.

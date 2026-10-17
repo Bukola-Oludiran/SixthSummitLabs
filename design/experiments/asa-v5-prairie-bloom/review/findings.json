@@ -1,0 +1,61 @@
+{
+  "ok": true,
+  "mode": "freeform",
+  "reducedMotion": true,
+  "input": "/Users/bukolaoludiran/Desktop/SixthSummitLabs/design/experiments/asa-v5-prairie-bloom/index.html",
+  "findingCount": 0,
+  "viewports": {
+    "compact": {
+      "width": 320,
+      "height": 844,
+      "screenshots": {
+        "viewport": "/Users/bukolaoludiran/Desktop/SixthSummitLabs/design/experiments/asa-v5-prairie-bloom/review/compact.png",
+        "fullPage": "/Users/bukolaoludiran/Desktop/SixthSummitLabs/design/experiments/asa-v5-prairie-bloom/review/compact-full-page.png"
+      },
+      "findings": [],
+      "manualReview": {
+        "contrastNeedsReview": 0,
+        "contrastMeasured": 63
+      }
+    },
+    "narrow": {
+      "width": 390,
+      "height": 844,
+      "screenshots": {
+        "viewport": "/Users/bukolaoludiran/Desktop/SixthSummitLabs/design/experiments/asa-v5-prairie-bloom/review/narrow.png",
+        "fullPage": "/Users/bukolaoludiran/Desktop/SixthSummitLabs/design/experiments/asa-v5-prairie-bloom/review/narrow-full-page.png"
+      },
+      "findings": [],
+      "manualReview": {
+        "contrastNeedsReview": 0,
+        "contrastMeasured": 63
+      }
+    },
+    "medium": {
+      "width": 768,
+      "height": 1024,
+      "screenshots": {
+        "viewport": "/Users/bukolaoludiran/Desktop/SixthSummitLabs/design/experiments/asa-v5-prairie-bloom/review/medium.png",
+        "fullPage": "/Users/bukolaoludiran/Desktop/SixthSummitLabs/design/experiments/asa-v5-prairie-bloom/review/medium-full-page.png"
+      },
+      "findings": [],
+      "manualReview": {
+        "contrastNeedsReview": 0,
+        "contrastMeasured": 66
+      }
+    },
+    "wide": {
+      "width": 1440,
+      "height": 1000,
+      "screenshots": {
+        "viewport": "/Users/bukolaoludiran/Desktop/SixthSummitLabs/design/experiments/asa-v5-prairie-bloom/review/wide.png",
+        "fullPage": "/Users/bukolaoludiran/Desktop/SixthSummitLabs/design/experiments/asa-v5-prairie-bloom/review/wide-full-page.png"
+      },
+      "findings": [],
+      "manualReview": {
+        "contrastNeedsReview": 0,
+        "contrastMeasured": 66
+      }
+    }
+  }
+}

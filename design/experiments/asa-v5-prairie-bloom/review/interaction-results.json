@@ -1,0 +1,17 @@
+{
+  "ok": true,
+  "checks": [
+    "Keyboard skip link focuses main content.",
+    "All three native service disclosures toggle by keyboard.",
+    "All three occasion choices update single-selection state, live hint, and email subject.",
+    "Service inquiry link carries its occasion into the personal section.",
+    "Reserved telephone and email targets are correct; no contact action was opened or sent.",
+    "Reduced-motion preference disables smooth scrolling.",
+    "Keyboard-focused controls show an explicit focus outline.",
+    "Mobile menu opens, Escape returns focus, section navigation closes it, and outside clicks dismiss it.",
+    "Intermediate 600px composition has no horizontal overflow.",
+    "Normal-motion mode restores smooth anchor scrolling; no continuous animation exists.",
+    "No browser runtime errors throughout interaction checks."
+  ],
+  "runtimeErrors": []
+}

@@ -1,0 +1,63 @@
+<!doctype html>
+<html lang="en-CA">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#174b3a">
+  <meta name="description" content="Prairie Bloom — a fictional florist concept in Regina, Saskatchewan. Flowers for everyday moments and special occasions.">
+  <title>Prairie Bloom — A little beauty, for every day.</title>
+  <link rel="icon" href="assets/flower.svg" type="image/svg+xml">
+  <link rel="preload" href="assets/cormorant-garamond.ttf" as="font" type="font/ttf" crossorigin>
+  <link rel="stylesheet" href="style.css">
+  <script src="script.js" defer></script>
+</head>
+<body id="top">
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+  <a class="brand" href="#top" aria-label="Prairie Bloom home"><img src="assets/flower.svg" width="40" height="40" alt=""><span>prairie bloom<span class="brand-small">FLOWERS & LITTLE JOYS</span></span></a>
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="navigation">Menu <span aria-hidden="true">+</span></button>
+  <nav id="navigation" aria-label="Main navigation">
+    <a href="#flowers">Our flowers</a><a href="#personal">Make it personal</a><a href="#contact">Say hello <span aria-hidden="true">↗</span></a>
+  </nav>
+</header>
+<main id="main" tabindex="-1">
+  <section class="hero" aria-labelledby="hero-heading">
+    <div class="hero-copy">
+      <p class="eyebrow"><span class="tiny-flower" aria-hidden="true">✳</span> REGINA, SASKATCHEWAN</p>
+      <h1 id="hero-heading">A little<br>beauty, for<br><em>every day.</em></h1>
+      <div class="hero-bottom"><p>For the big days. The small gestures.<br>And all the lovely in between.<br>Say it with Prairie Bloom.</p><a class="button" href="#flowers">Find your flowers <span aria-hidden="true">↗</span></a></div>
+    </div>
+    <figure class="hero-photo">
+      <img class="bouquet" src="assets/flowers-02.jpg" alt="A soft pink and cream bouquet with eucalyptus and a flowing blush ribbon" width="1600" height="2400" fetchpriority="high">
+      <div class="photo-stamp" aria-hidden="true"><img src="assets/flower.svg" alt=""><span>A LITTLE<br>JOY, IN BLOOM</span></div>
+      <figcaption><span>FLOWERS FOR YOUR KIND OF MOMENT</span><span>A FLORAL STUDY</span></figcaption>
+    </figure>
+    <a class="hero-scroll" href="#flowers"><span aria-hidden="true">↓</span> THERE'S ALWAYS A REASON</a>
+  </section>
+  <div class="thought-band"><p>A thank-you. <span>A new chapter.</span> A just-because.</p><img src="assets/flower-cream.svg" alt="" width="38" height="38"></div>
+  <section class="flowers section-wrap" id="flowers" aria-labelledby="flowers-heading">
+    <figure class="stem-photo"><img src="assets/flowers-01.jpg" alt="A single coral-pink iris with a long green stem against a pale backdrop" width="1600" height="2000" loading="lazy"><figcaption>A SIMPLE GESTURE. A BEAUTIFUL FEELING.</figcaption><span class="photo-note" aria-hidden="true">less can be<br><em>lovely.</em></span></figure>
+    <div class="flowers-copy"><p class="eyebrow">01 / FIND YOUR FLOWERS</p><h2 id="flowers-heading">Some moments<br>ask for <em>flowers.</em></h2><p class="section-intro">You bring the reason. We’ll talk flowers.</p>
+      <div class="service-list">
+        <details open><summary><span class="service-number">01</span><span>Everyday flowers</span><span class="detail-sign" aria-hidden="true"></span></summary><div class="service-body"><p>Seasonal stems and arrangements for a thoughtful gesture.</p><a href="#personal" data-occasion="Just because">For no reason at all <span aria-hidden="true">↗</span></a></div></details>
+        <details><summary><span class="service-number">02</span><span>Special occasions</span><span class="detail-sign" aria-hidden="true"></span></summary><div class="service-body"><p>Flowers to mark the moments that matter to you.</p><a href="#personal" data-occasion="A celebration">Mark your moment <span aria-hidden="true">↗</span></a></div></details>
+        <details><summary><span class="service-number">03</span><span>Personal arrangements</span><span class="detail-sign" aria-hidden="true"></span></summary><div class="service-body"><p>Speak with the florist about colours, stems and the occasion.</p><a href="#personal" data-occasion="Something personal">Make it yours <span aria-hidden="true">↗</span></a></div></details>
+      </div>
+    </div>
+  </section>
+  <section class="personal" id="personal" aria-labelledby="personal-heading">
+    <div class="personal-title"><p class="eyebrow">02 / A LITTLE MORE YOU</p><h2 id="personal-heading">A colour.<br>A feeling.<br><em>A starting point.</em></h2><img class="personal-flower" src="assets/flower.svg" width="130" height="130" alt=""></div>
+    <div class="personal-copy"><p class="personal-lead">The best place to begin?<br>Whatever you have in mind.</p><p>A favourite colour, a meaningful moment, or simply “I saw these and thought of you.” Tell us a little about it, and let’s talk about a personal arrangement.</p>
+      <fieldset class="occasion-picker"><legend>WHAT’S YOUR OCCASION?</legend><div class="occasion-options"><button type="button" aria-pressed="true" data-choice="Just because">Just because</button><button type="button" aria-pressed="false" data-choice="A celebration">A celebration</button><button type="button" aria-pressed="false" data-choice="Something personal">Something personal</button></div></fieldset>
+      <p id="occasion-hint" class="occasion-hint" aria-live="polite">A little everyday joy. Start a conversation about seasonal stems.</p>
+      <a class="text-cta" id="occasion-email" href="mailto:hello@example.invalid?subject=Flowers%20%E2%80%94%20Just%20because">Let’s talk flowers <span aria-hidden="true">↗</span></a><p class="picker-note">Your choice sets the subject of your email.</p>
+    </div>
+  </section>
+  <section class="contact section-wrap" id="contact" aria-labelledby="contact-heading">
+    <div><p class="eyebrow">03 / SAY HELLO</p><h2 id="contact-heading">Something lovely<br>starts with <em>hello.</em></h2></div>
+    <div class="contact-details"><p>Everyday flowers. Special occasions.<br>A personal touch, in Regina.</p><a class="contact-phone" href="tel:+13065550101">306 555 0101 <span aria-hidden="true">↗</span></a><a class="contact-email" href="mailto:hello@example.invalid">hello@example.invalid <span aria-hidden="true">↗</span></a><span class="location">REGINA, SASKATCHEWAN</span></div>
+  </section>
+</main>
+<footer class="site-footer"><div class="footer-top"><a href="#top" class="footer-wordmark" aria-label="Prairie Bloom, back to top">prairie bloom<img src="assets/flower-cream.svg" alt="" width="115" height="115"></a></div><div class="footer-bottom"><span>FOR EVERYDAY MOMENTS & SPECIAL OCCASIONS.</span><a href="#top">Back to the top ↑</a><span class="concept-note">Fictional florist concept · Illustrative photography<br>Reserved demonstration contact details</span></div></footer>
+</body>
+</html>

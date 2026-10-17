@@ -1,0 +1,50 @@
+PRAIRIE BLOOM — FINAL REVIEW, 17 OCTOBER 2026
+
+Entry point: index.html
+Editable source: index.html, style.css, script.js, assets/flower*.svg
+Documentation: README.txt, ASSET-SOURCES.txt
+
+Skill: asa-page, V5-style freeform composition.
+No governed V7 document, model-backed generation service, global skill edits,
+application edits, Git-state edits, publication or external contact was used.
+All deliverables are inside this experiment directory.
+
+Visual review
+Inspected wide (1440px), medium (768px), narrow (390px), compact (320px), and
+intermediate (600px) captures, including full-page desktop/mobile layouts.
+Inspected mobile menu and selected occasion screenshots.
+Typography, bouquet crop, the contrasting single stem, section pacing,
+brand colours, footer, and small-screen reflow were reviewed visually.
+An intermediate-width heading-spacing issue was corrected before final capture.
+
+Mechanical preview
+Ran the skill's scripts/preview.sh against standalone index.html and local assets.
+Final review/findings.json: ok=true, findingCount=0 across 320/390/768/1440px.
+The helper checks overflow, broken resources, fragment targets, duplicate IDs,
+unnamed controls, runtime errors, and measurable solid-colour text contrast.
+All browser resources are local; the helper's remote-resource block remains on.
+
+Interaction review
+review/interaction-results.json: ok=true, 11 groups of assertions passed.
+- Keyboard skip link changes the hash AND moves activeElement to MAIN#main.
+- Each native service disclosure opens and closes by keyboard.
+- All occasion buttons update pressed state, live description and mailto subject.
+- Service inquiry links select the appropriate occasion.
+- Reserved contact href values match the fixture; no contact action was sent.
+- Keyboard focus outlines are visible.
+- Mobile menu opens, closes on Escape with focus return, closes after navigation,
+  and dismisses on an outside click.
+- Reduced motion uses immediate anchor scrolling; normal mode uses smooth scroll.
+- No horizontal overflow at the additional 600px width.
+- No browser runtime errors throughout the interaction journey.
+
+The independent parent review identified that the first skip-link assertion only
+checked the hash. main now has tabindex=-1, and the final assertion also requires
+document.activeElement.id === 'main'. Final captures and tests were refreshed.
+
+Remaining limits
+No known unresolved implementation issues. This is a fictional design concept;
+reserved contact details cannot reach a real business. Photography is illustrative
+stock rather than the florist's own work. No prices, hours, address, delivery
+promise, reviews or business statistics have been invented. Checks do not constitute
+a complete accessibility audit or a real order/contact integration test.
