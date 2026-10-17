@@ -1,0 +1,22 @@
+{
+  "id": "demo",
+  "businessName": "Prairie Bloom",
+  "category": "Florist",
+  "city": "Regina",
+  "province": "SK",
+  "phone": "+13065550101",
+  "email": "hello@example.invalid",
+  "businessNotes": "Flowers for everyday moments and special occasions.",
+  "services": [
+    { "name": "Everyday flowers", "description": "Seasonal stems and arrangements for a thoughtful gesture." },
+    { "name": "Special occasions", "description": "Flowers to mark the moments that matter to you." },
+    { "name": "Personal arrangements", "description": "Speak with the florist about colours, stems and the occasion." }
+  ],
+  "motifs": [
+    { "description": "Open flower with six petals", "kind": "design_inspiration", "source": "Fictional demonstration brief; not observed business evidence." }
+  ],
+  "logoStatus": "not_found",
+  "brandPalette": ["#174b3a", "#e4b075", "#f8f4e8"],
+  "briefVersion": 1,
+  "fixtureNotice": "FICTIONAL DEMO. Reserved phone and invalid email. Never import into the real lead quota."
+}

@@ -1,0 +1,29 @@
+{
+  "name": "6ixsummit-lead-studio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": {
+    "setup:env": "node scripts/setup-env.mjs",
+    "db:up": "docker compose --env-file .env up -d --wait db",
+    "db:down": "docker compose --env-file .env stop db",
+    "crm:dependencies": "node scripts/nocobase.mjs dependencies",
+    "crm:install": "node scripts/nocobase.mjs install",
+    "crm:dev": "node scripts/nocobase.mjs dev",
+    "crm:build": "node scripts/nocobase.mjs build",
+    "crm:bootstrap": "node scripts/bootstrap-crm.mjs",
+    "crm:plugin:link": "node scripts/link-plugin.mjs",
+    "crm:plugin:enable": "node scripts/nocobase.mjs plugin:enable",
+    "crm:plugin:build": "node scripts/nocobase.mjs plugin:build",
+    "crm:plugin:check": "npm run crm:plugin:link && node scripts/typecheck-plugin.mjs",
+    "crm:plugin:test": "npm run crm:plugin:link && node scripts/nocobase.mjs plugin:test",
+    "crm:smoke": "node scripts/smoke-crm.mjs",
+    "leads:discover": "node scripts/leads.mjs discover",
+    "leads:verify": "node scripts/leads.mjs verify",
+    "leads:import": "node scripts/leads.mjs import",
+    "designs:run": "node scripts/designs.mjs",
+    "designs:demo": "node scripts/demo.mjs",
+    "test": "node --test test/*.test.mjs"
+  }
+}

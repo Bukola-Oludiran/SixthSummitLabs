@@ -1,0 +1,3 @@
+[submodule "backend/nocobase"]
+	path = backend/nocobase
+	url = https://github.com/nocobase/nocobase.git
