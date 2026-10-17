@@ -193,13 +193,14 @@ src/
 
 ## Logo kit
 
-The Ascent 6 identity lives in [`design/brand/`](design/brand/README.md), with
+The Ascent 6 / Twin Summit identity lives in [`design/brand/`](design/brand/README.md), with
 editable VectorCraft sources, outlined SVGs, transparent PNGs, a presentation
 PDF, and social avatar. The complete kit is also available as
 [`design/6ixsummit-logo-kit.zip`](design/6ixsummit-logo-kit.zip).
 
-The header and footer use the shared `Logo` component and the exported mark in
-`src/assets/brand/`. The favicon and Apple touch icon live in `public/`.
+The header and footer use the shared `Wordmark` component and outlined artwork
+in `src/assets/brand/`. The twin-peak mark replaces the initial 6 in the name.
+The favicon and Apple touch icon live in `public/`.
 See the kit README to regenerate the artwork and sync the website assets.
 
 ## Fonts

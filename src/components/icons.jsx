@@ -1,4 +1,18 @@
 import ascentMark from '../assets/brand/6ixsummit-mark-blue.svg'
+import ascentWordmark from '../assets/brand/6ixsummit-logo-dark.svg'
+
+/** Outlined wordmark: the twin-peak mark replaces the initial 6. */
+export function Wordmark({ width = 210 }) {
+  return (
+    <img
+      className="brand-wordmark"
+      src={ascentWordmark}
+      width={width}
+      height={width / 7}
+      alt="6ixSummit Labs"
+    />
+  )
+}
 
 /** The Ascent 6 mark, exported from the editable logo kit. */
 export function Logo({ size = 32 }) {

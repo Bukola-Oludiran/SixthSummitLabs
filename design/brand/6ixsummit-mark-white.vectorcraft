@@ -36,7 +36,7 @@
           "children": [
             {
               "id": 2,
-              "name": "Ascent 6 — summit counter",
+              "name": "Ascent 6 — twin summit counter",
               "appearance": {
                 "items": [
                   {
@@ -133,20 +133,32 @@
                       "anchors": [
                         {
                           "p": [
-                            32.0,
-                            74.0
+                            26.0,
+                            76.0
                           ]
                         },
                         {
                           "p": [
-                            53.0,
-                            46.0
+                            43.0,
+                            45.0
                           ]
                         },
                         {
                           "p": [
-                            74.0,
-                            74.0
+                            54.0,
+                            62.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            65.0,
+                            50.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            81.0,
+                            76.0
                           ]
                         }
                       ],
@@ -1102,8 +1114,8 @@
       "copyrightStatus": "unknown",
       "copyrightNotice": "",
       "copyrightUrl": "",
-      "created": 1792274593,
-      "modified": 1792274593
+      "created": 1792275063,
+      "modified": 1792275063
     }
   },
   "images": {}

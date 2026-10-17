@@ -1,4 +1,4 @@
-import { Logo } from './icons'
+import { Wordmark } from './icons'
 import { nav, settings } from '../site.config'
 import './Header.css'
 
@@ -6,10 +6,7 @@ export default function Header() {
   return (
     <header className="header">
       <a href="#top" className="header__brand" aria-label="6ixSummit Labs home">
-        <Logo />
-        <span className="header__wordmark">
-          6ixSummit<span className="header__wordmark-sub"> Labs</span>
-        </span>
+        <Wordmark />
       </a>
 
       <nav className="header__nav">

@@ -15,8 +15,8 @@
         "rect": {
           "x0": 0.0,
           "y0": 0.0,
-          "x1": 760.0,
-          "y1": 220.0
+          "x1": 700.0,
+          "y1": 100.0
         },
         "show_center_mark": false,
         "show_cross_hairs": false
@@ -36,13 +36,13 @@
           "children": [
             {
               "id": 5,
-              "name": "6ixSummit Labs — primary lockup",
+              "name": "6ixSummit Labs — integrated wordmark",
               "kind": {
                 "type": "group",
                 "children": [
                   {
                     "id": 2,
-                    "name": "Ascent 6 — summit counter",
+                    "name": "Ascent 6 — twin summit counter",
                     "appearance": {
                       "items": [
                         {
@@ -74,62 +74,62 @@
                             "anchors": [
                               {
                                 "p": [
-                                  157.2,
-                                  30.8
+                                  73.8,
+                                  3.695
                                 ]
                               },
                               {
                                 "p": [
-                                  110.4,
-                                  30.8
+                                  47.15,
+                                  3.695
                                 ]
                               },
                               {
                                 "p": [
-                                  42.0,
-                                  99.2
+                                  8.2,
+                                  42.645
                                 ]
                               },
                               {
                                 "p": [
-                                  42.0,
-                                  156.8
+                                  8.2,
+                                  75.445
                                 ]
                               },
                               {
                                 "p": [
-                                  78.0,
-                                  192.8
+                                  28.7,
+                                  95.945
                                 ]
                               },
                               {
                                 "p": [
-                                  153.6,
-                                  192.8
+                                  71.75,
+                                  95.945
                                 ]
                               },
                               {
                                 "p": [
-                                  193.2,
-                                  153.2
+                                  94.3,
+                                  73.395
                                 ]
                               },
                               {
                                 "p": [
-                                  193.2,
-                                  106.4
+                                  94.3,
+                                  46.745
                                 ]
                               },
                               {
                                 "p": [
-                                  157.2,
-                                  70.4
+                                  73.8,
+                                  26.245
                                 ]
                               },
                               {
                                 "p": [
-                                  117.6,
-                                  70.4
+                                  51.25,
+                                  26.245
                                 ]
                               }
                             ],
@@ -139,20 +139,32 @@
                             "anchors": [
                               {
                                 "p": [
-                                  81.6,
-                                  153.2
+                                  24.6,
+                                  75.445
                                 ]
                               },
                               {
                                 "p": [
-                                  119.4,
-                                  102.8
+                                  42.025,
+                                  43.67
                                 ]
                               },
                               {
                                 "p": [
-                                  157.2,
-                                  153.2
+                                  53.3,
+                                  61.095
+                                ]
+                              },
+                              {
+                                "p": [
+                                  64.575,
+                                  48.795
+                                ]
+                              },
+                              {
+                                "p": [
+                                  80.975,
+                                  75.445
                                 ]
                               }
                             ],
@@ -174,16 +186,16 @@
                         0.0,
                         0.0,
                         1.0,
-                        243.6,
-                        135.2
+                        95.22,
+                        86.0
                       ],
                       "runs": [
                         {
-                          "text": "6ixSummit",
+                          "text": "ixSummit",
                           "style": {
                             "font_family": "Inter",
                             "font_style": "Semi Bold",
-                            "size": 97.2,
+                            "size": 100.0,
                             "tracking": -35.0,
                             "baseline_shift": 0.0,
                             "h_scale": 100.0,
@@ -233,17 +245,17 @@
                         0.0,
                         0.0,
                         1.0,
-                        247.20000000000002,
-                        183.8
+                        551.22,
+                        86.0
                       ],
                       "runs": [
                         {
-                          "text": "L A B S",
+                          "text": "Labs",
                           "style": {
                             "font_family": "Inter",
                             "font_style": "Medium",
-                            "size": 27.0,
-                            "tracking": 100.0,
+                            "size": 64.0,
+                            "tracking": -25.0,
                             "baseline_shift": 0.0,
                             "h_scale": 100.0,
                             "v_scale": 100.0,
@@ -252,9 +264,9 @@
                               "type": "solid",
                               "color": {
                                 "model": "rgb",
-                                "r": 0.9490196,
-                                "g": 0.9607843,
-                                "b": 0.9764706
+                                "r": 0.57254905,
+                                "g": 0.6117647,
+                                "b": 0.6627451
                               }
                             },
                             "stroke": {
@@ -1230,8 +1242,8 @@
       "copyrightStatus": "unknown",
       "copyrightNotice": "",
       "copyrightUrl": "",
-      "created": 1792274592,
-      "modified": 1792274593
+      "created": 1792275063,
+      "modified": 1792275063
     }
   },
   "images": {}

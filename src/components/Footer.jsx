@@ -1,4 +1,4 @@
-import { Logo } from './icons'
+import { Wordmark } from './icons'
 import { footer } from '../site.config'
 import './Footer.css'
 
@@ -7,8 +7,7 @@ export default function Footer() {
     <footer className="footer">
       <div className="shell footer__inner">
         <div className="footer__brand">
-          <Logo size={26} />
-          <span className="footer__wordmark">6ixSummit Labs</span>
+          <Wordmark width={189} />
         </div>
 
         <nav className="footer__links">

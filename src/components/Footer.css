@@ -16,15 +16,6 @@
 .footer__brand {
   display: flex;
   align-items: center;
-  gap: 12px;
-}
-
-.footer__wordmark {
-  font-family: var(--font-display);
-  font-size: 14px;
-  font-weight: 600;
-  white-space: nowrap;
-  color: var(--text-soft);
 }
 
 .footer__links {

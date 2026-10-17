@@ -4,7 +4,7 @@
   "generator": "VectorCraft 0.12.0",
   "document": {
     "version": 1,
-    "title": "6ixSummit Labs / Ascent 6 / Identity",
+    "title": "6ixSummit Labs / Twin Summit / Wordmark",
     "units": "Pixels",
     "rulers": "artboard",
     "color_mode": "Rgb",
@@ -192,7 +192,7 @@
                 ],
                 "runs": [
                   {
-                    "text": "ASCENT 6  /  LOGO DESIGN",
+                    "text": "TWIN SUMMIT  /  WORDMARK",
                     "style": {
                       "font_family": "JetBrains Mono",
                       "font_style": "Regular",
@@ -301,7 +301,7 @@
                 ],
                 "runs": [
                   {
-                    "text": "Built for the ascent.",
+                    "text": "One name. One mark.",
                     "style": {
                       "font_family": "Inter",
                       "font_style": "Medium",
@@ -360,7 +360,7 @@
                 ],
                 "runs": [
                   {
-                    "text": "An idea. A clear route. A product in the world.",
+                    "text": "The six becomes the signature. Two peaks carry the name.",
                     "style": {
                       "font_family": "Inter",
                       "font_style": "Regular",
@@ -404,13 +404,13 @@
             },
             {
               "id": 11,
-              "name": "6ixSummit Labs — primary lockup",
+              "name": "6ixSummit Labs — integrated wordmark",
               "kind": {
                 "type": "group",
                 "children": [
                   {
                     "id": 8,
-                    "name": "Ascent 6 — summit counter",
+                    "name": "Ascent 6 — twin summit counter",
                     "appearance": {
                       "items": [
                         {
@@ -442,62 +442,62 @@
                             "anchors": [
                               {
                                 "p": [
-                                  528.8,
-                                  288.2
+                                  288.53,
+                                  307.036
                                 ]
                               },
                               {
                                 "p": [
-                                  471.6,
-                                  288.2
+                                  239.228,
+                                  307.036
                                 ]
                               },
                               {
                                 "p": [
-                                  388.0,
-                                  371.8
+                                  167.17,
+                                  379.093
                                 ]
                               },
                               {
                                 "p": [
-                                  388.0,
-                                  442.2
+                                  167.17,
+                                  439.773
                                 ]
                               },
                               {
                                 "p": [
-                                  432.0,
-                                  486.2
+                                  205.095,
+                                  477.698
                                 ]
                               },
                               {
                                 "p": [
-                                  524.4,
-                                  486.2
+                                  284.738,
+                                  477.698
                                 ]
                               },
                               {
                                 "p": [
-                                  572.8,
-                                  437.8
+                                  326.455,
+                                  435.981
                                 ]
                               },
                               {
                                 "p": [
-                                  572.8,
-                                  380.6
+                                  326.455,
+                                  386.678
                                 ]
                               },
                               {
                                 "p": [
-                                  528.8,
-                                  336.6
+                                  288.53,
+                                  348.753
                                 ]
                               },
                               {
                                 "p": [
-                                  480.4,
-                                  336.6
+                                  246.812,
+                                  348.753
                                 ]
                               }
                             ],
@@ -507,20 +507,32 @@
                             "anchors": [
                               {
                                 "p": [
-                                  436.4,
-                                  437.8
+                                  197.51,
+                                  439.773
                                 ]
                               },
                               {
                                 "p": [
-                                  482.6,
-                                  376.2
+                                  229.746,
+                                  380.99
                                 ]
                               },
                               {
                                 "p": [
-                                  528.8,
-                                  437.8
+                                  250.605,
+                                  413.226
+                                ]
+                              },
+                              {
+                                "p": [
+                                  271.464,
+                                  390.471
+                                ]
+                              },
+                              {
+                                "p": [
+                                  301.804,
+                                  439.773
                                 ]
                               }
                             ],
@@ -542,16 +554,16 @@
                         0.0,
                         0.0,
                         1.0,
-                        634.4000000000001,
-                        415.8
+                        328.15700000000004,
+                        459.3
                       ],
                       "runs": [
                         {
-                          "text": "6ixSummit",
+                          "text": "ixSummit",
                           "style": {
                             "font_family": "Inter",
                             "font_style": "Semi Bold",
-                            "size": 118.80000000000001,
+                            "size": 185.0,
                             "tracking": -35.0,
                             "baseline_shift": 0.0,
                             "h_scale": 100.0,
@@ -601,17 +613,17 @@
                         0.0,
                         0.0,
                         1.0,
-                        638.8,
-                        475.20000000000005
+                        1171.757,
+                        459.3
                       ],
                       "runs": [
                         {
-                          "text": "L A B S",
+                          "text": "Labs",
                           "style": {
                             "font_family": "Inter",
                             "font_style": "Medium",
-                            "size": 33.0,
-                            "tracking": 100.0,
+                            "size": 118.4,
+                            "tracking": -25.0,
                             "baseline_shift": 0.0,
                             "h_scale": 100.0,
                             "v_scale": 100.0,
@@ -620,9 +632,9 @@
                               "type": "solid",
                               "color": {
                                 "model": "rgb",
-                                "r": 0.9490196,
-                                "g": 0.9607843,
-                                "b": 0.9764706
+                                "r": 0.57254905,
+                                "g": 0.6117647,
+                                "b": 0.6627451
                               }
                             },
                             "stroke": {
@@ -669,7 +681,7 @@
                 ],
                 "runs": [
                   {
-                    "text": "A SIX IN SILHOUETTE. A SUMMIT IN THE NEGATIVE SPACE.",
+                    "text": "THE MARK REPLACES THE 6. THE SUMMIT BECOMES TWO PEAKS.",
                     "style": {
                       "font_family": "JetBrains Mono",
                       "font_style": "Regular",
@@ -954,13 +966,13 @@
             },
             {
               "id": 20,
-              "name": "6ixSummit Labs — primary lockup",
+              "name": "6ixSummit Labs — integrated wordmark",
               "kind": {
                 "type": "group",
                 "children": [
                   {
                     "id": 17,
-                    "name": "Ascent 6 — summit counter",
+                    "name": "Ascent 6 — twin summit counter",
                     "appearance": {
                       "items": [
                         {
@@ -992,62 +1004,62 @@
                             "anchors": [
                               {
                                 "p": [
-                                  142.38,
-                                  813.22
+                                  117.756,
+                                  827.331
                                 ]
                               },
                               {
                                 "p": [
-                                  119.76,
-                                  813.22
+                                  101.233,
+                                  827.331
                                 ]
                               },
                               {
                                 "p": [
-                                  86.7,
-                                  846.28
+                                  77.084,
+                                  851.48
                                 ]
                               },
                               {
                                 "p": [
-                                  86.7,
-                                  874.12
+                                  77.084,
+                                  871.816
                                 ]
                               },
                               {
                                 "p": [
-                                  104.1,
-                                  891.52
+                                  89.794,
+                                  884.526
                                 ]
                               },
                               {
                                 "p": [
-                                  140.64,
-                                  891.52
+                                  116.485,
+                                  884.526
                                 ]
                               },
                               {
                                 "p": [
-                                  159.78,
-                                  872.38
+                                  130.466,
+                                  870.545
                                 ]
                               },
                               {
                                 "p": [
-                                  159.78,
-                                  849.76
+                                  130.466,
+                                  854.022
                                 ]
                               },
                               {
                                 "p": [
-                                  142.38,
-                                  832.36
+                                  117.756,
+                                  841.312
                                 ]
                               },
                               {
                                 "p": [
-                                  123.24,
-                                  832.36
+                                  103.775,
+                                  841.312
                                 ]
                               }
                             ],
@@ -1057,20 +1069,32 @@
                             "anchors": [
                               {
                                 "p": [
-                                  105.84,
-                                  872.38
+                                  87.252,
+                                  871.816
                                 ]
                               },
                               {
                                 "p": [
-                                  124.11,
-                                  848.02
+                                  98.0555,
+                                  852.115
                                 ]
                               },
                               {
                                 "p": [
-                                  142.38,
-                                  872.38
+                                  105.046,
+                                  862.919
+                                ]
+                              },
+                              {
+                                "p": [
+                                  112.036,
+                                  855.293
+                                ]
+                              },
+                              {
+                                "p": [
+                                  122.204,
+                                  871.816
                                 ]
                               }
                             ],
@@ -1092,16 +1116,16 @@
                         0.0,
                         0.0,
                         1.0,
-                        184.14,
-                        863.68
+                        131.03640000000001,
+                        878.36
                       ],
                       "runs": [
                         {
-                          "text": "6ixSummit",
+                          "text": "ixSummit",
                           "style": {
                             "font_family": "Inter",
                             "font_style": "Semi Bold",
-                            "size": 46.98,
+                            "size": 62.0,
                             "tracking": -35.0,
                             "baseline_shift": 0.0,
                             "h_scale": 100.0,
@@ -1151,17 +1175,17 @@
                         0.0,
                         0.0,
                         1.0,
-                        185.88,
-                        887.17
+                        413.75640000000004,
+                        878.36
                       ],
                       "runs": [
                         {
-                          "text": "L A B S",
+                          "text": "Labs",
                           "style": {
                             "font_family": "Inter",
                             "font_style": "Medium",
-                            "size": 13.05,
-                            "tracking": 100.0,
+                            "size": 39.68,
+                            "tracking": -25.0,
                             "baseline_shift": 0.0,
                             "h_scale": 100.0,
                             "v_scale": 100.0,
@@ -1170,9 +1194,9 @@
                               "type": "solid",
                               "color": {
                                 "model": "rgb",
-                                "r": 0.03137255,
-                                "g": 0.03529412,
-                                "b": 0.039215688
+                                "r": 0.36078432,
+                                "g": 0.4,
+                                "b": 0.44705883
                               }
                             },
                             "stroke": {
@@ -1278,7 +1302,7 @@
                 ],
                 "runs": [
                   {
-                    "text": "The everyday studio signature.",
+                    "text": "A single, continuous brand name.",
                     "style": {
                       "font_family": "Inter",
                       "font_style": "Regular",
@@ -1519,7 +1543,7 @@
             },
             {
               "id": 25,
-              "name": "Ascent 6 — summit counter",
+              "name": "Ascent 6 — twin summit counter",
               "appearance": {
                 "items": [
                   {
@@ -1616,20 +1640,32 @@
                       "anchors": [
                         {
                           "p": [
-                            670.56,
-                            881.92
+                            664.08,
+                            884.08
                           ]
                         },
                         {
                           "p": [
-                            693.24,
-                            851.68
+                            682.44,
+                            850.6
                           ]
                         },
                         {
                           "p": [
-                            715.92,
-                            881.92
+                            694.32,
+                            868.96
+                          ]
+                        },
+                        {
+                          "p": [
+                            706.2,
+                            856.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            723.48,
+                            884.08
                           ]
                         }
                       ],
@@ -1641,7 +1677,7 @@
             },
             {
               "id": 26,
-              "name": "Ascent 6 — summit counter",
+              "name": "Ascent 6 — twin summit counter",
               "appearance": {
                 "items": [
                   {
@@ -1738,20 +1774,32 @@
                       "anchors": [
                         {
                           "p": [
-                            861.12,
-                            885.84
+                            854.16,
+                            888.16
                           ]
                         },
                         {
                           "p": [
-                            885.48,
-                            853.36
+                            873.88,
+                            852.2
                           ]
                         },
                         {
                           "p": [
-                            909.84,
-                            885.84
+                            886.64,
+                            871.92
+                          ]
+                        },
+                        {
+                          "p": [
+                            899.4,
+                            858.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            917.96,
+                            888.16
                           ]
                         }
                       ],
@@ -1778,7 +1826,7 @@
                 ],
                 "runs": [
                   {
-                    "text": "One colour. Full character.",
+                    "text": "Two peaks. One silhouette.",
                     "style": {
                       "font_family": "Inter",
                       "font_style": "Medium",
@@ -1837,7 +1885,7 @@
                 ],
                 "runs": [
                   {
-                    "text": "App icons, profiles and print.",
+                    "text": "A taller summit and a second ascent.",
                     "style": {
                       "font_family": "Inter",
                       "font_style": "Regular",
@@ -1940,7 +1988,7 @@
             },
             {
               "id": 30,
-              "name": "Ascent 6 — summit counter",
+              "name": "Ascent 6 — twin summit counter",
               "appearance": {
                 "items": [
                   {
@@ -2037,20 +2085,32 @@
                       "anchors": [
                         {
                           "p": [
-                            1105.12,
-                            869.84
+                            1104.16,
+                            870.16
                           ]
                         },
                         {
                           "p": [
-                            1108.48,
-                            865.36
+                            1106.88,
+                            865.2
                           ]
                         },
                         {
                           "p": [
-                            1111.84,
-                            869.84
+                            1108.64,
+                            867.92
+                          ]
+                        },
+                        {
+                          "p": [
+                            1110.4,
+                            866.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            1112.96,
+                            870.16
                           ]
                         }
                       ],
@@ -2121,7 +2181,7 @@
             },
             {
               "id": 32,
-              "name": "Ascent 6 — summit counter",
+              "name": "Ascent 6 — twin summit counter",
               "appearance": {
                 "items": [
                   {
@@ -2218,20 +2278,32 @@
                       "anchors": [
                         {
                           "p": [
-                            1167.68,
-                            867.76
+                            1166.24,
+                            868.24
                           ]
                         },
                         {
                           "p": [
-                            1172.72,
-                            861.04
+                            1170.32,
+                            860.8
                           ]
                         },
                         {
                           "p": [
-                            1177.76,
-                            867.76
+                            1172.96,
+                            864.88
+                          ]
+                        },
+                        {
+                          "p": [
+                            1175.6,
+                            862.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            1179.44,
+                            868.24
                           ]
                         }
                       ],
@@ -2302,7 +2374,7 @@
             },
             {
               "id": 34,
-              "name": "Ascent 6 — summit counter",
+              "name": "Ascent 6 — twin summit counter",
               "appearance": {
                 "items": [
                   {
@@ -2399,20 +2471,32 @@
                       "anchors": [
                         {
                           "p": [
-                            1246.24,
-                            865.68
+                            1244.32,
+                            866.32
                           ]
                         },
                         {
                           "p": [
-                            1252.96,
-                            856.72
+                            1249.76,
+                            856.4
                           ]
                         },
                         {
                           "p": [
-                            1259.68,
-                            865.68
+                            1253.28,
+                            861.84
+                          ]
+                        },
+                        {
+                          "p": [
+                            1256.8,
+                            858.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            1261.92,
+                            866.32
                           ]
                         }
                       ],
@@ -2483,7 +2567,7 @@
             },
             {
               "id": 36,
-              "name": "Ascent 6 — summit counter",
+              "name": "Ascent 6 — twin summit counter",
               "appearance": {
                 "items": [
                   {
@@ -2580,20 +2664,32 @@
                       "anchors": [
                         {
                           "p": [
-                            1347.36,
-                            861.52
+                            1344.48,
+                            862.48
                           ]
                         },
                         {
                           "p": [
-                            1357.44,
-                            848.08
+                            1352.64,
+                            847.6
                           ]
                         },
                         {
                           "p": [
-                            1367.52,
-                            861.52
+                            1357.92,
+                            855.76
+                          ]
+                        },
+                        {
+                          "p": [
+                            1363.2,
+                            850.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            1370.88,
+                            862.48
                           ]
                         }
                       ],
@@ -2664,7 +2760,7 @@
             },
             {
               "id": 38,
-              "name": "Ascent 6 — summit counter",
+              "name": "Ascent 6 — twin summit counter",
               "appearance": {
                 "items": [
                   {
@@ -2761,20 +2857,32 @@
                       "anchors": [
                         {
                           "p": [
-                            1452.48,
-                            857.36
+                            1448.64,
+                            858.64
                           ]
                         },
                         {
                           "p": [
-                            1465.92,
-                            839.44
+                            1459.52,
+                            838.8
                           ]
                         },
                         {
                           "p": [
-                            1479.36,
-                            857.36
+                            1466.56,
+                            849.68
+                          ]
+                        },
+                        {
+                          "p": [
+                            1473.6,
+                            842.0
+                          ]
+                        },
+                        {
+                          "p": [
+                            1483.84,
+                            858.64
                           ]
                         }
                       ],
@@ -2919,7 +3027,7 @@
                 ],
                 "runs": [
                   {
-                    "text": "A solid shape with an open counter.",
+                    "text": "An open valley keeps both peaks clear.",
                     "style": {
                       "font_family": "Inter",
                       "font_style": "Regular",
@@ -4025,8 +4133,8 @@
       "copyrightStatus": "unknown",
       "copyrightNotice": "",
       "copyrightUrl": "",
-      "created": 1792274592,
-      "modified": 1792274592
+      "created": 1792275062,
+      "modified": 1792275063
     }
   },
   "images": {}

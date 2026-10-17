@@ -18,25 +18,12 @@
 .header__brand {
   display: flex;
   align-items: center;
-  gap: 12px;
   flex-shrink: 0;
   color: var(--text);
 }
 
 .header__brand:hover {
   color: var(--text);
-}
-
-.header__wordmark {
-  font-family: var(--font-display);
-  font-weight: 600;
-  font-size: 16px;
-  letter-spacing: -0.01em;
-  white-space: nowrap;
-}
-
-.header__wordmark-sub {
-  color: var(--text-muted);
 }
 
 .header__nav {
@@ -51,17 +38,8 @@
     gap: 12px;
   }
 
-  .header__brand {
-    gap: 8px;
-  }
-
-  .header__brand .brand-mark {
-    width: 28px;
-    height: 28px;
-  }
-
-  .header__wordmark {
-    font-size: 14px;
+  .header__brand .brand-wordmark {
+    width: clamp(144px, calc(100vw - 184px), 190px);
   }
 
   .header__nav .btn {

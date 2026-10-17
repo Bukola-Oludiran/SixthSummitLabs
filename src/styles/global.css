@@ -32,9 +32,14 @@ a:hover {
   color: var(--brand-100);
 }
 
-.brand-mark {
+.brand-mark,
+.brand-wordmark {
   display: block;
   flex-shrink: 0;
+}
+
+.brand-wordmark {
+  height: auto;
 }
 
 ::selection {

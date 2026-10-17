@@ -14,7 +14,7 @@ OUT = Path(__file__).resolve().parent
 BLUE, INK, WHITE, MUTED = '#2563ff', '#08090a', '#f2f5f9', '#929ca9'
 OUTER = [(74, 6), (48, 6), (10, 44), (10, 76), (30, 96),
          (72, 96), (94, 74), (94, 48), (74, 28), (52, 28)]
-COUNTER = [(32, 74), (53, 46), (74, 74)]
+COUNTER = [(26, 76), (43, 45), (54, 62), (65, 50), (81, 76)]
 
 
 def path_data(x=0, y=0, size=100):
@@ -25,7 +25,7 @@ def path_data(x=0, y=0, size=100):
 
 
 def mark(s, x, y, size, color=BLUE):
-    return s.path(d=path_data(x, y, size), fill=color, name='Ascent 6 — summit counter')
+    return s.path(d=path_data(x, y, size), fill=color, name='Ascent 6 — twin summit counter')
 
 
 def text(s, value, x, y, size, color=WHITE, weight='Regular', tracking=0, font='Inter', justify='left'):
@@ -34,13 +34,19 @@ def text(s, value, x, y, size, color=WHITE, weight='Regular', tracking=0, font='
     return oid
 
 
-def lockup(s, x, y, size, color=WHITE, mark_color=BLUE):
-    # size is the height of the mark's 100-unit design grid.
-    k = size / 100
-    ids = [mark(s, x, y, size, mark_color)]
-    ids.append(text(s, '6ixSummit', x+122*k, y+64*k, 54*k, color, 'Semi Bold', -35))
-    ids.append(text(s, 'L A B S', x+124*k, y+91*k, 15*k, color, 'Medium', 100))
-    return s.group(ids, '6ixSummit Labs — primary lockup')
+def lockup(s, x, y, scale=1, color=WHITE, mark_color=BLUE, labs_color=None):
+    # The mark IS the initial 6, enlarged 25% from the cap-height treatment.
+    # Keep its left edge and optical centre fixed, and shift the letters by the
+    # additional silhouette width to preserve the gap before the i.
+    k = scale
+    mark_size = 82 * 1.25
+    growth = mark_size - 82
+    letter_shift = growth * 0.84
+    ids = [mark(s, x-growth*0.10*k, y-growth*0.51*k, mark_size*k, mark_color)]
+    ids.append(text(s, 'ixSummit', x+(78+letter_shift)*k, y+78*k, 100*k, color, 'Semi Bold', -35))
+    ids.append(text(s, 'Labs', x+(534+letter_shift)*k, y+78*k, 64*k,
+                    labs_color or color, 'Medium', -25))
+    return s.group(ids, '6ixSummit Labs — integrated wordmark')
 
 
 def export(s, stem, extra_scales=()):
@@ -54,35 +60,35 @@ def export(s, stem, extra_scales=()):
 
 
 def presentation():
-    s = Scene(1600, 1120, name='6ixSummit Labs / Ascent 6 / Identity')
+    s = Scene(1600, 1120, name='6ixSummit Labs / Twin Summit / Wordmark')
     s.shape('rectangle', x=0, y=0, width=1600, height=1120, fill=INK, name='Ink ground')
     text(s, '6IXSUMMIT LABS', 72, 62, 15, WHITE, 'Medium', 130)
-    text(s, 'ASCENT 6  /  LOGO DESIGN', 1528, 62, 12, MUTED, font='JetBrains Mono', justify='right')
+    text(s, 'TWIN SUMMIT  /  WORDMARK', 1528, 62, 12, MUTED, font='JetBrains Mono', justify='right')
     s.path(points=[(72, 90), (1528, 90)], closed=False, stroke='#2b3038', strokeWidth=1)
-    text(s, 'Built for the ascent.', 72, 156, 28, WHITE, 'Medium', -25)
-    text(s, 'An idea. A clear route. A product in the world.', 72, 191, 16, MUTED)
-    lockup(s, 366, 275, 220)
-    text(s, 'A SIX IN SILHOUETTE. A SUMMIT IN THE NEGATIVE SPACE.',
+    text(s, 'One name. One mark.', 72, 156, 28, WHITE, 'Medium', -25)
+    text(s, 'The six becomes the signature. Two peaks carry the name.', 72, 191, 16, MUTED)
+    lockup(s, 152, 315, 1.85, labs_color=MUTED)
+    text(s, 'THE MARK REPLACES THE 6. THE SUMMIT BECOMES TWO PEAKS.',
          800, 583, 12, MUTED, font='JetBrains Mono', justify='center')
     s.shape('rectangle', x=0, y=660, width=1600, height=460, fill='#f1f0eb', name='Paper ground')
     s.path(points=[(560, 706), (560, 1050)], closed=False, stroke='#d3d4d1', strokeWidth=1)
     s.path(points=[(1050, 706), (1050, 1050)], closed=False, stroke='#d3d4d1', strokeWidth=1)
     text(s, '01 / PRIMARY', 72, 727, 12, '#5c6672', font='JetBrains Mono')
-    lockup(s, 78, 808, 87, INK)
+    lockup(s, 72, 830, 0.62, INK, labs_color='#5c6672')
     text(s, 'Electric blue + ink', 72, 986, 17, INK, 'Medium')
-    text(s, 'The everyday studio signature.', 72, 1016, 14, '#5c6672')
+    text(s, 'A single, continuous brand name.', 72, 1016, 14, '#5c6672')
     text(s, '02 / STANDALONE', 604, 727, 12, '#5c6672', font='JetBrains Mono')
     s.shape('rectangle', x=610, y=778, width=160, height=160, radius=34, fill=BLUE, name='Social avatar')
     mark(s, 636, 802, 108, WHITE)
     mark(s, 824, 800, 116, INK)
-    text(s, 'One colour. Full character.', 604, 986, 17, INK, 'Medium')
-    text(s, 'App icons, profiles and print.', 604, 1016, 14, '#5c6672')
+    text(s, 'Two peaks. One silhouette.', 604, 986, 17, INK, 'Medium')
+    text(s, 'A taller summit and a second ascent.', 604, 1016, 14, '#5c6672')
     text(s, '03 / SMALL SIZES', 1094, 727, 12, '#5c6672', font='JetBrains Mono')
     for x, size in [(1100, 16), (1160, 24), (1236, 32), (1332, 48), (1432, 64)]:
         mark(s, x, 874-size, size, INK)
         text(s, str(size), x, 915, 11, '#5c6672', font='JetBrains Mono')
     text(s, 'Recognisable at a glance.', 1094, 986, 17, INK, 'Medium')
-    text(s, 'A solid shape with an open counter.', 1094, 1016, 14, '#5c6672')
+    text(s, 'An open valley keeps both peaks clear.', 1094, 1016, 14, '#5c6672')
     text(s, '6ixSummit Labs', 72, 1082, 12, '#5c6672')
     text(s, '#2563FF    /    #08090A    /    #F2F5F9', 1094, 1082, 11, '#5c6672', font='JetBrains Mono')
     s.run('document.export', path=str(OUT / '6ixsummit-logo-presentation.pdf'), format='pdf')
@@ -90,14 +96,14 @@ def presentation():
 
 
 def assets():
-    for stem, foreground, mark_color in [
-        ('6ixsummit-logo-dark', WHITE, BLUE),
-        ('6ixsummit-logo-light', INK, BLUE),
-        ('6ixsummit-logo-black', INK, INK),
-        ('6ixsummit-logo-white', WHITE, WHITE),
+    for stem, foreground, mark_color, labs_color in [
+        ('6ixsummit-logo-dark', WHITE, BLUE, MUTED),
+        ('6ixsummit-logo-light', INK, BLUE, '#5c6672'),
+        ('6ixsummit-logo-black', INK, INK, INK),
+        ('6ixsummit-logo-white', WHITE, WHITE, WHITE),
     ]:
-        s = Scene(760, 220, name=stem)
-        lockup(s, 24, 20, 180, foreground, mark_color)
+        s = Scene(700, 100, name=stem)
+        lockup(s, 0, 8, 1, foreground, mark_color, labs_color)
         export(s, stem, extra_scales=(2,))
     for stem, color in [('6ixsummit-mark-blue', BLUE), ('6ixsummit-mark-black', INK), ('6ixsummit-mark-white', WHITE)]:
         s = Scene(100, 100, name=stem)
@@ -115,6 +121,7 @@ def sync_web_assets():
     marks = root / 'src' / 'assets' / 'brand'
     marks.mkdir(parents=True, exist_ok=True)
     shutil.copyfile(OUT / '6ixsummit-mark-blue.svg', marks / '6ixsummit-mark-blue.svg')
+    shutil.copyfile(OUT / '6ixsummit-logo-dark.svg', marks / '6ixsummit-logo-dark.svg')
     shutil.copyfile(OUT / '6ixsummit-avatar.svg', root / 'public' / 'favicon.svg')
     with Scene(512, 512, name='6ixSummit Labs — touch icon') as s:
         # Apple supplies the rounded mask for touch icons.

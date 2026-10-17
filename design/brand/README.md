@@ -1,8 +1,13 @@
-# 6ixSummit Labs — Ascent 6
+# 6ixSummit Labs — Ascent 6 / Twin Summit
 
-A faceted **6** with a summit in its negative space. The rising upper stroke
-suggests the climb from an idea to a shipped product. Solid geometry gives the
-studio a recognisable signature in the website's existing electric blue.
+A faceted **6** with two mountain peaks in its negative space. A taller left
+summit and a slightly lower right summit share a broad base and open valley.
+The rising upper stroke suggests the climb from an idea to a shipped product.
+
+The mark replaces the initial **6** in the wordmark, followed by **ixSummit**
+and **Labs**. The mark is 25% larger than the original cap-height treatment,
+optically centred beside the letters, with adjusted spacing before the i.
+Labs is smaller and quieter, on the same baseline as ixSummit.
 
 ## Files
 
@@ -17,7 +22,8 @@ studio a recognisable signature in the website's existing electric blue.
 
 SVG wordmarks use outlined lettering, so they do not require installed fonts.
 Editable documents use Inter Semi Bold / Medium; presentation annotations use
-Inter and JetBrains Mono. The website's display typography is unchanged.
+Inter and JetBrains Mono. The website uses the outlined wordmark directly;
+its other heading and body fonts are unchanged.
 
 ## Usage
 
@@ -28,12 +34,13 @@ Inter and JetBrains Mono. The website's display typography is unchanged.
 | Pale type | `#F2F5F9` |
 | Mark grid | 100 × 100 units |
 | Clear space | At least 20 grid units around the standalone mark |
-| Minimum standalone size | 16 CSS pixels; prefer 24 or larger |
-| Minimum complete logo width | 240 CSS pixels |
+| Minimum standalone size | 16 CSS pixels; prefer 24 or larger for the twin peaks |
+| Minimum complete wordmark width | 144 CSS pixels; prefer 200 or larger |
 
-Use the standalone mark beside the site's existing text at compact header
-sizes. Keep the counter transparent, preserve proportions, and use the white
-version when blue has insufficient contrast against a dark coloured surface.
+Use the integrated wordmark in the website header and footer. Use the standalone
+mark for favicons and avatars. Keep the mountain cutout transparent, preserve
+proportions, and use the white version when blue has insufficient contrast
+against a dark coloured surface. Do not add another typed 6 after the mark.
 
 ## Rebuild
 
@@ -48,7 +55,7 @@ The generator exports the editable documents, transparent SVGs, PNG previews
 and presentation PDF, and refreshes `../6ixsummit-logo-kit.zip`. All exported
 SVG lettering is outlined.
 
-Append `--sync-web` to also update `src/assets/brand/6ixsummit-mark-blue.svg`,
-`public/favicon.svg`, and the 180px `public/apple-touch-icon.png`. The header
-and footer share the exported mark through the `Logo` component; their compact
-wordmarks use the website's existing display font.
+Append `--sync-web` to also update the mark and outlined wordmark in
+`src/assets/brand/`, `public/favicon.svg`, and the 180px
+`public/apple-touch-icon.png`. The header and footer share the exported
+wordmark through the `Wordmark` component.
