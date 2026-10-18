@@ -201,6 +201,8 @@ src/
 
 ## Logo kit
 
+The reusable [VectorCraft Logo skill](skills/vectorcraft-logo/SKILL.md) covers brand-specific logo construction, optical wordmark spacing, transparent counters, small-size proofs and editable/vector handoff. The installed `$vectorcraft-logo` skill uses the existing `vectorcraft-draw` engine bridge. Lead concept authoring invokes it when no existing business logo is found; supplied originals remain preserved.
+
 The Ascent 6 / Twin Summit identity lives in [`design/brand/`](design/brand/README.md), with
 editable VectorCraft sources, outlined SVGs, transparent PNGs, a presentation
 PDF, and social avatar. The complete kit is also available as

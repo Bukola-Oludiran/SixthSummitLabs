@@ -1,0 +1,4 @@
+interface:
+  display_name: "VectorCraft Logo"
+  short_description: "Design distinctive logos and wordmarks in VectorCraft"
+  default_prompt: "Use $vectorcraft-logo to design and refine this brand identity, then inspect its small-size and monochrome proofs."

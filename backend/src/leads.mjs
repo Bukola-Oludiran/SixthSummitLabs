@@ -61,7 +61,7 @@ export function conceptBriefs(lead, pilot) {
       businessNotes: lead.businessNotes || '',
       motifs: lead.motifs || [],
       originalLogoPath: lead.logoStatus === 'found' ? lead.logoAssetPath : null,
-      logoTreatment: lead.logoStatus === 'found' ? 'preserve_original' : 'proposed_wordmark',
+      logoTreatment: lead.logoStatus === 'found' ? 'preserve_original' : 'proposed_identity',
       requiredPalette: direction.preservePalette ? palette : [],
       paletteSource: palette.length ? 'observed_business_brand' : 'no_observed_palette',
       primaryAction: 'phone_call',
