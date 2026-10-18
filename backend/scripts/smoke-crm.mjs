@@ -49,6 +49,34 @@ try {
   await post(staff, 'recordOutcome', event('do_not_call', { kind: 'stage_update' }))
   await assert.rejects(post(staff, 'recordOutcome', event('interested')), /409/)
   await assert.rejects(post(crm, 'reopen', { leadId: lead.id, reason: 'This must fail for opt-outs.' }), /409/); checks++
+  const ownDetail = (await staff.request('six_crm', 'detail', { query: { leadId: lead.id } })).data
+  assert.equal(ownDetail.lead.id, lead.id)
+  assert.ok(Array.isArray(ownDetail.activities) && Array.isArray(ownDetail.concepts)); checks++
+  const note = { leadId: lead.id, notes: 'Workspace integration note.', requestId: randomUUID() }
+  const beforeNotes = await count(lead.id)
+  const noteResults = await Promise.all([post(staff, 'note', note), post(staff, 'note', note)])
+  assert.equal(noteResults[0].data.id, noteResults[1].data.id)
+  assert.equal(await count(lead.id), beforeNotes + 1)
+  assert.equal(noteResults[0].data.callerId, account.id); checks++
+  await assert.rejects(post(staff, 'note', { ...note, notes: 'Conflicting retry' }), /409/); checks++
+  const listing = (await crm.request('six_crm', 'leads', { query: { showDemo: 'true', search: key } })).data
+  assert.ok(Array.isArray(listing.items))
+  assert.equal(listing.pageSize, 20); checks++
+  const callerListing = (await staff.request('six_crm', 'leads')).data
+  assert.ok(callerListing.items.every(row => !row.isDemo))
+  await assert.rejects(staff.request('six_crm', 'leads', { query: { showDemo: 'true' } }), /403/); checks++
+  await post(staff, 'sharing', { leadId: lead.id, enabled: false })
+  assert.equal((await staff.request('six_crm', 'detail', { query: { leadId: lead.id } })).data.lead.designSharingEnabled, false); checks++
+  const other = await crm.create('six_leads', { fingerprint: `smoke:other:${key}`, businessName: 'Other caller visibility demonstration', city: 'Calgary', isDemo: true })
+  const admin = (await crm.request('auth', 'check')).data
+  await post(crm, 'assign', { leadId: other.id, userId: admin.id })
+  await assert.rejects(staff.request('six_crm', 'detail', { query: { leadId: other.id } }), /404/)
+  await assert.rejects(post(staff, 'note', { leadId: other.id, notes: 'Must not be saved', requestId: randomUUID() }), /404/)
+  await assert.rejects(post(staff, 'sharing', { leadId: other.id, enabled: true }), /404/); checks++
+  const job = await crm.create('six_concepts', { leadId: lead.id, jobKey: `smoke:${key}:1`, briefVersion: 1, conceptNumber: 1, status: 'needs_review' })
+  await assert.rejects(post(staff, 'reviewDesign', { leadId: lead.id, conceptId: job.id, status: 'ready', reviewed: true }), /403/)
+  await assert.rejects(post(crm, 'reviewDesign', { leadId: lead.id, conceptId: job.id, status: 'ready', reviewed: true }), /422/)
+  assert.equal((await crm.list('six_concepts', { id: job.id }))[0].status, 'needs_review'); checks++
   const after = (await crm.request('six_crm', 'summary')).data.metrics
   assert.deepEqual(after, before); checks++
   const unauthenticated = await fetch(new URL('six_crm:summary', crm.url))

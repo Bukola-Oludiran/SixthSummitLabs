@@ -3,6 +3,7 @@ import { createServer } from 'node:http'
 import { context, withWorkerLock } from './context.mjs'
 import { publishReviewedDesigns } from '../src/design-sharing.mjs'
 import { prospectHandler } from '../src/prospect-http.mjs'
+import { NocoBaseClient } from '../src/crm.mjs'
 
 const { crm, env } = await context()
 const store = env.DESIGN_S3_BUCKET ? createObjectStore(env) : undefined
@@ -23,6 +24,11 @@ async function sync() {
 }
 await sync()
 const timer = setInterval(sync, 30000)
-const server = createServer(prospectHandler({ crm, store }))
+const staffDetail = async (token, role, leadId) => {
+  if (!['root', 'sixsummit_caller'].includes(role)) throw Object.assign(new Error('Staff role required'), { status: 403 })
+  const staff = new NocoBaseClient({ url: env.NOCOBASE_URL || 'http://127.0.0.1:13000/crm', token, role })
+  return (await staff.request('six_crm', 'detail', { query: { leadId } })).data
+}
+const server = createServer(prospectHandler({ crm, store, staffDetail }))
 server.listen(Number(env.PROSPECT_PORT || 13010), '127.0.0.1', () => console.log('Prospect design service is ready on loopback.'))
 for (const signal of ['SIGINT', 'SIGTERM']) process.on(signal, () => { clearInterval(timer); server.close() })

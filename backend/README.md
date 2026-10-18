@@ -10,7 +10,8 @@ Local NocoBase CRM and workers for researching small businesses, preparing priva
 - Analytics for call attempts, connections, distinct meeting bookings, distinct won projects, CAD project value, overdue follow-ups and meeting-cohort conversion. Filters cover date, city and caller.
 - OpenStreetMap discovery, evidence-based qualification, deduplication, restart-safe daily allowance and three versioned design jobs per qualified business.
 - Freeform ASA handoff, original-logo copying, observed-palette requirements, browser checks and an explicit human visual-review state.
-- Same-origin `/crm` and `/designs/<token>` routes, automatic CRM gallery/concept links, and a read-only prospect service that freezes reviewed designs for sharing.
+- Custom React staff workspace at `/crm`, with business records, research, protected call actions, notes, design review and analytics. NocoBase administration remains at `/crm/admin/sixsummit`.
+- Same-origin prospect galleries at `/designs/<token>`, automatic CRM links, and an S3-backed prospect service with authenticated staff review captures.
 
 **Still to configure:** an S3-compatible bucket for generated designs (see [object storage](OBJECT-STORAGE.md)), a permitted search endpoint for live website verification and an author runner for unattended ASA generation. Discovery alone does not qualify a business. No daily schedule, automated outreach or live hosting is enabled. The initial live discoveries remain unverified; demonstration records do not count toward real leads or sales metrics.
 
@@ -69,7 +70,7 @@ Set `ASA_DIR` to the ASA checkout with its installed dependencies, and optionall
 
 Lead imports now store a unique, unlisted **`designShareUrl`** on each CRM lead and a **`previewUrl`** on each concept. The gallery link is available immediately, including when research or authoring is still pending. Prospects see only approved, published designs; unfinished concepts show a preparation message. The call workspace and managed Leads/Homepage concepts tables expose the links.
 
-After reviewing a concept, change its status to **`ready`** in the Homepage concepts table. The prospect service syncs every 30 seconds, or run `npm run designs:publish` explicitly. It reads the uploaded bundle from S3, copies the authored site and desktop/mobile captures into an immutable private S3 snapshot, and writes `publicationKey`, `publicationManifest`, `publishedAt` and `previewUrl` back to the concept. Nothing is published from local disk. All three concepts can share one lead gallery. `needs_review`, failed, old-version and unapproved designs are never served. A new brief version is required to replace a published snapshot.
+Administrators can review a concept in the custom workspace’s business record, under **Designs**, and explicitly approve it after inspecting the preview. Approval requires an uploaded S3 bundle and passing browser findings. Returning an approved concept to review hides it from prospects. The retained NocoBase Homepage concepts table remains available for administration. The prospect service syncs every 30 seconds, or run `npm run designs:publish` explicitly. It reads the uploaded bundle from S3, copies the authored site and desktop/mobile captures into an immutable private S3 snapshot, and writes `publicationKey`, `publicationManifest`, `publishedAt` and `previewUrl` back to the concept. Nothing is published from local disk. All three concepts can share one lead gallery. `needs_review`, failed, old-version and unapproved designs are never served. A new brief version is required to replace a published snapshot.
 
 The public endpoint is `/prospect-api/designs/<token>`, with an explicit allowlist of business name, city and design display fields. It does not expose call notes, lead IDs, evidence, author instructions or credentials. Live concept documents run in a sandbox with no access to the CRM's browser storage, no network API access and no form submission. Staff and prospects share the website origin, so this isolation is required. Gallery links are unlisted bearer links, not client accounts: anyone with a link can view it. Disable **Enable prospect design link** on a lead to revoke future metadata and asset requests.
 
@@ -81,13 +82,18 @@ The public endpoint is `/prospect-api/designs/<token>`, with an explicit allowli
 
 For a personal OpenAI dot, see [business-assistant setup](DOT-ASSISTANT.md). `npm run business:brief` reads the live CRM into a dated briefing with follow-ups, meetings, design blockers and sales metrics; `-- --days 30` changes the sales window. It makes no business-record changes. Dot creation, computer access and recurring check-ins must be configured in ChatGPT separately.
 
-Use **Call workspace & analytics** in the CRM menu. Claim a business, record a call attempt or a sales update, and supply the required follow-up time, meeting time, loss reason or project value. Calls without an answer do not move an advanced opportunity backward. Closed outcomes clear next actions. Add your partner as a NocoBase user with the `sixsummit_caller` role; the root account is for administration.
+Use the custom staff workspace at **http://127.0.0.1:5173/crm**. Its overview, Leads, Follow-ups, Designs and Analytics navigation use the existing backend data. Staff sign in with a `root` or `sixsummit_caller` account; root credentials in the backend environment are for local administration. Callers can read their assigned and unassigned records, and must claim a record before writing notes, outcomes or sharing changes. Records belonging to another caller are rejected by the backend, including direct links. Demonstration records are excluded by default; administrators can show them explicitly. The retained native **Call workspace & analytics** is also available in NocoBase administration. Claim a business, record a call attempt or a sales update, and supply the required follow-up time, meeting time, loss reason or project value. Calls without an answer do not move an advanced opportunity backward. Closed outcomes clear next actions. Add your partner as a NocoBase user with the `sixsummit_caller` role; the root account is for administration.
 
 API actions are authenticated NocoBase resources under `/crm/api/six_crm:ACTION`:
 
 | Action | Method | Purpose |
 | --- | --- | --- |
 | `worklist`, `dispositions`, `callers` | GET | Calling queue and safe display options |
+| `leads` | GET | Paginated `items` plus `total`, `page`, `pageSize`; filters: `search`, `city`, `owner`, `stage`, `queue`, administrator-only `showDemo` |
+| `detail` | GET | `leadId`; visible lead, latest 100 activities, current-version concepts and source evidence |
+| `note` | POST | `leadId`, stable `requestId`, `notes`; actor attribution and duplicate-safe append-only notes |
+| `sharing` | POST | `leadId`, boolean `enabled`; changes future prospect access |
+| `reviewDesign` | POST | Administrator-only `leadId`, `conceptId`, `status` (`ready` or `needs_review`), explicit `reviewed: true` for approval |
 | `recordOutcome` | POST | `leadId`, unique `requestId`, `kind` (`call` or `stage_update`), `disposition`, optional notes and required outcome details |
 | `assign` | POST | Claim with `leadId`; administrators may provide `userId` |
 | `reopen` | POST | Administrator-only `leadId` and audit `reason`; excludes opt-outs |
@@ -104,6 +110,9 @@ npm test
 npm run crm:plugin:check
 npm run crm:plugin:test
 npm run crm:smoke
+npm run crm:frontend:smoke
 ```
 
 The smoke test requires the running local backend. It creates a temporary restricted caller and a clearly marked demonstration lead, exercises real transactional actions and permission checks, then removes the temporary user. Demonstration lead/history rows remain auditable and excluded from worklists, quota and metrics. Local test logs, credentials, screenshots and dependencies are ignored by Git.
+
+The browser smoke test requires the root frontend and backend dev servers plus Playwright with its Chromium browser. It uses the NocoBase checkout’s Playwright by default; `PLAYWRIGHT_MODULE` can point to another installed Playwright entry file. It runs only against a loopback origin (`FRONTEND_URL` defaults to `http://127.0.0.1:5173`), creates clearly marked demonstration records and a temporary caller, verifies the real UI flow at four widths, confirms real metrics are unchanged, and deletes the temporary user. Screenshots and findings go to the operating system’s temporary directory. Call and note fixture history remains auditable. No business is contacted.

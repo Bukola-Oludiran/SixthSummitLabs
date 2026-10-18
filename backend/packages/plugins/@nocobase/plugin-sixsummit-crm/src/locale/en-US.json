@@ -100,5 +100,15 @@
   "Calls by caller": "Calls by caller",
   "Former caller": "Former caller",
   "Designs": "Designs",
-  "View designs": "View designs"
+  "View designs": "View designs",
+  "Only an administrator can view demonstration records": "Only an administrator can view demonstration records",
+  "A note of up to 10000 characters is required": "A note of up to 10000 characters is required",
+  "A sharing preference is required": "A sharing preference is required",
+  "Only an administrator can review designs": "Only an administrator can review designs",
+  "Invalid design review": "Invalid design review",
+  "The design is not ready for review": "The design is not ready for review",
+  "Review the uploaded design and its passing checks before approval": "Review the uploaded design and its passing checks before approval",
+  "Design review": "Design review",
+  "Design approved": "Design approved",
+  "Design returned to review": "Design returned to review"
 }

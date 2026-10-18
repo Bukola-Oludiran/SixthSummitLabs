@@ -1,6 +1,6 @@
 # 6ixSummit Labs
 
-Marketing site for 6ixSummit Labs, built with Vite and React.
+Marketing site, staff CRM and prospect design galleries for 6ixSummit Labs, built with Vite and React.
 
 Ported from the `6ixSummit Labs branding.zip` design export (`.dc.html`), which
 used a proprietary template runtime. The visual design is unchanged; the
@@ -18,16 +18,19 @@ npm run dev      # http://localhost:5173
 | `npm run dev`     | Dev server with hot reload                 |
 | `npm run build`   | Production build into `dist/`              |
 | `npm run preview` | Serve the production build locally         |
+| `npm test`        | Frontend API, routing and sales-form checks |
 
 ## CRM and prospect designs
 
 The website now includes **`/designs`**, where a prospect can open their personal design link, and **`/designs/<token>`**, where they can compare the three directions with desktop/mobile previews. Gallery links appear automatically on CRM lead records; concept links appear on design records. Only reviewed, published concepts are visible. Unlisted galleries are not indexed and can be disabled from the lead record.
 
-Staff sign in at **http://127.0.0.1:5173/crm**, on the same local origin as the website. Run PostgreSQL, `npm run crm:dev` and `npm run prospects:dev` from `backend`, alongside the marketing site's dev server. The footer links to both the design page and team CRM. Credentials stay in `backend/.env` and are never included in the frontend bundle.
+Staff sign in at **http://127.0.0.1:5173/crm** to the custom React workspace on the same origin as the website. It includes lead search and filters, business records and source evidence, notes, caller assignments, call dispositions, scheduled follow-ups, meetings, wins, analytics and design review. NocoBase remains the backend; its administration interface is retained at **`/crm/admin/sixsummit`** for administrators. Run PostgreSQL, `npm run crm:dev` and `npm run prospects:dev` from `backend`, alongside the marketing site's dev server. The footer links to both the design page and team CRM. Server credentials stay in `backend/.env` and are never included in the frontend bundle. Staff use their own existing NocoBase accounts. The workspace keeps its issued token in tab-scoped session storage and enforces caller access through backend actions.
 
 See [backend setup](backend/README.md), the [workflow agent contract](backend/AGENT-WORKFLOW.md) and [future domain routing](deploy/README.md). Hosting and DNS have not been set up yet.
 
 ## Editing the site
+
+**CRM screens live in `src/crm/`**, with a separate scoped stylesheet and a lazy-loaded bundle. `/crm/leads/ID` opens a business directly; `/crm/follow-ups`, `/crm/designs` and `/crm/analytics` open the related workspaces.
 
 **Marketing page copy lives in [`src/site.config.js`](src/site.config.js).** Its components read
 from it and contain no hardcoded text, so most content changes are a one-file

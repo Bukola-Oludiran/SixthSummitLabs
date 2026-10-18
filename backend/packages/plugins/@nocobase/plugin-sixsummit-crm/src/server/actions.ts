@@ -15,12 +15,12 @@ interface Actor {
   username: string;
   nickname?: string;
 }
-const actor = (ctx: Context): Actor => {
+export const actor = (ctx: Context): Actor => {
   const user = ctx.state.currentUser as Actor | undefined;
   if (!user?.id) ctx.throw(401);
   return user;
 };
-const root = (ctx: Context) =>
+export const root = (ctx: Context) =>
   (ctx.state.currentRoles as string[] | undefined)?.includes('root') || ctx.state.currentRole === 'root';
 const hash = (value: unknown) => createHash('sha256').update(JSON.stringify(value)).digest('hex');
 const values = (ctx: Context) => (ctx.action.params.values || {}) as Record<string, unknown>;

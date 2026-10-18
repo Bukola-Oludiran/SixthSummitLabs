@@ -179,3 +179,39 @@ test('draft checksum corruption blocks publication and legacy local snapshots re
     assert.equal(f.job.publicationManifest, undefined)
   } finally { await rm(f.backendRoot, { recursive: true, force: true }) }
 })
+
+test('private draft captures require the staff token and live row access, even before publication', async () => {
+  const f = await fixture()
+  let revoked = false
+  const staffDetail = async (token, role, leadId) => {
+    if (token !== 'test-staff-token') throw Object.assign(new Error('Denied'), { status: 401 })
+    if (revoked || role !== 'sixsummit_caller') throw Object.assign(new Error('Denied'), { status: 403 })
+    if (leadId !== f.lead.id) throw Object.assign(new Error('Missing'), { status: 404 })
+    return { lead: f.lead, concepts: [f.job] }
+  }
+  const server = createServer(prospectHandler({ ...f, staffDetail }))
+  server.listen(0, '127.0.0.1')
+  await once(server, 'listening')
+  try {
+    const base = `http://127.0.0.1:${server.address().port}`
+    const url = `${base}/prospect-api/staff/leads/7/concepts/9/desktop.png`
+    const headers = { Authorization: 'Bearer test-staff-token', 'X-Role': 'sixsummit_caller' }
+    assert.equal((await fetch(url)).status, 401)
+    const capture = await fetch(url, { headers })
+    assert.equal(capture.status, 200)
+    assert.equal(capture.headers.get('content-type'), 'image/png')
+    assert.equal(capture.headers.get('cache-control'), 'no-store')
+    assert.equal(capture.headers.get('access-control-allow-origin'), null)
+    assert.equal(await capture.text(), 'test capture')
+    const publicPreview = await fetch(`${base}/prospect-api/designs/${f.lead.designShareToken}/concepts/1/desktop.png`)
+    assert.equal(publicPreview.status, 404)
+    assert.equal((await fetch(url.replace('desktop.png', 'brief.json'), { headers })).status, 404)
+    assert.equal((await fetch(url.replace('/concepts/9/', '/concepts/10/'), { headers })).status, 404)
+    revoked = true
+    assert.equal((await fetch(url, { headers })).status, 403)
+  } finally {
+    server.closeAllConnections()
+    await new Promise(resolve => server.close(resolve))
+    await rm(f.backendRoot, { recursive: true, force: true })
+  }
+})

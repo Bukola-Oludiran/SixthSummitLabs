@@ -3,7 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "type": "module",
-  "engines": { "node": ">=22" },
+  "engines": {
+    "node": ">=22"
+  },
   "scripts": {
     "storage:dependencies": "npm ci --prefix services/object-storage --ignore-scripts",
     "storage:check": "node scripts/storage.mjs check",
@@ -33,6 +35,7 @@
     "designs:publish": "node scripts/publish-designs.mjs",
     "prospects:dev": "node scripts/prospects.mjs",
     "business:brief": "node scripts/business-brief.mjs",
-    "test": "node --test test/*.test.mjs"
+    "test": "node --test test/*.test.mjs",
+    "crm:frontend:smoke": "node scripts/smoke-frontend.mjs"
   }
 }

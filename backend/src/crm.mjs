@@ -30,7 +30,9 @@ export class NocoBaseClient {
     })
     if (!response.ok) {
       // Do not log request bodies, authentication headers or remote response bodies.
-      throw new Error(`NocoBase ${resource}:${action} failed (${response.status}).`)
+      const error = new Error(`NocoBase ${resource}:${action} failed (${response.status}).`)
+      error.status = response.status
+      throw error
     }
     return response.json()
   }
