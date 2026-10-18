@@ -1,27 +1,28 @@
 import { spawn } from 'node:child_process'
 import { createHash } from 'node:crypto'
-import { readFile, writeFile, mkdir, access, copyFile } from 'node:fs/promises'
+import { readFile, writeFile, mkdir, access } from 'node:fs/promises'
 import path from 'node:path'
 import os from 'node:os'
+import { conceptWorkFolder, uploadConcept } from './design-artifacts.mjs'
 
 export class AwaitingAuthorError extends Error {
   code = 'AWAITING_ASA_AUTHOR'
 }
 
-export async function prepareConcept(job, lead, { backendRoot, env }) {
-  if (!/^[a-zA-Z0-9_-]+$/.test(String(lead.id)) || !Number.isSafeInteger(job.briefVersion) || job.briefVersion < 1 || ![1, 2, 3].includes(job.conceptNumber)) throw new Error('Invalid design job identifier.')
-  const folder = path.join(backendRoot, 'storage/concepts', `lead-${lead.id}`, `v${job.briefVersion}`, `concept-${job.conceptNumber}`)
+export async function prepareConcept(job, lead, { backendRoot, env, store }) {
+  const folder = conceptWorkFolder(job, lead, { backendRoot, env })
   const source = path.join(folder, 'authored')
   await mkdir(path.join(source, 'assets'), { recursive: true, mode: 0o700 })
   const skills = env.CODEX_SKILLS_DIR || path.join(os.homedir(), '.codex/skills')
   const brief = { ...job.brief, jobKey: job.jobKey, conceptNumber: job.conceptNumber, direction: job.direction, authoringMode: 'asa-freeform-v5' }
   if (brief.originalLogoPath) {
-    const original = path.resolve(backendRoot, brief.originalLogoPath)
-    const suffix = path.extname(original).toLowerCase()
+    const remote = brief.originalLogoPath.startsWith('s3://')
+    const original = remote ? brief.originalLogoPath : path.resolve(backendRoot, brief.originalLogoPath)
+    const suffix = path.extname(remote ? new URL(original).pathname : original).toLowerCase()
     if (!['.svg', '.png', '.jpg', '.jpeg', '.webp'].includes(suffix)) throw new Error('Unsupported original logo format.')
-    const bytes = await readFile(original)
+    const bytes = remote ? await store.get(store.key(original)) : await readFile(original)
     const name = `original-logo${suffix}`
-    await copyFile(original, path.join(source, 'assets', name))
+    await writeFile(path.join(source, 'assets', name), bytes, { mode: 0o600 })
     brief.originalLogoPath = `assets/${name}`
     brief.originalLogoSha256 = createHash('sha256').update(bytes).digest('hex')
   }
@@ -55,7 +56,7 @@ async function run(binary, args, { cwd, env, log, timeout = 300000 }) {
 }
 
 export async function renderConcept(job, lead, options) {
-  const { backendRoot, env } = options
+  const { env } = options
   const prepared = await prepareConcept(job, lead, options)
   const { folder, source, brief, skills } = prepared
   const entry = path.join(source, 'index.html')
@@ -80,6 +81,6 @@ export async function renderConcept(job, lead, options) {
   })
   const findings = JSON.parse(await readFile(path.join(review, 'findings.json'), 'utf8'))
   if (!findings.ok || findings.findingCount) throw new Error('The homepage needs browser fixes.')
-  const relative = (filename) => path.relative(backendRoot, filename)
-  return { status: 'needs_review', direction: job.direction, palette: brief.requiredPalette || [], htmlPath: relative(entry), desktopPath: relative(path.join(review, 'wide.png')), mobilePath: relative(path.join(review, 'narrow.png')), findings }
+  const artifacts = await uploadConcept(options.store, folder, job, lead)
+  return { status: 'needs_review', direction: job.direction, palette: brief.requiredPalette || [], ...artifacts }
 }

@@ -1,0 +1,7 @@
+{
+  "name": "@sixsummit/storage",
+  "private": true,
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "dependencies": { "@aws-sdk/client-s3": "3.1152.0" }
+}

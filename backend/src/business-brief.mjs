@@ -20,7 +20,7 @@ export function businessBrief({ leads, concepts, runs, sales, pilot, publicSiteU
   const latestRuns = [...runs].sort((a,b) => timestamp(b.startedAt) - timestamp(a.startedAt)).slice(0, 5).map(run => ({ id: run.id, status: run.status, startedAt: run.startedAt, finishedAt: run.finishedAt || null, qualifiedCount: run.qualifiedCount || 0, sourceErrorCount: run.summary?.sourceErrors?.length || 0 }))
   const origin = siteOrigin(publicSiteUrl)
   const localOnly = ['localhost', '127.0.0.1', '[::1]'].includes(new URL(origin).hostname)
-  const jobsNeedingAttention = current.filter(job => ['failed', 'awaiting_author', 'needs_review'].includes(job.status) || (job.status === 'ready' && !job.publicationKey)).map(job => ({ ...describe(byId.get(job.leadId)), conceptNumber: job.conceptNumber, status: job.status, published: Boolean(job.publicationKey), previewUrl: byId.get(job.leadId).designSharingEnabled ? job.previewUrl || null : null }))
+  const jobsNeedingAttention = current.filter(job => ['failed', 'awaiting_author', 'needs_review'].includes(job.status) || (job.status === 'ready' && !job.publicationManifest)).map(job => ({ ...describe(byId.get(job.leadId)), conceptNumber: job.conceptNumber, status: job.status, published: Boolean(job.publicationManifest), previewUrl: byId.get(job.leadId).designSharingEnabled ? job.previewUrl || null : null }))
   return {
     generatedAt: now.toISOString(), timeZone: 'America/Edmonton', businessDate: date,
     source: 'Live NocoBase records and authenticated sales summary; demonstration records excluded.',
@@ -29,7 +29,7 @@ export function businessBrief({ leads, concepts, runs, sales, pilot, publicSiteU
     sales: { ...sales, interpretation: 'Won project value is booked project value in CAD, not money collected. Manual sales updates are not call attempts.' },
     billing: { collectedRevenueCents: null, outstandingInvoicesCents: null, status: 'No invoice or payment ledger is connected. These amounts are unknown.' },
     nextActions: { horizonDays: 7, followUps, upcomingMeetings: meetings, designs: jobsNeedingAttention },
-    designs: { totalCurrentConcepts: current.length, byStatus: tally(current, 'status'), publishedConcepts: current.filter(job => job.status === 'ready' && /^[a-f0-9]{48}$/.test(job.publicationKey || '') && byId.get(job.leadId).designSharingEnabled).length },
+    designs: { totalCurrentConcepts: current.length, byStatus: tally(current, 'status'), publishedConcepts: current.filter(job => job.status === 'ready' && job.publicationManifest && /^[a-f0-9]{48}$/.test(job.publicationKey || '') && byId.get(job.leadId).designSharingEnabled).length },
     latestRuns,
     sharing: { configuredOrigin: origin, localOnly, reachability: 'not_checked', note: localOnly ? 'Prospect links currently work on this computer only.' : 'A configured origin does not confirm a live deployment.' },
   }

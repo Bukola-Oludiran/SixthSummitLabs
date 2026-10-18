@@ -12,7 +12,7 @@ Local NocoBase CRM and workers for researching small businesses, preparing priva
 - Freeform ASA handoff, original-logo copying, observed-palette requirements, browser checks and an explicit human visual-review state.
 - Same-origin `/crm` and `/designs/<token>` routes, automatic CRM gallery/concept links, and a read-only prospect service that freezes reviewed designs for sharing.
 
-**Still to configure:** a permitted search endpoint for live website verification and an author runner for unattended ASA generation. Discovery alone does not qualify a business. No daily schedule, automated outreach or live hosting is enabled. The initial live discoveries remain unverified; demonstration records do not count toward real leads or sales metrics.
+**Still to configure:** an S3-compatible bucket for generated designs (see [object storage](OBJECT-STORAGE.md)), a permitted search endpoint for live website verification and an author runner for unattended ASA generation. Discovery alone does not qualify a business. No daily schedule, automated outreach or live hosting is enabled. The initial live discoveries remain unverified; demonstration records do not count toward real leads or sales metrics.
 
 ## Local setup
 
@@ -22,6 +22,7 @@ Requirements: Git, Docker Compose, Node **22**, Yarn Classic, and sufficient dis
 git submodule update --init backend/nocobase
 cd backend
 npm run setup:env
+npm run storage:dependencies
 npm run db:up
 npm run crm:dependencies
 npm run crm:install
@@ -58,21 +59,21 @@ Reviewed imports are JSON arrays of observations with `businessName`, `phone`, `
 
 The shared worker lock prevents overlapping runs on this host. After a crash, verify the PID in `storage/worker.lock` has exited before deleting that file. Qualification allowances are reconstructed from CRM rows, so restarting does not reset the allowance. This is a single-host pilot, not a distributed job scheduler.
 
-Each concept has a stable `jobKey` of `leadId:briefVersion:conceptNumber`. Briefs go to `storage/concepts/lead-ID/vN/concept-N/brief.json`, with authoring instructions in `authored/AUTHORING.txt`. The author reads the approved `asa-page` skill and creates native HTML/CSS/JS plus local assets in `authored/`. All concepts preserve an observed original logo; concept one must use the observed palette. Concepts remain private and must use confirmed business facts.
+Each concept has a stable `jobKey` of `leadId:briefVersion:conceptNumber`. Briefs and authoring instructions are prepared in an external temporary working folder, never under the codebase. Generated pages, screenshots and editable masters are uploaded to a private S3-compatible bucket. CRM stores the bundle manifest and object references. See [storage configuration, upload/restore commands and migration](OBJECT-STORAGE.md). The author reads the approved `asa-page` skill and creates native HTML/CSS/JS plus local assets in `authored/`. All concepts preserve an observed original logo; concept one must use the observed palette. Concepts remain private and must use confirmed business facts.
 
 Without an author, jobs become `awaiting_author`, not failed or ready. A human can author these folders, or an operator can configure **`ASA_AUTHOR_COMMAND` as a JSON array of executable arguments**, for example `["/absolute/path/to/approved-author-runner"]`. The runner receives the authored folder as its working directory and reads `AUTHORING.txt` and the parent brief. It must finish writing `index.html` before exiting. No shell is invoked and database/Git credentials are omitted from its environment. The runner is separately responsible for its model access and credentials. Do not put credentials in command arguments.
 
-Set `ASA_DIR` to the ASA checkout with its installed dependencies, and optionally `CODEX_SKILLS_DIR` to the installed skills directory. The browser helper captures four widths and audits assets, interactions and basic accessibility. Passing technical checks produces **`needs_review`**; a person must inspect the page and approve it before setting it ready. Existing rendered jobs require an explicit versioned rebrief to regenerate. This backend no longer automatically produces V7 template pages.
+Set `ASA_DIR` to the ASA checkout with its installed dependencies, and optionally `CODEX_SKILLS_DIR` to the installed skills directory. The browser helper captures four widths and audits assets, interactions and basic accessibility. Passing technical checks and uploading the complete verified S3 bundle produces **`needs_review`**; a person must inspect the page and approve it before setting it ready. Existing rendered jobs require an explicit versioned rebrief to regenerate. This backend no longer automatically produces V7 template pages.
 
 ## Prospect design galleries
 
 Lead imports now store a unique, unlisted **`designShareUrl`** on each CRM lead and a **`previewUrl`** on each concept. The gallery link is available immediately, including when research or authoring is still pending. Prospects see only approved, published designs; unfinished concepts show a preparation message. The call workspace and managed Leads/Homepage concepts tables expose the links.
 
-After reviewing a concept, change its status to **`ready`** in the Homepage concepts table. The prospect service syncs every 30 seconds, or run `npm run designs:publish` explicitly. It copies the authored site and desktop/mobile captures into an immutable snapshot and writes `publicationKey`, `publishedAt` and `previewUrl` back to the concept. All three concepts can share one lead gallery. `needs_review`, failed, old-version and unapproved designs are never served. A new brief version is required to replace a published snapshot.
+After reviewing a concept, change its status to **`ready`** in the Homepage concepts table. The prospect service syncs every 30 seconds, or run `npm run designs:publish` explicitly. It reads the uploaded bundle from S3, copies the authored site and desktop/mobile captures into an immutable private S3 snapshot, and writes `publicationKey`, `publicationManifest`, `publishedAt` and `previewUrl` back to the concept. Nothing is published from local disk. All three concepts can share one lead gallery. `needs_review`, failed, old-version and unapproved designs are never served. A new brief version is required to replace a published snapshot.
 
 The public endpoint is `/prospect-api/designs/<token>`, with an explicit allowlist of business name, city and design display fields. It does not expose call notes, lead IDs, evidence, author instructions or credentials. Live concept documents run in a sandbox with no access to the CRM's browser storage, no network API access and no form submission. Staff and prospects share the website origin, so this isolation is required. Gallery links are unlisted bearer links, not client accounts: anyone with a link can view it. Disable **Enable prospect design link** on a lead to revoke future metadata and asset requests.
 
-`PUBLIC_SITE_URL` sets the website origin used in CRM links. Use `http://127.0.0.1:5173` locally. Once hosted, change it to the final HTTPS origin, restart the service and run `designs:publish` to refresh stored URLs without changing tokens. See [deployment routing](../deploy/README.md) and the [workflow agent contract](AGENT-WORKFLOW.md). The service binds to loopback on port 13010; only its public routes should be exposed through the website proxy. Publication storage must persist across deployments.
+`PUBLIC_SITE_URL` sets the website origin used in CRM links. Use `http://127.0.0.1:5173` locally. Once hosted, change it to the final HTTPS origin, restart the service and run `designs:publish` to refresh stored URLs without changing tokens. See [deployment routing](../deploy/README.md) and the [workflow agent contract](AGENT-WORKFLOW.md). The service binds to loopback on port 13010; only its public routes should be exposed through the website proxy. Generated files persist in S3 across deployments; temporary authoring folders are disposable after a verified upload. The database requires its own backup.
 
 `designs:demo` prepares three briefs for a fictional business without writing CRM records or consuming lead allowance. The separate, reviewed skill test is in `../design/experiments/asa-v5-prairie-bloom`.
 

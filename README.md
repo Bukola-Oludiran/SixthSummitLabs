@@ -218,3 +218,5 @@ See the kit README to regenerate the artwork and sync the website assets.
 Space Grotesk (display), Instrument Sans (body) and JetBrains Mono (labels) load
 from Google Fonts in `index.html`. To self-host, drop the woff2 files into
 `public/` and replace the `<link>` with an `@font-face` block in `global.css`.
+
+Generated prospect designs use a private S3-compatible object store, with temporary authoring outside the checkout and storage references in CRM. Provider configuration is pending; see [design storage](backend/OBJECT-STORAGE.md).

@@ -1,10 +1,9 @@
-import { createReadStream } from 'node:fs'
 import path from 'node:path'
 import { prospectGallery, prospectFile, shareTokenPattern } from './design-sharing.mjs'
 
 const types = { '.html': 'text/html; charset=utf-8', '.css': 'text/css', '.js': 'text/javascript', '.mjs': 'text/javascript', '.svg': 'image/svg+xml', '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp', '.gif': 'image/gif', '.avif': 'image/avif', '.ico': 'image/x-icon', '.woff': 'font/woff', '.woff2': 'font/woff2', '.ttf': 'font/ttf', '.otf': 'font/otf', '.mp4': 'video/mp4', '.webm': 'video/webm' }
 
-export function prospectHandler({ crm, backendRoot }) {
+export function prospectHandler({ crm, store }) {
   return async (req, res) => {
     res.setHeader('Cache-Control', 'no-store')
     res.setHeader('X-Robots-Tag', 'noindex, nofollow, noarchive')
@@ -21,21 +20,21 @@ export function prospectHandler({ crm, backendRoot }) {
       const jobs = await crm.list('six_concepts', { leadId: lead.id, briefVersion: lead.briefVersion || 1 }, { paginate: false })
       if (!match[2]) return json(200, prospectGallery(lead, jobs))
       const filename = decodeURIComponent(match[3])
-      const file = await prospectFile(backendRoot, lead, jobs, Number(match[2]), filename)
+      const file = await prospectFile(store, lead, jobs, Number(match[2]), filename)
       if (!file) return json(404, { error: 'Design link unavailable' })
-      const html = path.extname(file) === '.html'
+      const html = path.extname(filename) === '.html'
       // A generated concept is untrusted content, even after visual review. Its scripts never inherit CRM access.
       res.setHeader('Content-Security-Policy', html
         ? "sandbox allow-scripts; default-src 'none'; img-src 'self' data:; media-src 'self'; font-src 'self' data:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline'; connect-src 'none'; form-action 'none'; base-uri 'none'; frame-ancestors 'self'"
         : "default-src 'none'; sandbox")
       res.setHeader('Access-Control-Allow-Origin', '*')
-      res.writeHead(200, { 'Content-Type': types[path.extname(file)] || 'application/octet-stream' })
-      if (req.method === 'HEAD') return res.end()
-      const stream = createReadStream(file)
+      res.writeHead(200, { 'Content-Type': types[path.extname(filename)] || 'application/octet-stream', 'Content-Length': file.size })
+      if (req.method === 'HEAD') { file.body.destroy(); return res.end() }
+      const stream = file.body
       stream.on('error', () => res.destroy())
       stream.pipe(res)
     } catch (error) {
-      if (['ENOENT', 'ENOTDIR'].includes(error.code) || /Publication file|URI malformed/.test(error.message)) return json(404, { error: 'Design link unavailable' })
+      if (['NoSuchKey', 'NotFound'].includes(error.name) || /URI malformed/.test(error.message)) return json(404, { error: 'Design link unavailable' })
       return json(503, { error: 'Design service temporarily unavailable' })
     }
   }

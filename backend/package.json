@@ -5,6 +5,12 @@
   "type": "module",
   "engines": { "node": ">=22" },
   "scripts": {
+    "storage:dependencies": "npm ci --prefix services/object-storage --ignore-scripts",
+    "storage:check": "node scripts/storage.mjs check",
+    "designs:upload": "node scripts/storage.mjs upload",
+    "designs:restore": "node scripts/storage.mjs restore",
+    "designs:migrate": "node scripts/storage.mjs migrate",
+    "assets:upload": "node scripts/storage.mjs asset",
     "setup:env": "node scripts/setup-env.mjs",
     "db:up": "docker compose --env-file .env up -d --wait db",
     "db:down": "docker compose --env-file .env stop db",

@@ -49,6 +49,7 @@ export const collections = [
     string('direction', 'Design direction'), string('archetype', 'ASA identity'), string('register', 'ASA register'),
     select('status', 'Status', ['queued', 'awaiting_author', 'running', 'needs_review', 'ready', 'failed'], 'queued'),
     json('brief', 'Design brief'), json('palette', 'Colour palette'),
+    string('artifactManifest', 'Private design bundle'), string('publicationManifest', 'Published design bundle'),
     string('htmlPath', 'Homepage file'), string('desktopPath', 'Desktop preview'), string('mobilePath', 'Mobile preview'),
     json('findings', 'Quality checks'), text('error', 'Last error'),
     url('previewUrl', 'Prospect concept link'), string('publicationKey', 'Published snapshot key'), date('publishedAt', 'Published at'),

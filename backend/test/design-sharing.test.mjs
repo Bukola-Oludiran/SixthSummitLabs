@@ -3,12 +3,16 @@ import assert from 'node:assert/strict'
 import { mkdtemp, mkdir, writeFile, readFile, rm, symlink } from 'node:fs/promises'
 import os from 'node:os'
 import path from 'node:path'
+import { createServer } from 'node:http'
+import { once } from 'node:events'
 import { newDesignShare, ensureDesignShare, publishReviewedDesigns, prospectGallery, prospectFile } from '../src/design-sharing.mjs'
+import { uploadConcept, restoreConcept } from '../src/design-artifacts.mjs'
+import { memoryStore } from './helpers/object-store.mjs'
 import { prospectHandler } from '../src/prospect-http.mjs'
 
 async function fixture() {
   const backendRoot = await mkdtemp(path.join(os.tmpdir(), 'sixsummit-share-'))
-  const folder = path.join(backendRoot, 'storage/concepts/lead-7/v1/concept-1')
+  const folder = path.join(backendRoot, 'scratch')
   await mkdir(path.join(folder, 'authored/assets'), { recursive: true })
   await mkdir(path.join(folder, 'review'))
   await writeFile(path.join(folder, 'authored/index.html'), '<h1>Reviewed concept</h1>')
@@ -17,13 +21,17 @@ async function fixture() {
   await writeFile(path.join(folder, 'brief.json'), 'Private call notes')
   await writeFile(path.join(folder, 'review/wide.png'), 'test capture')
   await writeFile(path.join(folder, 'review/narrow.png'), 'test capture')
+  await writeFile(path.join(folder, 'review/findings.json'), JSON.stringify({ ok: true, findingCount: 0 }))
+  await writeFile(path.join(folder, 'authored/identity.vectorcraft'), 'Editable identity master')
   const lead = { id: 7, businessName: 'Fictional business', city: 'Regina', briefVersion: 1, businessNotes: 'Do not expose', ...newDesignShare('https://studio.example') }
   const job = { id: 9, leadId: 7, briefVersion: 1, conceptNumber: 1, direction: 'Brand continuity', status: 'needs_review', htmlPath: path.relative(backendRoot, path.join(folder, 'authored/index.html')), desktopPath: path.relative(backendRoot, path.join(folder, 'review/wide.png')), mobilePath: path.relative(backendRoot, path.join(folder, 'review/narrow.png')) }
   const crm = {
     async list(table, filter = {}) { return [table === 'six_leads' ? lead : job].filter(row => Object.entries(filter).every(([key,value]) => row[key] === value)) },
     async update(table, id, values) { Object.assign(table === 'six_leads' ? lead : job, values) },
   }
-  return { backendRoot, lead, job, crm, folder, options: { backendRoot, publicSiteUrl: 'https://studio.example' } }
+  const store = memoryStore()
+  Object.assign(job, await uploadConcept(store, folder, job, lead))
+  return { backendRoot, lead, job, crm, folder, store, options: { store, publicSiteUrl: 'https://studio.example' } }
 }
 
 test('links use opaque tokens, preserve revocation, and can change origin without changing identity', async () => {
@@ -44,35 +52,69 @@ test('only approved concepts publish, snapshots are immutable and public metadat
     assert.equal(prospectGallery(f.lead, [f.job]).concepts[0].ready, false)
     f.job.status = 'ready'
     assert.equal((await publishReviewedDesigns(f.crm, f.options)).published, 1)
-    const html = await prospectFile(f.backendRoot, f.lead, [f.job], 1, 'files/index.html')
+    const html = await prospectFile(f.store, f.lead, [f.job], 1, 'files/index.html')
     await writeFile(path.join(f.folder, 'authored/index.html'), 'UNREVIEWED EDIT')
     assert.equal((await publishReviewedDesigns(f.crm, f.options)).published, 0)
-    assert.equal(await readFile(html, 'utf8'), '<h1>Reviewed concept</h1>')
-    assert.equal(await prospectFile(f.backendRoot, f.lead, [f.job], 1, 'files/AUTHORING.txt'), null)
+    let content = ''; for await (const bytes of html.body) content += bytes
+    assert.equal(content, '<h1>Reviewed concept</h1>')
+    assert.ok([...f.store.objects.keys()].some(key => key.startsWith('drafts/') && key.endsWith('identity.vectorcraft')))
+    assert.ok(![...f.store.objects.keys()].some(key => key.startsWith('published/') && /AUTHORING|brief|vectorcraft/.test(key)))
+    assert.equal(await prospectFile(f.store, f.lead, [f.job], 1, 'files/AUTHORING.txt'), null)
     const gallery = prospectGallery(f.lead, [f.job])
     assert.deepEqual(Object.keys(gallery).sort(), ['businessName', 'city', 'concepts'])
     assert.equal(gallery.concepts[1].ready, false)
     assert.doesNotMatch(JSON.stringify(gallery), /businessNotes|htmlPath|caller|Do not expose/)
-    await assert.rejects(() => prospectFile(f.backendRoot, f.lead, [f.job], 1, 'files/../../../../concepts/lead-7/v1/concept-1/authored/index.html'))
+    assert.equal(await prospectFile(f.store, f.lead, [f.job], 1, 'files/../../../../concepts/lead-7/v1/concept-1/authored/index.html'), null)
     f.lead.designSharingEnabled = false
     assert.equal(prospectGallery(f.lead, [f.job]), null)
-    assert.equal(await prospectFile(f.backendRoot, f.lead, [f.job], 1, 'files/index.html'), null)
+    assert.equal(await prospectFile(f.store, f.lead, [f.job], 1, 'files/index.html'), null)
   } finally { await rm(f.backendRoot, { recursive: true, force: true }) }
 })
 
-test('publication rejects other leads, outside screenshots and symlinks', async () => {
-  for (const attack of ['other-lead', 'outside-screenshot', 'symlink']) {
-    const f = await fixture()
-    try {
-      f.job.status = 'ready'
-      if (attack === 'other-lead') f.lead.id = 8
-      if (attack === 'outside-screenshot') { await writeFile(path.join(f.backendRoot, 'secret.png'), 'secret'); f.job.desktopPath = 'secret.png' }
-      if (attack === 'symlink') await symlink(path.join(f.folder, 'brief.json'), path.join(f.folder, 'authored/assets/private.js'))
-      const result = await publishReviewedDesigns(f.crm, f.options)
-      assert.equal(result.published, 0)
-      assert.equal(f.job.publicationKey, undefined)
-    } finally { await rm(f.backendRoot, { recursive: true, force: true }) }
-  }
+test('publication rejects another lead and failed uploads never produce a CRM publication', async () => {
+  const f = await fixture()
+  try {
+    f.job.status = 'ready'
+    f.lead.id = 8
+    f.job.leadId = 8
+    assert.equal((await publishReviewedDesigns(f.crm, f.options)).failed, 1)
+    assert.equal(f.job.publicationKey, undefined)
+    f.lead.id = 7
+    f.job.leadId = 7
+    f.store.put = async () => { throw new Error('Provider unavailable') }
+    assert.equal((await publishReviewedDesigns(f.crm, f.options)).failed, 1)
+    assert.equal(f.job.publicationKey, undefined)
+  } finally { await rm(f.backendRoot, { recursive: true, force: true }) }
+})
+
+test('private bundles restore masters and reviews without the original local working files', async () => {
+  const f = await fixture()
+  try {
+    await rm(f.folder, { recursive: true })
+    const restored = path.join(f.backendRoot, 'restored')
+    await restoreConcept(f.store, f.job.artifactManifest, restored, f.job, f.lead)
+    assert.equal(await readFile(path.join(restored, 'authored/identity.vectorcraft'), 'utf8'), 'Editable identity master')
+    assert.equal(await readFile(path.join(restored, 'authored/AUTHORING.txt'), 'utf8'), 'Private author instructions')
+    f.job.status = 'ready'
+    assert.equal((await publishReviewedDesigns(f.crm, f.options)).published, 1)
+    await assert.rejects(() => restoreConcept(f.store, f.job.artifactManifest, restored, f.job, f.lead), /empty/)
+  } finally { await rm(f.backendRoot, { recursive: true, force: true }) }
+})
+
+test('upload rejects symlinks and failed browser findings, and publishes the manifest last', async () => {
+  const f = await fixture()
+  try {
+    await symlink(path.join(f.folder, 'brief.json'), path.join(f.folder, 'authored/assets/private.js'))
+    await assert.rejects(() => uploadConcept(f.store, f.folder, f.job, f.lead), /symbolic/)
+    await rm(path.join(f.folder, 'authored/assets/private.js'))
+    await writeFile(path.join(f.folder, 'review/findings.json'), '{"ok":false,"findingCount":1}')
+    await assert.rejects(() => uploadConcept(f.store, f.folder, f.job, f.lead), /browser checks/)
+    await writeFile(path.join(f.folder, 'review/findings.json'), '{"ok":true,"findingCount":0}')
+    const written = []
+    f.store.put = async key => { written.push(key); if (key.endsWith('wide.png')) throw new Error('Network failure') }
+    await assert.rejects(() => uploadConcept(f.store, f.folder, f.job, f.lead), /Network failure/)
+    assert.ok(!written.some(key => key.endsWith('/manifest.json')))
+  } finally { await rm(f.backendRoot, { recursive: true, force: true }) }
 })
 
 test('anonymous gallery access requires the exact active token and never accepts writes', async () => {
@@ -91,5 +133,49 @@ test('anonymous gallery access requires the exact active token and never accepts
     assert.equal((await request(address.replace(/.$/, 'Z'))).status, 404)
     f.lead.designSharingEnabled = false
     assert.equal((await request(address)).status, 404)
+  } finally { await rm(f.backendRoot, { recursive: true, force: true }) }
+})
+
+test('approved S3 assets stream through the website sandbox and revocation blocks later requests', async () => {
+  const f = await fixture()
+  const server = createServer(prospectHandler(f))
+  server.listen(0, '127.0.0.1')
+  await once(server, 'listening')
+  try {
+    f.job.status = 'ready'
+    await publishReviewedDesigns(f.crm, f.options)
+    await rm(f.folder, { recursive: true })
+    const base = `http://127.0.0.1:${server.address().port}/prospect-api/designs/${f.lead.designShareToken}`
+    const address = `${base}/concepts/1/files/index.html`
+    const response = await fetch(address)
+    assert.equal(response.status, 200)
+    assert.equal(await response.text(), '<h1>Reviewed concept</h1>')
+    assert.match(response.headers.get('content-security-policy'), /sandbox allow-scripts;/)
+    assert.doesNotMatch(response.headers.get('content-security-policy'), /allow-same-origin/)
+    assert.equal(response.headers.get('cache-control'), 'no-store')
+    assert.match(response.headers.get('x-robots-tag'), /noindex/)
+    const head = await fetch(address, { method: 'HEAD' })
+    assert.equal(head.status, 200)
+    assert.equal(await head.text(), '')
+    assert.equal((await fetch(`${base}/concepts/1/files/identity.vectorcraft`)).status, 404)
+    f.lead.designSharingEnabled = false
+    assert.equal((await fetch(address)).status, 404)
+    assert.equal((await fetch(base)).status, 404)
+  } finally {
+    server.closeAllConnections()
+    await new Promise(resolve => server.close(resolve))
+    await rm(f.backendRoot, { recursive: true, force: true })
+  }
+})
+
+test('draft checksum corruption blocks publication and legacy local snapshots remain unavailable', async () => {
+  const f = await fixture()
+  try {
+    f.job.status = 'ready'
+    f.job.publicationKey = 'a'.repeat(48)
+    assert.equal(prospectGallery(f.lead, [f.job]).concepts[0].ready, false)
+    f.store.objects.set(f.store.key(f.job.htmlPath), Buffer.from('tampered bytes'))
+    assert.equal((await publishReviewedDesigns(f.crm, f.options)).failed, 1)
+    assert.equal(f.job.publicationManifest, undefined)
   } finally { await rm(f.backendRoot, { recursive: true, force: true }) }
 })
