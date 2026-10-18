@@ -78,6 +78,8 @@ The public endpoint is `/prospect-api/designs/<token>`, with an explicit allowli
 
 ## Sales flow and reporting
 
+For a personal OpenAI dot, see [business-assistant setup](DOT-ASSISTANT.md). `npm run business:brief` reads the live CRM into a dated briefing with follow-ups, meetings, design blockers and sales metrics; `-- --days 30` changes the sales window. It makes no business-record changes. Dot creation, computer access and recurring check-ins must be configured in ChatGPT separately.
+
 Use **Call workspace & analytics** in the CRM menu. Claim a business, record a call attempt or a sales update, and supply the required follow-up time, meeting time, loss reason or project value. Calls without an answer do not move an advanced opportunity backward. Closed outcomes clear next actions. Add your partner as a NocoBase user with the `sixsummit_caller` role; the root account is for administration.
 
 API actions are authenticated NocoBase resources under `/crm/api/six_crm:ACTION`:

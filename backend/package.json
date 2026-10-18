@@ -26,6 +26,7 @@
     "designs:demo": "node scripts/demo.mjs",
     "designs:publish": "node scripts/publish-designs.mjs",
     "prospects:dev": "node scripts/prospects.mjs",
+    "business:brief": "node scripts/business-brief.mjs",
     "test": "node --test test/*.test.mjs"
   }
 }
