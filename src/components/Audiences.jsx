@@ -1,5 +1,5 @@
 import Reveal from './Reveal'
-import { audiences } from '../site.config'
+import { audiences, sectionCopy } from '../site.config'
 import './Audiences.css'
 
 export default function Audiences() {
@@ -7,10 +7,10 @@ export default function Audiences() {
     <section className="section section--bordered audiences">
       <div className="shell audiences__grid">
         <Reveal>
-          <div className="eyebrow">04 — Who we climb with</div>
-          <h2 className="audiences__title">Three kinds of people call us.</h2>
+          <div className="eyebrow">{sectionCopy.audiences.eyebrow}</div>
+          <h2 className="audiences__title">{sectionCopy.audiences.title}</h2>
           <p className="audiences__lede">
-            If you recognise yourself here, the first call will be a short one.
+            {sectionCopy.audiences.body}
           </p>
         </Reveal>
 

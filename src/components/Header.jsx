@@ -16,7 +16,7 @@ export default function Header() {
           </a>
         ))}
         <a href="#contact" className="btn btn--primary btn--sm">
-          {settings.ctaLabel}
+          {settings.headerCtaLabel}
         </a>
       </nav>
     </header>

@@ -1,5 +1,5 @@
 import Reveal from './Reveal'
-import { principles, steps } from '../site.config'
+import { principles, steps, sectionCopy } from '../site.config'
 import './Process.css'
 
 export default function Process() {
@@ -9,8 +9,8 @@ export default function Process() {
 
       <div className="shell process__inner">
         <Reveal className="process__head">
-          <div className="eyebrow">03 — The route</div>
-          <h2 className="section-title process__title">Four camps between here and live.</h2>
+          <div className="eyebrow">{sectionCopy.process.eyebrow}</div>
+          <h2 className="section-title process__title">{sectionCopy.process.title}</h2>
         </Reveal>
 
         <div className="process__steps">

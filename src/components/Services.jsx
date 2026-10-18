@@ -1,6 +1,6 @@
 import Reveal from './Reveal'
 import { ArrowRight } from './icons'
-import { services } from '../site.config'
+import { services, sectionCopy, settings } from '../site.config'
 import './Services.css'
 
 export default function Services() {
@@ -9,12 +9,11 @@ export default function Services() {
       <div className="shell">
         <div className="section-head">
           <Reveal>
-            <div className="eyebrow">01 — What we build</div>
-            <h2 className="section-title">Five things. All of them shipped.</h2>
+            <div className="eyebrow">{sectionCopy.services.eyebrow}</div>
+            <h2 className="section-title">{sectionCopy.services.title}</h2>
           </Reveal>
           <Reveal as="p" index={1} className="section-lede">
-            No discovery theatre, no 90-page decks. Every engagement ends with software in
-            production.
+            {sectionCopy.services.body}
           </Reveal>
         </div>
 
@@ -47,12 +46,12 @@ export default function Services() {
               </g>
             </svg>
             <div className="services__card-cta-body">
-              <h3 className="services__title">Not sure which one?</h3>
+              <h3 className="services__title">{sectionCopy.services.helpTitle}</h3>
               <p className="services__body">
-                Bring the idea. We&rsquo;ll tell you the smallest thing worth building.
+                {sectionCopy.services.helpBody}
               </p>
               <a href="#contact" className="link-arrow">
-                Book an intro call
+                {settings.ctaLabel}
                 <ArrowRight size={14} />
               </a>
             </div>

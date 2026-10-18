@@ -4,7 +4,7 @@ import { contact, settings } from '../site.config'
 import './Contact.css'
 
 export default function Contact() {
-  const mailto = `mailto:${settings.email}`
+  const mailto = `mailto:${settings.email}?subject=${encodeURIComponent('A project for 6ixSummit Labs')}`
 
   return (
     <section id="contact" className="contact">
@@ -22,7 +22,7 @@ export default function Contact() {
 
         <div className="contact__actions">
           <a href={mailto} className="btn btn--primary btn--lg">
-            {settings.ctaLabel}
+            {settings.emailCtaLabel}
             <ArrowRight size={16} />
           </a>
           <a href={mailto} className="btn btn--ghost btn--lg">

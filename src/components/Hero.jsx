@@ -39,8 +39,8 @@ export default function Hero() {
               {settings.ctaLabel}
               <ArrowRight />
             </a>
-            <a href="#route" className="btn btn--ghost">
-              See the route
+            <a href="#work" className="btn btn--ghost">
+              {hero.secondaryCta}
             </a>
           </div>
         </div>

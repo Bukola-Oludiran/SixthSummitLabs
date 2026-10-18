@@ -1,6 +1,6 @@
 import Reveal from './Reveal'
 import ImageSlot from './ImageSlot'
-import { images, projects } from '../site.config'
+import { images, projects, sectionCopy } from '../site.config'
 import './Work.css'
 
 export default function Work() {
@@ -11,11 +11,11 @@ export default function Work() {
       <div className="shell">
         <div className="section-head work__head">
           <Reveal>
-            <div className="eyebrow">02 — Selected work</div>
-            <h2 className="section-title work__title">Built, launched, still running.</h2>
+            <div className="eyebrow">{sectionCopy.work.eyebrow}</div>
+            <h2 className="section-title work__title">{sectionCopy.work.title}</h2>
           </Reveal>
           <a href="#contact" className="work__portfolio-link">
-            Ask for the full portfolio →
+            {sectionCopy.work.cta} <span aria-hidden="true">→</span>
           </a>
         </div>
 

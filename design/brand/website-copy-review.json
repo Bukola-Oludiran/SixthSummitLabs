@@ -1,0 +1,73 @@
+{
+  "reviewedOn": "2026-10-18",
+  "scope": "6ixSummit Labs marketing homepage and search/social metadata",
+  "diagnosis": "Substantive rewrite: founder jargon, repeated slogans and unsupported speed or availability claims obscured the service offer. Keep the portfolio, brand identity and broader software services; make the current small-business audience easier to recognise.",
+  "skills": {
+    "repository": "https://github.com/coreyhaines31/marketingskills",
+    "revision": "365b412152b9542499ca1439426f7fc3cc92bb65",
+    "license": "MIT",
+    "installed": [
+      { "name": "copywriting", "version": "2.3.1", "path": "skills/copywriting" },
+      { "name": "copy-editing", "version": "2.2.0", "path": "skills/copy-editing" }
+    ],
+    "installation": "Install the two paths at the pinned revision with Codex's skill-installer. The installed copies include their references, LICENSE and UPSTREAM.json."
+  },
+  "context": {
+    "business": "6ixSummit Labs is an early-stage design and software studio.",
+    "primaryAudience": "Small-business owners who need a first website or a better one. Current outreach targets Regina, Edmonton and Calgary; that pilot does not establish a geographic service restriction.",
+    "secondaryAudiences": ["Founders testing a product idea", "Teams that need custom tools or automation"],
+    "primaryAction": "Email the team about a project. Header, hero and services links lead to the contact section; the contact action opens an email.",
+    "voice": ["Clear", "Confident", "Approachable", "Specific about the work"],
+    "proof": [
+      "The user supplied Ayoé Event House and AKILI Development Group as portfolio projects.",
+      "Existing approved site content describes LuxeStyleBraids booking, deposit and owner-dashboard features.",
+      "AKILI's public website presents English/French content and project and construction management services.",
+      "The project contains custom CRM and automation work, ASA homepage authoring and VectorCraft logo workflows."
+    ],
+    "limits": [
+      "Portfolio descriptions explain features; they do not establish customer revenue, conversion lift or time saved.",
+      "No verified customer interviews or testimonial quotes are available for this rewrite.",
+      "No exclusive advantage over named competing studios has been established. Avoid best, fastest or unique claims.",
+      "Working practices describe the proposed service process. Delivery dates, price, ownership terms and support scope belong in the agreed project terms."
+    ]
+  },
+  "sectionAnnotations": [
+    { "section": "Hero", "source": "src/site.config.js: hero", "reason": "Name websites immediately, then explain booking tools, apps and automation through recognisable uses. The service strip replaces unverified numerical promises." },
+    { "section": "Services", "source": "src/site.config.js: services and sectionCopy.services", "reason": "Lead with business websites, retain design, AI, web apps and mobile services, and describe what a customer or team can do with each." },
+    { "section": "Portfolio", "source": "src/site.config.js: projects", "reason": "Keep all three named projects and describe the work. Remove developer-stack jargon and current booking-activity claims." },
+    { "section": "Process", "source": "src/site.config.js: steps and principles", "reason": "Explain scope, design review, development and handover without committing every project to one timetable. Preserve existing brands and make review points clear." },
+    { "section": "Audience", "source": "src/site.config.js: audiences", "reason": "Give small-business owners a clear entry point while keeping first-version product and internal-tool work visible." },
+    { "section": "Contact", "source": "src/site.config.js: contact and settings", "reason": "Invite an email containing the business and project idea. Match the button to the actual email action and remove unverified availability pressure." }
+  ],
+  "claimsRemoved": [
+    { "claim": "Six-week first release and standard service delivery ranges", "evidenceNeededToRestore": "Agreed service packages, scope assumptions and delivery terms supported by the team's capacity." },
+    { "claim": "Two build slots open this quarter", "evidenceNeededToRestore": "A current capacity record and a date when the claim must be refreshed or removed." },
+    { "claim": "Turns quarters into weeks", "evidenceNeededToRestore": "Comparable completed-project records supporting the speed comparison." },
+    { "claim": "Every-Friday delivery and automatic fixed pricing", "evidenceNeededToRestore": "The actual delivery cadence and commercial policy agreed for the advertised offer." },
+    { "claim": "A scope, timeline and price after one thirty-minute call", "evidenceNeededToRestore": "A defined consultation offer that can reliably fulfil that promise." }
+  ],
+  "alternatives": {
+    "headlines": [
+      { "text": "A website that feels like your business.", "rationale": "A more personal direction if the visual identity offer becomes the main emphasis." },
+      { "text": "Help customers get to know your business.", "rationale": "Focuses on the visitor's task; the supporting line must still name website design and development." }
+    ],
+    "callsToAction": [
+      { "text": "Tell us about your project", "rationale": "An alternative for links to the contact section." },
+      { "text": "Email us about your business", "rationale": "An explicit alternative for the email action." }
+    ]
+  },
+  "editingSweeps": {
+    "clarity": "Replace MVP, evals and internal engineering language with website, app, booking and workflow examples.",
+    "voice": "Use plain, conversational language; remove repeated climbing metaphors and agency put-downs.",
+    "customerBenefit": "Connect the offer to showing services, receiving enquiries and managing work.",
+    "proof": "Use named portfolio work. Add no invented metrics, reviews, guarantees or scarcity.",
+    "specificity": "Describe features and review steps instead of adding unsupported numbers.",
+    "emotion": "Respect the owner's existing business and identity; invite a rough idea without implying they need technical expertise.",
+    "nextStep": "Say what to email and use an email-labelled button. Scope and ongoing support are discussed rather than assumed."
+  },
+  "verification": {
+    "type": "Editorial and browser review, not a conversion experiment",
+    "viewports": [320, 390, 768, 1440],
+    "screenshots": "Temporary review files stay outside the repository."
+  }
+}

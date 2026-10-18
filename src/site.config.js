@@ -1,8 +1,7 @@
 /**
- * All site copy and configuration.
- *
- * Edit this file to change the site's content — the components read from it and
- * never hardcode copy of their own.
+ * Marketing copy and configuration for 6ixSummit Labs.
+ * Keep claims grounded in the portfolio and agreed service scope.
+ * Copywriting sources and review notes: design/brand/website-copy-review.json.
  */
 
 import renaissanceAge from './assets/eras/renaissance.webp'
@@ -38,7 +37,9 @@ export const images = {
 
 /** Toggles that were editor props on the original design file. */
 export const settings = {
-  ctaLabel: 'Book an intro call',
+  ctaLabel: 'Discuss your project',
+  headerCtaLabel: 'Let’s talk',
+  emailCtaLabel: 'Email your idea',
   showMarquee: true,
   showWork: true,
   email: 'hello@6ixsummitlabs.com',
@@ -47,30 +48,55 @@ export const settings = {
 export const nav = [
   { label: 'Services', href: '#services' },
   { label: 'Work', href: '#work' },
-  { label: 'The route', href: '#route' },
+  { label: 'How we work', href: '#route' },
 ]
 
 export const hero = {
-  headline: ['Idea in.', 'Product out.'],
-  headlineAccent: 'Fast.',
-  lede: 'We design and build MVPs, web and mobile products, and AI agents. One team, no handoffs, and an AI-accelerated pipeline that turns quarters into weeks.',
+  headline: ['Websites built', 'around your'],
+  headlineAccent: 'business.',
+  lede: 'We design and build websites that show what you do and help customers get in touch. We also build booking tools, custom apps and automations for the work behind the scenes.',
+  secondaryCta: 'See our work',
   stats: [
-    { value: '6 weeks', label: 'to first release' },
-    { value: '1 team', label: 'design and build' },
-    { value: '0 handoffs', label: 'nothing lost between' },
-    { value: 'Fixed price', label: 'scoped before we start' },
+    { value: 'Websites', label: 'Show what you do' },
+    { value: 'Brand design', label: 'Keep your look consistent' },
+    { value: 'Custom apps', label: 'Support your daily work' },
+    { value: 'Automation', label: 'Connect routine tasks' },
   ],
 }
 
 export const marqueeItems = [
-  'MVP builds',
-  'Product design',
-  'AI agents',
-  'Web apps',
+  'Business websites',
+  'Brand and web design',
+  'Online bookings',
+  'Workflow automation',
+  'Custom web apps',
   'Mobile apps',
-  'Design systems',
-  'Technical discovery',
+  'AI assistants',
 ]
+
+export const sectionCopy = {
+  services: {
+    eyebrow: '01 — What we can help with',
+    title: 'A website is a good place to start.',
+    body: 'Help customers understand your services and get in touch. Add booking tools, custom software or automation when your business needs them.',
+    helpTitle: 'Still working out what you need?',
+    helpBody: 'Tell us what you want customers or staff to be able to do. We’ll help you work out what to build first.',
+  },
+  work: {
+    eyebrow: '02 — Selected work',
+    title: 'See what we’ve built.',
+    cta: 'Discuss a similar project',
+  },
+  process: {
+    eyebrow: '03 — How we work',
+    title: 'You have a say at every step.',
+  },
+  audiences: {
+    eyebrow: '04 — Who we work with',
+    title: 'Start with what your business needs.',
+    body: 'Your first website, a new product idea or a process that needs less manual work. We’ll help you choose a starting point.',
+  },
+}
 
 /**
  * The era backdrop.
@@ -173,37 +199,37 @@ export const services = [
   {
     num: '01',
     tag: '◆',
-    title: 'MVP builds',
-    body: 'The smallest version of your product that real users can pay for. Scoped, priced and shipped in weeks.',
-    meta: '6–8 weeks · fixed price',
+    title: 'Business websites',
+    body: 'Make it easy to explore your services, find your contact details and send an enquiry. We build a website around what your customers need to know.',
+    meta: 'Service pages · enquiry forms',
   },
   {
     num: '02',
     tag: '◇',
-    title: 'Product design',
-    body: 'Interfaces designed to be built, not admired. Flows, screens and a system your next developer can pick up.',
-    meta: '2–3 weeks · design system included',
+    title: 'Brand and web design',
+    body: 'Give your logo and website a consistent look. We can work with your existing identity or develop a new one with you.',
+    meta: 'Logos · layouts · brand colours',
   },
   {
     num: '03',
     tag: '△',
-    title: 'AI products & agents',
-    body: 'Assistants, agents and AI features with real evaluation behind them. Useful on day one, not a demo.',
-    meta: '4–6 weeks · evals included',
+    title: 'Automation and AI',
+    body: 'Connect enquiries, follow-ups and the tools you use each day. We build workflows that move information between them and use AI where it fits the task.',
+    meta: 'Lead tracking · AI assistants',
   },
   {
     num: '04',
     tag: '▲',
-    title: 'Web apps',
-    body: 'Dashboards, marketplaces, internal tools. Fast, accessible and boring in the places that matter.',
-    meta: '6–12 weeks',
+    title: 'Web apps and business tools',
+    body: 'Manage bookings, customer records or daily operations in software built around your process. Start with the features your team needs most.',
+    meta: 'Booking tools · customer portals',
   },
   {
     num: '05',
     tag: '◈',
     title: 'Mobile apps',
-    body: 'iOS and Android from one codebase. Store submission, analytics and release pipeline handled.',
-    meta: '8–12 weeks · store launch',
+    body: 'Give customers or staff a way to book, check information or manage work from their phone. We design and build an app around those tasks.',
+    meta: 'Customer apps · tools for teams',
   },
 ]
 
@@ -215,9 +241,8 @@ export const projects = [
     year: '2026',
     name: 'LuxeStyleBraids',
     href: 'https://luxestylebraids.com',
-    body: 'Online booking, deposits and an owner’s dashboard for a luxury braiding studio in Regina.',
-    result: 'Live and taking bookings',
-    stack: 'React · Vite · REST API',
+    body: 'A booking website for a Regina braiding studio, with appointment scheduling, deposits and a dashboard for the owner.',
+    result: 'Bookings and studio management',
   },
   {
     slot: 'work2',
@@ -226,8 +251,8 @@ export const projects = [
     kind: 'Website',
     name: 'Ayoé Event House',
     href: 'https://ayoeevents.com',
-    body: 'A luxury event planning website for an Edmonton event house, showcasing weddings, social celebrations and corporate events with a dedicated enquiry flow.',
-    result: 'Live website',
+    body: 'A website for an Edmonton event house, bringing its wedding, social and corporate event services together with an enquiry form.',
+    result: 'Event services and enquiries',
   },
   {
     slot: 'work3',
@@ -236,75 +261,75 @@ export const projects = [
     kind: 'Website',
     name: 'AKILI Development Group',
     href: 'https://akilidevgroup.com',
-    body: 'A bilingual website for a project and construction management firm, presenting its services, sectors and approach to infrastructure delivery across Africa.',
-    result: 'Live website',
+    body: 'An English and French website for a project and construction management firm, explaining its services and infrastructure work across Africa.',
+    result: 'English and French content',
   },
 ]
 
 export const steps = [
   {
-    when: 'Day 0–3',
-    title: 'Basecamp',
-    body: 'One call, then a written scope. What we build, what we cut, what it costs.',
-    out: '→ Scope + fixed price',
+    when: 'Step 01',
+    title: 'Start with your business',
+    body: 'Tell us what you do and what you need. We agree the scope, cost and next steps before work begins.',
+    out: 'An agreed project scope',
   },
   {
-    when: 'Week 1–2',
-    title: 'Route',
-    body: 'Flows and screens for the whole product. You approve the thing before it is built.',
-    out: '→ Clickable design',
+    when: 'Step 02',
+    title: 'See the design',
+    body: 'You review the layouts and see how people will use the website or app. We refine the design with your feedback.',
+    out: 'A design you’ve reviewed',
   },
   {
-    when: 'Week 3–6',
-    title: 'Ascent',
-    body: 'Build in weekly releases. You use it as it grows. Nothing waits until the end.',
-    out: '→ Working build, weekly',
+    when: 'Step 03',
+    title: 'Build and review',
+    body: 'We build the agreed features and share working versions for you to try. Your feedback helps us catch problems before launch.',
+    out: 'Working pages and features',
   },
   {
-    when: 'Week 7+',
-    title: 'Summit',
-    body: 'Launch, handover, and the option to keep us on retainer while you find traction.',
-    out: '→ Live, and yours',
+    when: 'Step 04',
+    title: 'Launch and hand over',
+    body: 'We check the finished work, help you get it online and walk you through managing it. We agree any ongoing support with you.',
+    out: 'Your website or app, ready to use',
   },
 ]
 
 export const principles = [
   {
-    title: 'AI does the grunt work',
-    body: 'Scaffolding, migrations, test coverage, copy drafts. Our people spend their hours on judgement, not typing.',
+    title: 'Your existing brand, respected',
+    body: 'Already have a logo and colours? We work with them so your website feels like part of your business.',
   },
   {
-    title: 'You see it every week',
-    body: 'A working build in your hands every Friday. No black boxes, no status-report fiction.',
+    title: 'Progress you can review',
+    body: 'We share designs and working pages along the way. You can see what is changing and give feedback while it is being built.',
   },
   {
-    title: 'You own everything',
-    body: 'Code, designs, infrastructure, accounts. We hand over the keys and stay on call if you want us.',
+    title: 'A clear handover',
+    body: 'We explain how to manage your website and which accounts and services it uses. Support after launch is discussed as part of the project.',
   },
 ]
 
 export const audiences = [
   {
     num: 'A',
-    title: 'Founders with an idea and no engineers',
-    body: 'You know the problem cold. You need a team that turns it into software without a technical co-founder.',
+    title: 'Small businesses getting online',
+    body: 'You need a place to show your services and help customers reach you. We’ll help you build your first website or improve the one you have.',
   },
   {
     num: 'B',
-    title: 'Early-stage teams that need to ship faster',
-    body: 'You have some product and not enough hands. We take a slice and deliver it end to end.',
+    title: 'Founders testing a product idea',
+    body: 'You have an idea for an app or service. We help you define a focused first version, design it and build something people can try.',
   },
   {
     num: 'C',
-    title: 'Agencies who need a build partner',
-    body: 'You sold the work and need it built well, quietly, under your name. We white-label without drama.',
+    title: 'Teams with work to simplify',
+    body: 'Enquiries, records and follow-ups take time to manage. We build tools and automations around the way your team works.',
   },
 ]
 
 export const contact = {
-  badge: 'Two build slots open this quarter',
-  title: "Let's find your summit.",
-  body: "Thirty minutes. Bring the rough idea. You'll leave with a scope, a timeline and a number.",
+  badge: 'Start with a conversation',
+  title: 'Tell us what you have in mind.',
+  body: 'You can start with a rough idea. Email us what your business does and what you’d like your website or software to handle.',
 }
 
 export const footer = {
@@ -316,7 +341,7 @@ export const footer = {
     { label: 'Your designs', href: '/designs' },
     { label: 'Team CRM', href: '/crm' },
   ],
-  note: '© 2026 — Built at altitude',
+  note: '© 2026 6ixSummit Labs',
   credit: {
     text: 'Backdrop: city views 1599–2014, public domain and CC0 via',
     linkLabel: 'Wikimedia Commons',

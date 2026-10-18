@@ -228,3 +228,10 @@
     justify-content: center;
   }
 }
+
+@media (max-width: 480px) {
+  .hero__actions {
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
