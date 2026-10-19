@@ -39,7 +39,7 @@ APP_KEY=<stable randomly generated secret>
 INIT_ROOT_EMAIL=<administrator email>
 INIT_ROOT_USERNAME=<administrator username>
 INIT_ROOT_PASSWORD=<strong administrator password>
-PUBLIC_SITE_URL=https://<your frontend hostname>
+PUBLIC_SITE_URL=https://6ixsummitlabs.com
 DB_DIALECT=postgres
 DB_HOST=<Neon direct connection hostname>
 DB_PORT=5432
@@ -79,10 +79,10 @@ CRM database. The runtime volume holds NocoBase operational files and the local
 publication lock; generated designs remain in R2. Neon needs its own backups.
 
 After pushing, check that Railway logs show `Using detected Dockerfile!`, that
-pre-deploy preparation completes, and that `/health` returns `200`. Cloudflare
-still needs live routing for `/crm/api/`, `/crm/admin/`, `/crm/ws` and
-`/prospect-api/` to this backend; a healthy Railway deployment alone does not
-configure that routing.
+pre-deploy preparation completes, and that `/health` returns `200`. The
+[Cloudflare Worker](CLOUDFLARE.md) supplies same-origin routing for `/crm/api/`,
+`/crm/admin/`, `/crm/ws` and `/prospect-api/`; deploy the frontend Worker as well
+as the backend when first enabling that routing.
 
 ## Startup troubleshooting
 

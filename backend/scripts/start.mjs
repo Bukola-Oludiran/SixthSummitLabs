@@ -36,7 +36,11 @@ Object.assign(process.env, env, {
 })
 process.chdir(root)
 const require = createRequire(path.join(root, 'package.json'))
-require('@nocobase/cli-v1').initEnv()
+const cli = require('@nocobase/cli-v1')
+cli.initEnv()
+// The normal CLI renders this template before spawning its server. Our direct
+// entry point must also apply the runtime /crm/ asset, API and WebSocket paths.
+if (!source) cli.buildIndexHtml()
 if (source) {
   require('tsx/cjs/api').register({ tsconfig: path.join(root, 'tsconfig.server.json') })
   require('tsconfig-paths/register')
