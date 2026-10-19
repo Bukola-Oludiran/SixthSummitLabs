@@ -74,8 +74,8 @@ function Columns({ ready, trueColour }) {
  * keeps it from competing with fonts and the initial bundle.
  *
  * Layer order matters: the reveal copy paints last, above the tint and scrim,
- * so what shows inside the lens is the original colour rather than the graded
- * version with the blue laid back over it.
+ * so the lens keeps the original colours. Its CSS brightness cap and the copy
+ * guards above it keep the reveal from washing out foreground text.
  */
 export default function EraBackdrop() {
   const [ready, setReady] = useState(false)

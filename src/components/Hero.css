@@ -140,7 +140,7 @@
   position: relative;
   z-index: 2;
   border-top: 1px solid var(--hairline-strong);
-  background: rgba(8, 9, 10, 0.5);
+  background: var(--bg-glass);
   backdrop-filter: blur(8px);
   -webkit-backdrop-filter: blur(8px);
 }
@@ -173,7 +173,7 @@
 
 .hero__stat-label {
   margin-top: 6px;
-  color: var(--text-dim);
+  color: var(--text-muted-2);
 }
 
 /* ── Responsive ───────────────────────────────────────────────────── */

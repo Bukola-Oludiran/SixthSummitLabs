@@ -11,14 +11,14 @@
   --surface-hover: #0c0f14;
   --surface-marquee: #0a0b0d;
 
-  /* Text, brightest to dimmest */
+  /* Text and supporting labels */
   --text: #f2f5f9;
   --text-soft: #dde4ec;
   --text-muted: #9ba5b1;
   --text-muted-2: #8a94a0;
   --text-nav: #98a2ae;
   --text-dim: #79828e;
-  --text-dim-2: #5c6672;
+  --text-dim-2: #8a96a5;
   --text-dim-3: #4c5561;
   --text-dim-4: #3e4855;
 
@@ -37,9 +37,9 @@
    * above, so the era backdrop reads faintly through every section instead of
    * being boxed out by them.
    */
-  --surface-glass: rgba(10, 12, 15, 0.76);
+  --surface-glass: rgba(10, 12, 15, 0.86);
   --surface-glass-hover: rgba(14, 18, 24, 0.88);
-  --bg-glass: rgba(8, 9, 10, 0.72);
+  --bg-glass: rgba(8, 9, 10, 0.86);
 
   /* Translucent brand + hairlines */
   --brand-a08: rgba(37, 99, 255, 0.08);

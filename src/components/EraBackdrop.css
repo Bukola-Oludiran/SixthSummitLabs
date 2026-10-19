@@ -100,7 +100,8 @@
  * cursor.
  *
  * It paints after the tint and scrim, so what appears inside the lens is the
- * untouched image rather than the graded one with blue laid back over it.
+ * original colours rather than the blue grade. Its luminance is capped below
+ * so pale skies cannot overwhelm foreground text and translucent surfaces.
  *
  * Hidden until `useCursorLens` adds `.has-lens` to the root, which it only
  * does for fine pointers — on a touchscreen there is no cursor to follow.
@@ -124,9 +125,9 @@
   display: block;
 }
 
-/* The whole point of the lens: no desaturation, no dimming. */
+/* Retain the original colours, with headroom for readable foreground copy. */
 .backdrop__cols--true .backdrop__img {
-  filter: none;
+  filter: brightness(0.65);
   opacity: 1;
 }
 

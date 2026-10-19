@@ -37,7 +37,7 @@
   font-family: var(--font-mono);
   font-size: 11px;
   letter-spacing: 0.08em;
-  color: var(--text-dim-4);
+  color: var(--text-muted-2);
 }
 
 .footer__credit {
@@ -47,7 +47,7 @@
   font-family: var(--font-mono);
   font-size: 10.5px;
   letter-spacing: 0.07em;
-  color: var(--text-dim-4);
+  color: var(--text-muted-2);
 }
 
 .footer__credit a {

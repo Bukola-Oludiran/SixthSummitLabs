@@ -8,7 +8,7 @@ export default function Process() {
       <div className="process__glow" aria-hidden="true" />
 
       <div className="shell process__inner">
-        <Reveal className="process__head">
+        <Reveal className="process__head copy-guard">
           <div className="eyebrow">{sectionCopy.process.eyebrow}</div>
           <h2 className="section-title process__title">{sectionCopy.process.title}</h2>
         </Reveal>

@@ -9,7 +9,7 @@
   justify-content: space-between;
   gap: 24px;
   padding: 18px var(--gutter);
-  background: rgba(8, 9, 10, 0.72);
+  background: var(--bg-glass);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border-bottom: 1px solid var(--hairline);

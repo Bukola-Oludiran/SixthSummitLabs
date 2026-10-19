@@ -147,12 +147,12 @@ skipped on coarse pointers (no cursor to follow on a touchscreen), and
 `prefers-reduced-motion` holds the flame still, since a flickering edge is
 precisely what that preference is asking us not to do.
 
-One tradeoff to be aware of: the revealed artwork is shown at full brightness,
-so where the lens passes under pale imagery it lifts the area behind the
-headline and slightly softens the contrast of white text over it. That is the
-cost of showing genuinely true colour. If it ever bothers you, a
-`filter: brightness(0.85)` on `.backdrop__cols--true .backdrop__img` takes the
-edge off without changing hue.
+The reveal keeps the original colours with `brightness(0.65)` to limit pale
+skies and highlights. Reading areas use the shared `.copy-guard` class: a soft
+dark backing under headings and body copy, with no pointer interception or
+extra work on cursor movement. Cards, navigation and ghost buttons use stronger
+glass surfaces, and supporting labels are brighter. Keep this protection when
+adding text over the backdrop; the lens intentionally paints above its scrim.
 
 Two things to know before editing the backdrop:
 
