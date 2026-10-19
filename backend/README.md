@@ -18,6 +18,10 @@ Local NocoBase CRM and workers for researching small businesses, preparing priva
 
 ## Local setup
 
+For Railway, use the [backend deployment guide](../deploy/RAILWAY.md). The Docker
+build installs both dependency trees and compiles NocoBase; a default npm install
+from this directory does not prepare a production backend.
+
 Requirements: Git, Docker Compose, Node **22**, Yarn Classic, and sufficient disk space for the upstream source dependencies. Use the Node version in `.node-version`; recent unsupported Node versions can break NocoBase dependencies.
 
 ```sh

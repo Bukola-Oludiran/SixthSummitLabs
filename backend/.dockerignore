@@ -1,0 +1,24 @@
+# Use an allowlist: local credentials, database state, generated designs and
+# the developer's NocoBase checkout must never enter the build context.
+**
+!Dockerfile
+!nocobase-revision
+!package.json
+!scripts/
+!scripts/**
+!src/
+!src/**
+!config/
+!config/**
+!packages/
+!packages/**
+!services/
+!services/object-storage/
+!services/object-storage/package.json
+!services/object-storage/package-lock.json
+!services/object-storage/index.mjs
+**/node_modules
+**/dist
+**/.env
+**/.env.*
+**/.git

@@ -1,6 +1,6 @@
 # One domain, three routes
 
-The frontend can be hosted independently. The backend now has a single-process entry point; Railway packaging and live edge routing still need deployment configuration. Local development implements the intended routing:
+The frontend can be hosted independently. The backend has a single-process entry point and a Docker build for Railway; follow [Railway setup](RAILWAY.md) for service settings, database preparation and runtime variables. Live edge routing still needs deployment configuration. Local development implements the intended routing:
 
 | Route on the main website | Application |
 | --- | --- |

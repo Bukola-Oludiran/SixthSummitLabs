@@ -9,7 +9,12 @@ import { createBackendRuntime } from '../src/backend-runtime.mjs'
 // Direct Node entry point: no PM2, child server, watcher, proxy or CLI wrapper.
 const env = await environment()
 const source = process.argv.includes('--source')
+const initialize = process.argv.includes('--initialize')
 if (source && env.APP_ENV === 'production') throw new Error('Production requires npm run crm:build; source mode is for development.')
+if (initialize && source) throw new Error('Deployment preparation requires compiled production code.')
+if (initialize && ['APP_KEY', 'INIT_ROOT_EMAIL', 'INIT_ROOT_PASSWORD'].some((key) => !env[key]?.trim())) {
+  throw new Error('Deployment preparation requires APP_KEY, INIT_ROOT_EMAIL and INIT_ROOT_PASSWORD.')
+}
 const port = Number(env.PORT || env.APP_PORT || 13000)
 if (!Number.isSafeInteger(port) || port < 1 || port > 65535) throw new Error('PORT must be a valid TCP port.')
 const root = path.join(backendRoot, 'nocobase')
@@ -54,22 +59,40 @@ app.on('afterStart', () => {
   if (runtime) { runtime = makeRuntime(); runtime.start() }
 })
 app.on('afterDestroy', () => Gateway.unregisterRequestHandler(requestHandler))
-try {
-  // Use the normal start command in-process, including install checks and events.
-  await app.runAsCLI(['start'], { from: 'user', throwError: true })
-  if (!app.pm.get('@nocobase/plugin-sixsummit-crm')?.enabled) throw new Error('Enable the 6ixSummit CRM plugin before starting the backend.')
-  runtime = makeRuntime()
-  Gateway.registerRequestHandler(requestHandler)
-  gateway.startHttpServer({ port, host: env.APP_HOST || '0.0.0.0' })
-  await once(gateway.server, 'listening')
-  runtime.start()
-  console.log(`6ixSummit backend ready: one Node process (PID ${process.pid}), port ${port}.`)
-} catch {
-  // Do not print raw connection errors or configuration values.
-  console.error('Backend startup failed. Check the NocoBase build, database, CRM plugin and collection bootstrap.')
+const close = async () => {
   await runtime?.stop()
   await app.destroy().catch(() => {})
   await supervisor.destroy().catch(() => {})
   gateway.destroy()
+}
+try {
+  // An explicit pre-deploy command prepares a new database without reset/force.
+  // Ordinary service startup never installs or changes the CRM schema.
+  if (initialize && !(await app.isInstalled())) {
+    await app.runAsCLI(['install', '--lang=en-US'], { from: 'user', throwError: true })
+  }
+  // Use the normal start command in-process, including install checks and events.
+  await app.runAsCLI(['start'], { from: 'user', throwError: true })
+  if (initialize && !app.pm.get('@nocobase/plugin-sixsummit-crm')?.enabled) {
+    await app.pm.enable('@nocobase/plugin-sixsummit-crm')
+  }
+  if (!app.pm.get('@nocobase/plugin-sixsummit-crm')?.enabled) throw new Error('Enable the 6ixSummit CRM plugin before starting the backend.')
+  runtime = makeRuntime()
+  Gateway.registerRequestHandler(requestHandler)
+  gateway.startHttpServer({ port, host: initialize ? '127.0.0.1' : env.APP_HOST || '0.0.0.0' })
+  await once(gateway.server, 'listening')
+  if (initialize) {
+    // Bootstrap talks only to this process's temporary loopback listener.
+    await import('./bootstrap-crm.mjs')
+    await close()
+    console.log('Deployment preparation complete; the backend can now start.')
+  } else {
+    runtime.start()
+    console.log(`6ixSummit backend ready: one Node process (PID ${process.pid}), port ${port}.`)
+  }
+} catch {
+  // Do not print raw connection errors or configuration values.
+  console.error('Backend startup failed. Check the NocoBase build, database, CRM plugin and collection bootstrap.')
+  await close()
   process.exitCode = 1
 }

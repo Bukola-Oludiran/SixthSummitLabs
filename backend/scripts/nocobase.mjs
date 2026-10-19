@@ -21,7 +21,9 @@ const commands = {
 const args = commands[process.argv[2]]
 if (!args) throw new Error('Expected dependencies, install, dev, or build.')
 env.PATH = [dirname(node22), env.PATH].join(delimiter)
-const child = spawn(node22, [yarn, ...args], {
+// Yarn is a JS executable on some hosts and a shell launcher in the official
+// Linux Node image. Execute its own shebang; PATH above selects Node 22.
+const child = spawn(yarn, args, {
   cwd: join(backendRoot, 'nocobase'), env, stdio: 'inherit',
 })
 child.on('error', (error) => { console.error(error.message); process.exitCode = 1 })

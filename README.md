@@ -26,7 +26,7 @@ The website now includes **`/designs`**, where a prospect can open their persona
 
 Staff sign in at **http://127.0.0.1:5173/crm** to the custom React workspace on the same origin as the website. It includes lead search and filters, business records and source evidence, notes, caller assignments, call dispositions, scheduled follow-ups, meetings, wins, analytics and design review. NocoBase remains the backend; its administration interface is retained at **`/crm/admin/sixsummit`** for administrators. Run PostgreSQL and `npm run dev` from `backend`, alongside the marketing site's dev server. The unified backend serves CRM and prospect APIs in one Node process; production uses `npm start` after the NocoBase build. The footer links to both the design page and team CRM. Server credentials stay in `backend/.env` and are never included in the frontend bundle. Staff use their own existing NocoBase accounts. The workspace keeps its issued token in tab-scoped session storage and enforces caller access through backend actions.
 
-See [backend setup](backend/README.md), the [workflow agent contract](backend/AGENT-WORKFLOW.md) and [future domain routing](deploy/README.md). Hosting and DNS have not been set up yet.
+See [backend setup](backend/README.md), [Railway deployment](deploy/RAILWAY.md), the [workflow agent contract](backend/AGENT-WORKFLOW.md) and [domain routing](deploy/README.md). Live backend and edge routing require the deployment settings described there.
 
 ## Editing the site
 
