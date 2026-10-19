@@ -6,5 +6,13 @@
   "promptFile": "backend/automation/DAILY-LEADS.md",
   "dailyQualifiedLeadTarget": 10,
   "conceptsPerLead": 3,
+  "delegation": {
+    "mode": "native_codex_subagents",
+    "maxConcurrentWorkers": 3,
+    "respectRuntimeSlots": true,
+    "nestedDelegation": false,
+    "crmAndStorageWriter": "coordinator",
+    "brandBeforeConceptFanOut": true
+  },
   "activation": "pending_credentials_and_manual_pilot"
 }

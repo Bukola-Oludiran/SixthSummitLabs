@@ -9,6 +9,13 @@ the desktop scheduler after credentials and a manual pilot pass. Use the
 `automation` command wrapper, which loads `.env.automation` explicitly and rejects
 development URLs instead of using the local backend environment.
 
+The daily routine explicitly authorizes native subagent fan-out for independent
+research, brand preparation, homepage authoring and review. Follow its bounded
+worker pool and exclusive-folder assignments. The coordinator alone runs CRM/R2
+commands sequentially, applies the shared daily quota and freezes one brand kit
+before parallel concept authoring. This delegation policy does not change
+permissions, human approval or the pending scheduler activation.
+
 1. Discover or research a business and retain HTTPS source evidence with a stable `sourceKey`. Include its public phone, optional email, target city/province, website searches, observed logo/colours and sourced motifs. Separate observations from proposed inspiration. Do not qualify empty or failed website searches.
 2. Pass researched observations to `npm run leads:import -- /absolute/path/to/candidates.json`, or use the configured discovery/verification workers. Import creates or updates the NocoBase lead, preserves caller ownership and opt-outs, and automatically writes **`designShareToken`, `designShareUrl`, `designSharingEnabled`**. Do not invent a token or guess a lead's URL.
 3. Qualification and completed brand research queue three idempotent, versioned `six_concepts` records. Each automatically receives **`previewUrl`**, linking to its selected concept in the lead gallery. The gallery can exist before designs are complete and shows preparation messages for unpublished directions. The lead and concept links are visible in CRM tables; the call workspace also links to the gallery.

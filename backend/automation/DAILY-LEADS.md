@@ -1,7 +1,8 @@
 # Daily 6ixSummit lead and design routine
 
-Operate the live 6ixSummit CRM for this run. Read `backend/AGENT-WORKFLOW.md`
-and `backend/config/pilot.json`. Run commands below from `backend`, using Node 22.
+Operate the live 6ixSummit CRM for this run. Read `backend/AGENT-WORKFLOW.md`,
+`backend/config/pilot.json` and `backend/automation/schedule.json`.
+Run commands below from `backend`, using Node 22.
 The only environment profile for this routine is ignored `backend/.env.automation`
 (or the explicit absolute `SIXSUMMIT_ENV_FILE`). Never load the marketing `.env`
 or fall back to the development CRM. Never print credential values.
@@ -23,9 +24,85 @@ The recurring schedule is **08:00 daily, America/Edmonton**, including weekends.
    durable progress record. Resume existing work; do not create duplicate tasks,
    reupload verified bundles or regenerate completed/approved concepts.
 3. Use the installed `$asa-page`, `$vectorcraft-logo`, `$copywriting` and
-   `$copy-editing` skills explicitly. The Codex agent in this run authors the
-   designs directly. Do not start another Codex CLI or model-backed ASA service.
+   `$copy-editing` skills explicitly. The coordinator and its delegated Codex
+   authors perform the work directly. Use native subagent collaboration tools;
+   do not start another Codex CLI or model-backed ASA service.
    If a required tool or skill is unavailable, report the blocker accurately.
+
+## Coordinate parallel subagents
+
+You are the coordinator. **Fan out independent research, branding, homepage
+authoring and review tasks to subagents**, then collect and verify their results.
+Use a bounded pool of **up to three concurrent workers**, or fewer when the
+runtime has fewer available slots. This is a global limit across all stages;
+keep one slot for the coordinator. Reuse workers as tasks finish. Workers must
+not spawn further agents or start their own schedules. If native subagents are
+unavailable, continue sequentially and disclose that limitation.
+
+The coordinator alone runs authenticated CRM/R2 commands, including discovery
+imports, asset uploads, job preparation, status checks and completed bundle
+uploads. Run these commands one at a time; they share the existing local worker
+lock. Parallelism belongs in research and isolated artifact production, not in
+competing imports or uploads. Worker instructions do not create separate sandbox
+permissions: subagents share this workspace and may inherit available tools.
+Do not pass environment files or credential values into their task prompts.
+
+Give each task an explicit role, city/category or lead/concept scope, required
+skills, frozen inputs, exclusive output directory, acceptance criteria and return
+format. Include the no-outreach, no-CRM-writes and no-approval boundaries. Keep a
+private task ledger outside the checkout with assignment IDs, stable source keys,
+lead IDs, brief versions, concept IDs, folders and completion/failure states.
+Assign a source record, lead brand kit or concept to only one worker at a time.
+
+| Stage | Parallel assignment | Coordinator's handoff check |
+| --- | --- | --- |
+| Research | Initially one worker per target city; later split distinct category batches | Check sources, website evidence and duplicate identities before importing |
+| Brand preparation | One worker per business; research an original or make one proposed VectorCraft identity | Freeze one verified brand kit per lead/version before any of its concept authors start |
+| Homepage authoring | One worker per concept, across businesses or the same business after its brand kit is frozen | Give all three authors the shared facts, identity and three composition directions |
+| Quality review | A different available worker inspects a finished concept while other authors continue | Collect actual screenshots, findings and interaction notes; return fixes to the owning author |
+
+Research workers return candidate JSON, real source URLs, logo provenance and
+held reasons in their own external folders. Give them portions of the remaining
+research work, not ten leads each. The **ten-lead cap is shared across the entire
+run and all cities**. Re-read status before each import, deduplicate across worker
+results and existing CRM records, and stop assigning new discovery work once the
+remaining allowance is covered. The import remains the authority for qualification
+and quota; research workers cannot declare a lead added or reserve CRM allowance.
+
+After importing a business and storing its original logo if found, prepare its
+pending concept jobs sequentially. Have one brand worker establish the identity
+before homepage fan-out. Freeze the original logo or proposed logo, editable
+VectorCraft master, exports, observed palette, business facts and sourced motifs
+for that lead/version. Copy the same verified kit into each assigned concept
+folder and give authors the same three-direction plan. For resumed work, reuse
+the identity in already uploaded concepts; restore it through the coordinator
+when needed. A homepage author must not invent a competing logo or change the
+shared facts. No business needs to wait for all other businesses to reach this
+stage before its own design work starts.
+
+Each author owns only its assigned external job folder; never let two writers
+edit the same concept, brand master or review output. Use isolated browser
+contexts and output directories. Serialize any VectorCraft instance or browser
+profile that cannot be isolated. A reviewer may read a completed folder but must
+return findings rather than edit it while the author is active. Reassign a folder
+only after the prior owner has finished or acknowledged cancellation.
+
+Require worker returns to identify the assignment, lead/concept/version where
+applicable, output paths, source evidence or browser-check results, visual and
+interaction notes, unresolved issues, and whether files are closed for handoff.
+A completed agent thread is not proof that its artifact passed. Before each
+upload, independently verify the job's current eligibility and version, final
+files, unchanged shared logo, required palette, passing findings and inspected
+captures. Wait for the author/reviewer to finish using that folder, then upload
+sequentially. Count a concept completed only after its verified R2 manifest and
+`needs_review` state can be read back from CRM.
+
+Collect failures without abandoning unrelated workers. Retry only the failed
+assignment after checking its CRM state and local artifacts; never duplicate a
+running assignment or reupload a verified bundle after an uncertain result.
+Before ending the run, collect or stop outstanding workers, preserve unfinished
+artifacts and ledger entries, and reconcile results against CRM. Report unique
+qualified businesses and verified concepts, not agent counts or attempted tasks.
 
 ## Research and qualify
 
@@ -59,8 +136,9 @@ source provenance and preserve its exact bytes. If the logo is visible but canno
 be retrieved, hold brand work rather than replacing it. Use `logoStatus:
 "not_found"` only after checking the available business profiles.
 
-Write actual observations as a JSON array in a private temporary directory outside
-the checkout, following `candidate.example.json`. Import using:
+Workers write actual observations as JSON arrays in their private temporary
+directories outside the checkout, following `candidate.example.json`. The
+coordinator checks and consolidates these observations, then imports using:
 
 ```sh
 npm run automation -- import /absolute/outside/checkout/candidates.json
@@ -86,7 +164,8 @@ after imports and stop adding new qualified businesses when the allowance is use
 
 ## Author and upload
 
-For each eligible pending concept returned by status:
+The coordinator prepares each eligible pending concept returned by status before
+handing its folder to an author:
 
 ```sh
 npm run automation -- prepare CONCEPT_ID
@@ -95,9 +174,11 @@ npm run automation -- prepare CONCEPT_ID
 Read the resulting external `brief.json`, `authored/AUTHORING.txt` and sibling
 briefs. Work only in the returned external job folder. Preserve the same verified
 business facts and original logo across all three concepts. When no logo exists,
-use `$vectorcraft-logo` with logo design principles to make one proposed identity
-per business, inspect small-size and positive/reversed monochrome proofs, and
-retain its editable `.vectorcraft` master. Reuse it in the three directions.
+the assigned brand worker uses `$vectorcraft-logo` with logo design principles
+to make one proposed identity per business, inspect small-size and
+positive/reversed monochrome proofs, and retain its editable `.vectorcraft`
+master. Finish this shared identity before dispatching the three concept authors;
+reuse it in all three directions.
 
 Use ASA V5-style freeform composition. Make three meaningfully different page
 compositions: brand continuity, clear service/contact, and distinctive business
@@ -118,7 +199,8 @@ reduced motion. Fix overflow, contrast, broken assets, links and controls. Recor
 honest visual/interaction review notes in `REVIEW.txt`. Passing findings alone
 does not establish good design or visual approval.
 
-Only after passing browser findings and inspecting the rendered result:
+Only after passing browser findings, inspecting the rendered result and receiving
+the completed worker handoff, the coordinator uploads:
 
 ```sh
 npm run automation -- upload CONCEPT_ID /absolute/outside/checkout/job-folder

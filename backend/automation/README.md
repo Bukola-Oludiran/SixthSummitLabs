@@ -15,6 +15,27 @@ the task needs these local files. Default model/reasoning settings are sufficien
 to configure the task; validate the chosen model with a manual pilot first.
 Official setup guidance: [scheduled tasks](https://learn.chatgpt.com/docs/automations?surface=app).
 
+## Parallel execution
+
+The prompt explicitly delegates independent work through native Codex subagents.
+One coordinator manages a shared pool of up to three workers, respecting the
+runtime's available slots. Researchers can cover the three cities concurrently;
+brand workers establish one identity per business before separate homepage
+authors compose its three directions. A different available worker can review
+completed designs while other authors continue.
+
+Only the coordinator runs CRM/R2 commands, serially, so workers do not compete
+for the local lock or separately consume the ten-lead allowance. Each worker
+has an exclusive external output folder. Shared brand assets are frozen before
+concept fan-out, and verified uploads remain immutable. Failed assignments can
+resume without discarding other workers' completed work. The final report counts
+CRM-confirmed results, not worker claims. If subagents are unavailable, the prompt
+requires a disclosed sequential fallback.
+
+The delegation fields in `schedule.json` describe prompt policy; they do not
+configure Codex's agent slots or enforce permissions. Current capability and
+permission guidance: [Codex subagents](https://learn.chatgpt.com/docs/agent-configuration/subagents).
+
 ## Private credentials
 
 Copy `environment.example` to `backend/.env.automation`, retaining mode `0600`.
