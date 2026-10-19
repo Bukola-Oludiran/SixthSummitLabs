@@ -40,6 +40,7 @@ INIT_ROOT_EMAIL=<administrator email>
 INIT_ROOT_USERNAME=<administrator username>
 INIT_ROOT_PASSWORD=<strong administrator password>
 PUBLIC_SITE_URL=https://6ixsummitlabs.com
+CORS_ORIGIN_WHITELIST=https://6ixsummitlabs.com
 DB_DIALECT=postgres
 DB_HOST=<Neon direct connection hostname>
 DB_PORT=5432
@@ -55,6 +56,15 @@ The image sets production mode, `APP_HOST=0.0.0.0`, `/crm/` routing, and
 these with localhost settings copied from the development environment. Supplying
 only `DATABASE_URL` is insufficient: this pinned NocoBase configuration reads the
 individual `DB_*` variables above. Use the direct Neon endpoint for preparation.
+
+`CORS_ORIGIN_WHITELIST` explicitly trusts the public website for NocoBase sign-in
+and cookie authentication through Cloudflare and Railway. The hosted proxy chain
+can present the Railway hostname to NocoBase even when the browser uses the
+website domain. `PUBLIC_SITE_URL` controls gallery links; it does not configure
+NocoBase's sign-in origin allowlist. Keep the allowlist limited to the exact
+frontend origin, without `/crm` or a trailing slash. Redeploy after changing it.
+Leave `API_BASE_URL` unset so browser API calls continue through `/crm/api/` on
+the website origin.
 
 For R2, set `DESIGN_S3_BUCKET`, `DESIGN_S3_REGION=auto`,
 `DESIGN_S3_ENDPOINT=https://<account-id>.r2.cloudflarestorage.com`,
@@ -85,6 +95,12 @@ pre-deploy preparation completes, and that `/health` returns `200`. The
 as the backend when first enabling that routing.
 
 ## Startup troubleshooting
+
+If the sign-in form returns **Invalid sign-in origin**, set
+`CORS_ORIGIN_WHITELIST=https://6ixsummitlabs.com` in Railway and redeploy, then
+sign in from `https://6ixsummitlabs.com/crm` or its native administration page.
+The rejection happens before credential validation; changing the administrator
+password does not fix this origin configuration. Keep the origin check enabled.
 
 If startup fails, the launcher logs a safe stage, error code and configuration
 hint. `CRM_PLUGIN_DISABLED` or `APP_NOT_INSTALLED_ERROR` means the pre-deploy

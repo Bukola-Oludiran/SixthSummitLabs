@@ -22,8 +22,11 @@ configuration. `BACKEND_ORIGIN` is a nonsecret Worker binding already declared
 in that file. No `VITE_*` backend URL, database credentials or R2 keys belong in
 the frontend. Keep backend and object-storage credentials on Railway.
 
-In Railway set **`PUBLIC_SITE_URL=https://6ixsummitlabs.com`** and redeploy.
-This controls generated gallery links. Keep `APP_PUBLIC_PATH=/crm/`,
+In Railway set **`PUBLIC_SITE_URL=https://6ixsummitlabs.com`** and
+**`CORS_ORIGIN_WHITELIST=https://6ixsummitlabs.com`**, then redeploy. The first
+controls generated gallery links; the second lets NocoBase accept the public
+website's sign-in origin through the hosted proxy chain. Leave `API_BASE_URL`
+unset so the browser uses the website's same-origin proxy. Keep `APP_PUBLIC_PATH=/crm/`,
 `API_BASE_PATH=/api/`, `WS_PATH=/ws` and
 `PLUGIN_STATICS_PATH=/static/plugins/`; NocoBase applies the `/crm` prefix.
 The backend launcher renders NocoBase's admin HTML with these runtime paths.
