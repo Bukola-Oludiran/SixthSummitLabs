@@ -22,7 +22,7 @@ export default function Hero() {
       </div>
 
       <div className="hero__content">
-        <h1 className="hero__headline copy-guard">
+        <h1 className="hero__headline">
           {hero.headline.map((line) => (
             <span key={line} className="hero__headline-line">
               {line}
@@ -32,7 +32,7 @@ export default function Hero() {
         </h1>
 
         <div className="hero__intro">
-          <p className="hero__lede copy-guard">{hero.lede}</p>
+          <p className="hero__lede">{hero.lede}</p>
 
           <div className="hero__actions">
             <a href="#contact" className="btn btn--primary">

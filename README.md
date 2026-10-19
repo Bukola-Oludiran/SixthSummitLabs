@@ -147,12 +147,13 @@ skipped on coarse pointers (no cursor to follow on a touchscreen), and
 `prefers-reduced-motion` holds the flame still, since a flickering edge is
 precisely what that preference is asking us not to do.
 
-The reveal keeps the original colours with `brightness(0.65)` to limit pale
-skies and highlights. Reading areas use the shared `.copy-guard` class: a soft
-dark backing under headings and body copy, with no pointer interception or
-extra work on cursor movement. Cards, navigation and ghost buttons use stronger
-glass surfaces, and supporting labels are brighter. Keep this protection when
-adding text over the backdrop; the lens intentionally paints above its scrim.
+The reveal keeps the original colours and brightness. `useLensTextMask` cuts
+visible text lines out of this colour layer, leaving the normal dark blue
+artwork beneath the copy. There are no added text backings or shadows. The
+inner mask follows scrolling, resizing, font loading and text entrance/hover
+transforms; pointer movement still changes only the cursor position. Marketing
+text is collected automatically, including navigation, cards and footer copy.
+Both masks are removed when the marketing page unmounts.
 
 Two things to know before editing the backdrop:
 

@@ -8,11 +8,11 @@ export default function Services() {
     <section id="services" className="section section--bordered">
       <div className="shell">
         <div className="section-head">
-          <Reveal className="copy-guard">
+          <Reveal>
             <div className="eyebrow">{sectionCopy.services.eyebrow}</div>
             <h2 className="section-title">{sectionCopy.services.title}</h2>
           </Reveal>
-          <Reveal as="p" index={1} className="section-lede copy-guard">
+          <Reveal as="p" index={1} className="section-lede">
             {sectionCopy.services.body}
           </Reveal>
         </div>

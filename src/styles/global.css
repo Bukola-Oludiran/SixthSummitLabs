@@ -185,24 +185,6 @@ p {
   border-bottom: 1px solid var(--hairline);
 }
 
-/* Keep the cursor's colour reveal visible around copy, with a soft, stable
-   reading surface directly behind it. This never intercepts links or focus. */
-.copy-guard {
-  position: relative;
-  isolation: isolate;
-}
-
-.copy-guard::before {
-  content: '';
-  position: absolute;
-  inset: -24px max(-28px, calc(4px - var(--gutter)));
-  z-index: -1;
-  border-radius: 24px;
-  background: rgba(8, 9, 10, 0.9);
-  filter: blur(16px);
-  pointer-events: none;
-}
-
 /* Heading block: eyebrow + title on the left, supporting note on the right. */
 .section-head {
   display: flex;

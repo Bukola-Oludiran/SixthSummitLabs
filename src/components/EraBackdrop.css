@@ -100,8 +100,8 @@
  * cursor.
  *
  * It paints after the tint and scrim, so what appears inside the lens is the
- * original colours rather than the blue grade. Its luminance is capped below
- * so pale skies cannot overwhelm foreground text and translucent surfaces.
+ * original colours rather than the blue grade. An inner mask excludes text
+ * lines, leaving the original blue backdrop under the copy.
  *
  * Hidden until `useCursorLens` adds `.has-lens` to the root, which it only
  * does for fine pointers — on a touchscreen there is no cursor to follow.
@@ -125,9 +125,22 @@
   display: block;
 }
 
-/* Retain the original colours, with headroom for readable foreground copy. */
+/* A nested mask intersects the cursor disc without mask-composite differences
+   between browsers. Until geometry is ready, keep the reveal transparent. */
+.backdrop__reading-mask {
+  position: absolute;
+  inset: 0;
+  -webkit-mask-image: var(--lens-text-mask, linear-gradient(transparent, transparent));
+  mask-image: var(--lens-text-mask, linear-gradient(transparent, transparent));
+  -webkit-mask-size: 100% 100%;
+  mask-size: 100% 100%;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+}
+
+/* Original colour and brightness remain available around the reading areas. */
 .backdrop__cols--true .backdrop__img {
-  filter: brightness(0.65);
+  filter: none;
   opacity: 1;
 }
 

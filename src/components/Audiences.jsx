@@ -6,7 +6,7 @@ export default function Audiences() {
   return (
     <section className="section section--bordered audiences">
       <div className="shell audiences__grid">
-        <Reveal className="copy-guard">
+        <Reveal>
           <div className="eyebrow">{sectionCopy.audiences.eyebrow}</div>
           <h2 className="audiences__title">{sectionCopy.audiences.title}</h2>
           <p className="audiences__lede">

@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import useCursorLens from '../hooks/useCursorLens'
+import useLensTextMask from '../hooks/useLensTextMask'
 import { eras } from '../site.config'
 import './EraBackdrop.css'
 
@@ -74,12 +75,13 @@ function Columns({ ready, trueColour }) {
  * keeps it from competing with fonts and the initial bundle.
  *
  * Layer order matters: the reveal copy paints last, above the tint and scrim,
- * so the lens keeps the original colours. Its CSS brightness cap and the copy
- * guards above it keep the reveal from washing out foreground text.
+ * so the lens keeps the original colours. Its inner mask leaves the original
+ * blue artwork visible beneath text, without painting a backing over it.
  */
 export default function EraBackdrop() {
   const [ready, setReady] = useState(false)
 
+  useLensTextMask()
   useCursorLens()
 
   useEffect(() => {
@@ -96,7 +98,9 @@ export default function EraBackdrop() {
       <div className="backdrop__scrim" />
 
       <div className="backdrop__reveal">
-        <Columns ready={ready} trueColour />
+        <div className="backdrop__reading-mask">
+          <Columns ready={ready} trueColour />
+        </div>
       </div>
     </div>
   )
