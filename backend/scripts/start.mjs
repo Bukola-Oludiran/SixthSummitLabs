@@ -5,6 +5,7 @@ import path from 'node:path'
 import { backendRoot, environment } from './environment.mjs'
 import { withWorkerLock } from './context.mjs'
 import { createBackendRuntime } from '../src/backend-runtime.mjs'
+import { startupDiagnostic } from '../src/startup-diagnostics.mjs'
 
 // Direct Node entry point: no PM2, child server, watcher, proxy or CLI wrapper.
 const env = await environment()
@@ -65,6 +66,7 @@ const close = async () => {
   await supervisor.destroy().catch(() => {})
   gateway.destroy()
 }
+let stage = 'database preparation'
 try {
   // An explicit pre-deploy command prepares a new database without reset/force.
   // Ordinary service startup never installs or changes the CRM schema.
@@ -72,27 +74,36 @@ try {
     await app.runAsCLI(['install', '--lang=en-US'], { from: 'user', throwError: true })
   }
   // Use the normal start command in-process, including install checks and events.
+  stage = 'NocoBase startup'
   await app.runAsCLI(['start'], { from: 'user', throwError: true })
   if (initialize && !app.pm.get('@nocobase/plugin-sixsummit-crm')?.enabled) {
+    stage = 'CRM plugin enablement'
     await app.pm.enable('@nocobase/plugin-sixsummit-crm')
   }
-  if (!app.pm.get('@nocobase/plugin-sixsummit-crm')?.enabled) throw new Error('Enable the 6ixSummit CRM plugin before starting the backend.')
+  stage = 'CRM plugin check'
+  if (!app.pm.get('@nocobase/plugin-sixsummit-crm')?.enabled) {
+    throw Object.assign(new Error('CRM plugin is disabled.'), { code: 'CRM_PLUGIN_DISABLED' })
+  }
+  stage = 'object storage configuration'
   runtime = makeRuntime()
   Gateway.registerRequestHandler(requestHandler)
+  stage = 'HTTP listener'
   gateway.startHttpServer({ port, host: initialize ? '127.0.0.1' : env.APP_HOST || '0.0.0.0' })
   await once(gateway.server, 'listening')
   if (initialize) {
     // Bootstrap talks only to this process's temporary loopback listener.
+    stage = 'CRM bootstrap'
     await import('./bootstrap-crm.mjs')
+    stage = 'preparation shutdown'
     await close()
     console.log('Deployment preparation complete; the backend can now start.')
   } else {
+    stage = 'publication startup'
     runtime.start()
     console.log(`6ixSummit backend ready: one Node process (PID ${process.pid}), port ${port}.`)
   }
-} catch {
-  // Do not print raw connection errors or configuration values.
-  console.error('Backend startup failed. Check the NocoBase build, database, CRM plugin and collection bootstrap.')
+} catch (error) {
+  console.error('Backend startup failed:', JSON.stringify(startupDiagnostic(error, stage)))
   await close()
   process.exitCode = 1
 }

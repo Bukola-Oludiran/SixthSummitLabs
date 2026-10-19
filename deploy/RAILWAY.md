@@ -84,6 +84,16 @@ still needs live routing for `/crm/api/`, `/crm/admin/`, `/crm/ws` and
 `/prospect-api/` to this backend; a healthy Railway deployment alone does not
 configure that routing.
 
+## Startup troubleshooting
+
+If startup fails, the launcher logs a safe stage, error code and configuration
+hint. `CRM_PLUGIN_DISABLED` or `APP_NOT_INSTALLED_ERROR` means the pre-deploy
+preparation step is missing or did not complete. The `About to overwrite
+ArrayBuffer.prototype properties` notice also occurs during successful NocoBase
+startup; it does not by itself identify a failure. Check the structured startup
+error and the pre-deploy logs. Raw connection strings, SQL and credentials are
+not included in the diagnostic.
+
 ## Local image verification
 
 ```sh
