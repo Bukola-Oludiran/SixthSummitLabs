@@ -236,7 +236,8 @@ export const services = [
 export const projects = [
   {
     slot: 'work1',
-    alt: 'A LuxeStyleBraids client photographed after a knotless braid install',
+    alt: 'Portrait of a woman holding hairstyling combs and scissors',
+    imagePosition: '50% 38%',
     kind: 'Web app',
     year: '2026',
     name: 'LuxeStyleBraids',
