@@ -7,6 +7,8 @@
     "node": ">=22"
   },
   "scripts": {
+    "start": "node scripts/start.mjs",
+    "dev": "node scripts/start.mjs --source",
     "storage:dependencies": "npm ci --prefix services/object-storage --ignore-scripts",
     "storage:check": "node scripts/storage.mjs check",
     "designs:upload": "node scripts/storage.mjs upload",

@@ -13,7 +13,7 @@ const commands = {
   dependencies: ['install', '--frozen-lockfile'],
   install: ['nocobase', 'install', '--lang=en-US'],
   dev: ['dev'],
-  build: ['build'],
+  build: ['build', ...process.argv.slice(3)],
   'plugin:enable': ['pm', 'enable', '@nocobase/plugin-sixsummit-crm'],
   'plugin:build': ['build', '@nocobase/plugin-sixsummit-crm', '--no-dts'],
   'plugin:test': ['test', 'packages/plugins/@nocobase/plugin-sixsummit-crm/src/server/__tests__/domain.test.ts', '--run', '--reporter=verbose'],

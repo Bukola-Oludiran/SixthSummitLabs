@@ -119,6 +119,7 @@ test('calling requires fresh complete research, and public links never accept ex
 test('staff SPA routes and native administration/API routes are separated in both preview and dev', () => {
   assert.ok(config.server.fs.deny.includes('**/backend/**'))
   for (const mode of ['server', 'preview']) {
+    assert.equal(config[mode].proxy['/prospect-api'].target, 'http://127.0.0.1:13000')
     const pattern = Object.keys(config[mode].proxy).find((key) => key.startsWith('^/crm/'))
     const proxy = new RegExp(pattern)
     for (const url of [

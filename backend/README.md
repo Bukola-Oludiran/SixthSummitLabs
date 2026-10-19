@@ -11,7 +11,8 @@ Local NocoBase CRM and workers for researching small businesses, preparing priva
 - OpenStreetMap discovery, evidence-based qualification, deduplication, restart-safe daily allowance and three versioned design jobs per qualified business.
 - Freeform ASA handoff, original-logo copying, observed-palette requirements, browser checks and an explicit human visual-review state.
 - Custom React staff workspace at `/crm`, with business records, research, protected call actions, notes, design review and analytics. NocoBase administration remains at `/crm/admin/sixsummit`.
-- Same-origin prospect galleries at `/designs/<token>`, automatic CRM links, and an S3-backed prospect service with authenticated staff review captures.
+- Same-origin prospect galleries at `/designs/<token>`, automatic CRM links, and S3-backed delivery with authenticated staff review captures.
+- A single Node backend process and HTTP listener for NocoBase, CRM APIs, prospect routes, WebSockets and the publication timer. `npm start` runs compiled production code; `npm run dev` runs the source server without UI bundlers or a watcher.
 
 **Still to configure:** an S3-compatible bucket for generated designs (see [object storage](OBJECT-STORAGE.md)), a permitted search endpoint for live website verification and an author runner for unattended ASA generation. Discovery alone does not qualify a business. No daily schedule, automated outreach or live hosting is enabled. The initial live discoveries remain unverified; demonstration records do not count toward real leads or sales metrics.
 
@@ -29,18 +30,31 @@ npm run crm:dependencies
 npm run crm:install
 npm run crm:plugin:build
 npm run crm:plugin:enable
-npm run crm:dev
+npm run dev
 ```
 
-In another terminal, from `backend`, run `npm run crm:bootstrap` once the API is available. Bootstrap adds missing fields and managed views without dropping existing collections. Restart the development process after first enabling the plugin if necessary.
+In another terminal, from `backend`, run `npm run crm:bootstrap` once the API is available. Bootstrap adds missing fields and managed views without dropping existing collections. The readiness endpoint returns 503 until the CRM collections have been bootstrapped.
 
-Run the marketing site with `npm run dev` from the repository root and the prospect service with `npm run prospects:dev` from `backend`. Open **http://127.0.0.1:5173/crm** to sign in on the same origin as the marketing site. Direct NocoBase access is **http://127.0.0.1:13000/crm/admin/sixsummit**. The generated login email and password are in **`backend/.env`**. `setup:env` generates private local credentials without overwriting an existing file, and links the upstream checkout to that environment file. The marketing site's `.env` and Git token are not loaded by these workers.
+Run the marketing site with `npm run dev` from the repository root. The backend’s `npm run dev` serves both API families on port 13000; no separate prospect process is required. For the retained NocoBase administration interface, first build its static client assets with `npm run crm:build -- --no-dts`. The source backend itself uses a TypeScript compiler helper; production uses compiled files. Open **http://127.0.0.1:5173/crm** to sign in on the same origin as the marketing site. Direct NocoBase access is **http://127.0.0.1:13000/crm/admin/sixsummit**. The generated login email and password are in **`backend/.env`**. `setup:env` generates private local credentials without overwriting an existing file, and links the upstream checkout to that environment file. The marketing site's `.env` and Git token are not loaded by these workers.
 
-Existing local installs must add `APP_PUBLIC_PATH=/crm/`, `PUBLIC_SITE_URL=http://127.0.0.1:5173`, `PROSPECT_PORT=13010` and set `NOCOBASE_URL=http://127.0.0.1:13000/crm` before restarting NocoBase. Keep `API_BASE_PATH=/api/`, `WS_PATH=/ws` and `PLUGIN_STATICS_PATH=/static/plugins/` unprefixed: NocoBase adds `/crm` automatically. Run bootstrap again to add gallery fields and upgrade the existing managed tables.
+Existing local installs must add `APP_PUBLIC_PATH=/crm/`, `PUBLIC_SITE_URL=http://127.0.0.1:5173` and set `NOCOBASE_URL=http://127.0.0.1:13000/crm` before restarting NocoBase. Keep `API_BASE_PATH=/api/`, `WS_PATH=/ws` and `PLUGIN_STATICS_PATH=/static/plugins/` unprefixed: NocoBase adds `/crm` automatically. Run bootstrap again to add gallery fields and upgrade the existing managed tables.
 
 PostgreSQL listens on `127.0.0.1:55439`; its data persists in the Docker volume. `npm run db:down` stops the database without deleting data. This is a local development installation; production deployment is a separate task.
 
 Our plugin source is `packages/plugins/@nocobase/plugin-sixsummit-crm`. `crm:plugin:link` copies it into the upstream checkout and links its workspace package; edit the owned source, not the managed runtime copy. Upstream tracked source remains unchanged. The plugin build uses `--no-dts`; the separate `crm:plugin:check` validates TypeScript against the upstream source paths.
+
+## Single-process backend
+
+After dependency installation, CRM installation, plugin enablement and collection bootstrap:
+
+```sh
+npm run crm:build -- --no-dts
+npm start
+```
+
+The production entry point is `scripts/start.mjs`. It boots the pinned NocoBase gateway directly with its `main-only` adapters, retains native API/admin/static/WebSocket handling, and mounts the prospect routes before native static routing. It does not use PM2 or launch another application process. The same process runs the 30-second publication task, prevents overlapping publication runs with the existing worker lock, and drains active publication before closing storage on shutdown. Discovery and ASA authoring remain explicit workflow commands; starting the HTTP backend does not start lead generation or outreach.
+
+The listener uses `PORT`, falling back to `APP_PORT` and then 13000. Set `APP_HOST=0.0.0.0` on Railway; local `.env` files can retain `127.0.0.1`. `GET /health` returns 200 only while the app is started and the CRM database is queryable, otherwise 503. HEAD is supported. Use one backend replica while the publication lock is host-local. Neon TLS, a persistent runtime volume, R2 secrets and `PUBLIC_SITE_URL` still need deployment configuration; this entry point alone does not provision Railway.
 
 ## Research and design workers
 
@@ -74,7 +88,7 @@ Administrators can review a concept in the custom workspace’s business record,
 
 The public endpoint is `/prospect-api/designs/<token>`, with an explicit allowlist of business name, city and design display fields. It does not expose call notes, lead IDs, evidence, author instructions or credentials. Live concept documents run in a sandbox with no access to the CRM's browser storage, no network API access and no form submission. Staff and prospects share the website origin, so this isolation is required. Gallery links are unlisted bearer links, not client accounts: anyone with a link can view it. Disable **Enable prospect design link** on a lead to revoke future metadata and asset requests.
 
-`PUBLIC_SITE_URL` sets the website origin used in CRM links. Use `http://127.0.0.1:5173` locally. Once hosted, change it to the final HTTPS origin, restart the service and run `designs:publish` to refresh stored URLs without changing tokens. See [deployment routing](../deploy/README.md) and the [workflow agent contract](AGENT-WORKFLOW.md). The service binds to loopback on port 13010; only its public routes should be exposed through the website proxy. Generated files persist in S3 across deployments; temporary authoring folders are disposable after a verified upload. The database requires its own backup.
+`PUBLIC_SITE_URL` sets the website origin used in CRM links. Use `http://127.0.0.1:5173` locally. Once hosted, change it to the final HTTPS origin, restart the service and run `designs:publish` to refresh stored URLs without changing tokens. See [deployment routing](../deploy/README.md) and the [workflow agent contract](AGENT-WORKFLOW.md). The unified backend serves `/prospect-api/...` and `/crm/...` from the same listener. Staff preview authorization makes a loopback request to the normal CRM API in that same process, preserving token validation and row permissions. Publication uses a restricted internal repository adapter, without signing in as root. The old `prospects:dev` script is retained only for isolated debugging; do not run it alongside the unified backend. Generated files persist in S3 across deployments; temporary authoring folders are disposable after a verified upload. The database requires its own backup.
 
 `designs:demo` prepares three briefs for a fictional business without writing CRM records or consuming lead allowance. The separate, reviewed skill test is in `../design/experiments/asa-v5-prairie-bloom`.
 

@@ -26,13 +26,13 @@ export default defineConfig({
     },
     proxy: {
       '^/crm/(?!leads(?:/|$)|follow-ups(?:/|$)|analytics(?:/|$)|designs(?:/|$)|login(?:/|$)).+': { target: 'http://127.0.0.1:13000', changeOrigin: false, ws: true },
-      '/prospect-api': { target: 'http://127.0.0.1:13010', changeOrigin: false },
+      '/prospect-api': { target: 'http://127.0.0.1:13000', changeOrigin: false },
     },
   },
   preview: {
     proxy: {
       '^/crm/(?!leads(?:/|$)|follow-ups(?:/|$)|analytics(?:/|$)|designs(?:/|$)|login(?:/|$)).+': { target: 'http://127.0.0.1:13000', changeOrigin: false, ws: true },
-      '/prospect-api': { target: 'http://127.0.0.1:13010', changeOrigin: false },
+      '/prospect-api': { target: 'http://127.0.0.1:13000', changeOrigin: false },
     },
   },
   plugins: [react(), {
