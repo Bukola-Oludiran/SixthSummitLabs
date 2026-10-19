@@ -1,0 +1,31 @@
+[
+  {
+    "businessName": "REPLACE WITH VERIFIED BUSINESS NAME — DO NOT IMPORT THIS EXAMPLE",
+    "phone": null,
+    "email": null,
+    "city": "Regina",
+    "province": "SK",
+    "country": "CA",
+    "category": "REPLACE WITH OBSERVED CATEGORY",
+    "socialLinks": [],
+    "services": [],
+    "websiteStatus": "not_checked",
+    "websiteCheckedAt": null,
+    "websiteEvidence": {
+      "provider": "codex_web_research",
+      "searches": [],
+      "unresolvedDomains": []
+    },
+    "logoStatus": "not_checked",
+    "brandPalette": [],
+    "motifs": [],
+    "source": {
+      "sourceKey": "REPLACE WITH STABLE SOURCE RECORD ID",
+      "sourceUrl": "REPLACE WITH REAL HTTPS SOURCE URL",
+      "sourceName": "REPLACE WITH ACTUAL SOURCE",
+      "observedAt": null,
+      "facts": {},
+      "attribution": "RETAIN ANY REQUIRED SOURCE ATTRIBUTION"
+    }
+  }
+]

@@ -4,13 +4,13 @@ import { fileURLToPath } from 'node:url'
 
 export const backendRoot = fileURLToPath(new URL('../', import.meta.url))
 
-export async function environment() {
+export async function environment({ file = process.env.SIXSUMMIT_ENV_FILE, inherit = process.env } = {}) {
   let local = {}
   try {
-    local = parseEnv(await readFile(new URL('../.env', import.meta.url), 'utf8'))
+    local = parseEnv(await readFile(file || new URL('../.env', import.meta.url), 'utf8'))
   } catch (error) {
-    if (error.code !== 'ENOENT') throw error
+    if (file || error.code !== 'ENOENT') throw error
   }
-  // Only this backend's .env is loaded. The marketing site's GIT_TOKEN is not used.
-  return { ...local, ...process.env }
+  // Load the selected backend profile only; never the marketing site's .env.
+  return { ...local, ...inherit }
 }

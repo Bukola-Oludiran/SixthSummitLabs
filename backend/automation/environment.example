@@ -1,0 +1,21 @@
+# Copy to backend/.env.automation (ignored). Never use backend/.env for this routine.
+NOCOBASE_URL=https://6ixsummitlabs.com/crm
+PUBLIC_SITE_URL=https://6ixsummitlabs.com
+# A dedicated NocoBase automation credential with access to the six_* collections.
+# Do not put the administrator password or Railway APP_KEY here.
+NOCOBASE_API_KEY=
+
+# Use the same private R2 bucket/prefix as Railway. These stay on this computer.
+DESIGN_S3_BUCKET=
+DESIGN_S3_REGION=auto
+DESIGN_S3_ENDPOINT=
+DESIGN_S3_PREFIX=sixsummit
+DESIGN_S3_FORCE_PATH_STYLE=false
+DESIGN_S3_ACCESS_KEY_ID=
+DESIGN_S3_SECRET_ACCESS_KEY=
+
+# Leave blank to use the installed local ASA checkout and Codex skills directory.
+ASA_DIR=
+CODEX_SKILLS_DIR=
+# Leave blank for an OS temporary folder outside this repository.
+DESIGN_WORK_ROOT=

@@ -2,6 +2,13 @@
 
 Use this contract when operating the 6ixSummit research/design workflow. Run worker commands from `backend`; load only the backend environment. Never put CRM API keys, database credentials or the marketing Git token into generated pages or client-side configuration.
 
+For the live Codex daily routine, use [the dedicated prompt](automation/DAILY-LEADS.md)
+and [private profile setup](automation/README.md). Its schedule specification is
+08:00 daily in `America/Edmonton`; the actual task still needs registration in
+the desktop scheduler after credentials and a manual pilot pass. Use the
+`automation` command wrapper, which loads `.env.automation` explicitly and rejects
+development URLs instead of using the local backend environment.
+
 1. Discover or research a business and retain HTTPS source evidence with a stable `sourceKey`. Include its public phone, optional email, target city/province, website searches, observed logo/colours and sourced motifs. Separate observations from proposed inspiration. Do not qualify empty or failed website searches.
 2. Pass researched observations to `npm run leads:import -- /absolute/path/to/candidates.json`, or use the configured discovery/verification workers. Import creates or updates the NocoBase lead, preserves caller ownership and opt-outs, and automatically writes **`designShareToken`, `designShareUrl`, `designSharingEnabled`**. Do not invent a token or guess a lead's URL.
 3. Qualification and completed brand research queue three idempotent, versioned `six_concepts` records. Each automatically receives **`previewUrl`**, linking to its selected concept in the lead gallery. The gallery can exist before designs are complete and shows preparation messages for unpublished directions. The lead and concept links are visible in CRM tables; the call workspace also links to the gallery.
@@ -10,6 +17,6 @@ Use this contract when operating the 6ixSummit research/design workflow. Run wor
 6. The unified backend (`npm start`, or `npm run dev` for source development) syncs approved concepts every 30 seconds in the same Node process as NocoBase. Alternatively, run `npm run designs:publish` explicitly after review. It creates the immutable snapshot from the uploaded S3 bundle, freezes only publishable site assets and captures in private S3, and stores **`publicationKey` / `publicationManifest` / `publishedAt` / `previewUrl`** back on each concept, and keeps notes, evidence and author instructions out of the public response. An existing snapshot is immutable; increment `briefVersion` and queue new concepts for revisions.
 7. Check the lead's `designShareUrl` and each approved concept's `previewUrl`. Only approved current-version concepts appear. An unlisted link can be viewed by anyone it is shared with; it is not an authenticated client account. Do not send it automatically: Bukola or the assigned partner handles prospect contact.
 
-`PUBLIC_SITE_URL` is the main website origin: currently `http://127.0.0.1:5173`. After hosting, configure the live HTTPS origin and run the publication sync to refresh CRM URLs. Disabling **Enable prospect design link** on the lead revokes future gallery and asset requests; re-enable it to restore sharing. Never expose backend storage as a public directory.
+`PUBLIC_SITE_URL` is `https://6ixsummitlabs.com` for live runs and `http://127.0.0.1:5173` for local development. Run publication sync to refresh stored CRM URLs after changing that setting. Disabling **Enable prospect design link** on the lead revokes future gallery and asset requests; re-enable it to restore sharing. Never expose backend storage as a public directory.
 
 The existing sales-flow API remains the only way to change protected call states. Design generation and publication must not create sales calls, meetings, wins or follow-up history.

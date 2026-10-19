@@ -1,0 +1,10 @@
+{
+  "name": "6ixSummit daily leads and homepage concepts",
+  "timeZone": "America/Edmonton",
+  "rrule": "RRULE:FREQ=DAILY;BYHOUR=8;BYMINUTE=0;BYSECOND=0",
+  "execution": "local",
+  "promptFile": "backend/automation/DAILY-LEADS.md",
+  "dailyQualifiedLeadTarget": 10,
+  "conceptsPerLead": 3,
+  "activation": "pending_credentials_and_manual_pilot"
+}

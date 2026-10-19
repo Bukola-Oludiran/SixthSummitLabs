@@ -14,7 +14,7 @@ Local NocoBase CRM and workers for researching small businesses, preparing priva
 - Same-origin prospect galleries at `/designs/<token>`, automatic CRM links, and S3-backed delivery with authenticated staff review captures.
 - A single Node backend process and HTTP listener for NocoBase, CRM APIs, prospect routes, WebSockets and the publication timer. `npm start` runs compiled production code; `npm run dev` runs the source server without UI bundlers or a watcher.
 
-**Still to configure:** an S3-compatible bucket for generated designs (see [object storage](OBJECT-STORAGE.md)), a permitted search endpoint for live website verification and an author runner for unattended ASA generation. Discovery alone does not qualify a business. No daily schedule, automated outreach or live hosting is enabled. The initial live discoveries remain unverified; demonstration records do not count toward real leads or sales metrics.
+**Codex routine:** [setup and commands](automation/README.md), [daily prompt](automation/DAILY-LEADS.md), and [schedule specification](automation/schedule.json). The requested cadence is 08:00 daily in America/Edmonton. Local credentials, a manual live pilot and actual task registration are still pending; the JSON file does not activate a schedule. Codex can research with its own web search and author directly using the installed skills, so a separate SearXNG endpoint and ASA author runner are optional for this routine. The website and backend are deployed through [Cloudflare and Railway](../deploy/README.md); deployment alone does not verify workflow permissions or R2 uploads. Discovery alone does not qualify a business. No automated outreach is enabled. Demonstration records do not count toward real leads or sales metrics.
 
 ## Local setup
 
