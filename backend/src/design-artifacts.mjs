@@ -85,6 +85,10 @@ export async function uploadConcept(store, folder, job, lead) {
   for (const name of ['authored/index.html', 'review/wide.png', 'review/narrow.png', 'review/findings.json']) if (!files.some(file => file.path === name)) throw new Error(`Missing design artifact: ${name}`)
   const findings = JSON.parse(await readFile(path.join(folder, 'review/findings.json'), 'utf8'))
   if (!findings.ok || findings.findingCount !== 0) throw new Error('Design browser checks must pass before upload.')
+  if (job.brief?.visualRequirements?.contentImage && (findings.contentImageRequired !== true ||
+    ['compact', 'narrow', 'medium', 'wide'].some(viewport => !(findings.viewports?.[viewport]?.imagery?.openingContentCount >= 1)))) {
+    throw new Error('Content imagery must pass browser review at all four viewports before upload.')
+  }
   const original = job.brief?.originalLogoPath
   if (original) {
     const remote = original.startsWith('s3://')

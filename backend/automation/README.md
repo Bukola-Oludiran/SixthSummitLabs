@@ -17,6 +17,12 @@ Official setup guidance: [scheduled tasks](https://learn.chatgpt.com/docs/automa
 
 ## Parallel execution
 
+Every run also follows [the prospect design standard](DESIGN-STANDARD.md): resolve
+real media before authoring, include substantial content imagery in every concept,
+and review art direction independently of browser correctness. New concept briefs
+require passing image evidence at all four viewports before upload. Existing
+verified drafts remain unchanged; this standard governs subsequent authoring.
+
 The prompt explicitly delegates independent work through native Codex subagents.
 One coordinator manages a shared pool of up to three workers, respecting the
 runtime's available slots. Researchers can cover the three cities concurrently;

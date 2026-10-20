@@ -2,6 +2,7 @@
 
 Operate the live 6ixSummit CRM for this run. Read `backend/AGENT-WORKFLOW.md`,
 `backend/config/pilot.json` and `backend/automation/schedule.json`.
+Read `backend/automation/DESIGN-STANDARD.md` before assigning brand or design work.
 Run commands below from `backend`, using Node 22.
 The only environment profile for this routine is ignored `backend/.env.automation`
 (or the explicit absolute `SIXSUMMIT_ENV_FILE`). Never load the marketing `.env`
@@ -73,7 +74,11 @@ After importing a business and storing its original logo if found, prepare its
 pending concept jobs sequentially. Have one brand worker establish the identity
 before homepage fan-out. Freeze the original logo or proposed logo, editable
 VectorCraft master, exports, observed palette, business facts and sourced motifs
-for that lead/version. Copy the same verified kit into each assigned concept
+for that lead/version. Resolve a shared media kit with actual local image files,
+source/reuse provenance and per-concept crop plans before homepage fan-out. Write
+`ART-DIRECTION.md` for the three compositions using the design standard. A missing
+image source is a problem to resolve or report, not a reason to omit imagery.
+Copy the same verified kit into each assigned concept
 folder and give authors the same three-direction plan. For resumed work, reuse
 the identity in already uploaded concepts; restore it through the coordinator
 when needed. A homepage author must not invent a competing logo or change the
@@ -180,9 +185,14 @@ positive/reversed monochrome proofs, and retain its editable `.vectorcraft`
 master. Finish this shared identity before dispatching the three concept authors;
 reuse it in all three directions.
 
-Use ASA V5-style freeform composition. Make three meaningfully different page
-compositions: brand continuity, clear service/contact, and distinctive business
-story. At least concept one must visibly use the observed brand palette when one
+Use ASA V5-style freeform composition and its art-direction/imagery reference.
+Make three meaningfully different page compositions. Brand continuity, clear
+service/contact, and distinctive business story are priorities, not three fixed
+layout recipes. Every concept needs substantive business-relevant imagery near
+its opening at desktop and mobile sizes. Prepare original, properly licensed or
+generated conceptual media with provenance as described in the design standard;
+logos, icons, gradients and decorative CSS shapes do not count. At least concept
+one must visibly use the observed brand palette when one
 exists. Learn from the ASA reference studies of 6ixSummit Labs and Akili; translate
 the design reasoning to this business rather than copying their pages.
 
@@ -192,12 +202,18 @@ hours, prices, guarantees, offers, addresses or service coverage. Bundle usable
 assets locally; no CDN dependencies or real backend forms. The delivered page runs
 inside the existing prospect sandbox, which blocks network access and submissions.
 
-Run ASA's `preview.sh` on `authored/index.html` into the job's `review/` directory.
+Run ASA's `preview.sh` on `authored/index.html` into the job's `review/` directory
+with `--require-content-image`. Check the per-viewport imagery evidence.
 Inspect the actual 320/390/768/1440px renders, including wide and narrow captures.
 Exercise navigation, contact actions, important interactions, keyboard focus and
 reduced motion. Fix overflow, contrast, broken assets, links and controls. Record
 honest visual/interaction review notes in `REVIEW.txt`. Passing findings alone
 does not establish good design or visual approval.
+Have another available worker review the rendered composition, media, type and
+mobile treatment against `DESIGN-STANDARD.md`. Compare sibling concepts and a
+different business in the batch. Return interchangeable or unfinished designs
+for revision even if all mechanical findings pass. Report a truthful shortfall
+when quality or media is incomplete rather than count it toward thirty.
 
 Only after passing browser findings, inspecting the rendered result and receiving
 the completed worker handoff, the coordinator uploads:

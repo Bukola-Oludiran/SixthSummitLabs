@@ -66,6 +66,7 @@ export function conceptBriefs(lead, pilot) {
       paletteSource: palette.length ? 'observed_business_brand' : 'no_observed_palette',
       primaryAction: 'phone_call',
       visibility: 'private_concept',
+      visualRequirements: { standard: 2, contentImage: true },
       copyRules: ['Use observed facts only.', 'Do not invent ratings, reviews, opening hours, prices or guarantees.'],
     },
   }))

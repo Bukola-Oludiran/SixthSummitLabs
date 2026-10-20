@@ -6,6 +6,7 @@ import path from 'node:path'
 import { prepareConcept, renderConcept } from '../src/designer.mjs'
 import { memoryStore } from './helpers/object-store.mjs'
 import { uploadConcept } from '../src/design-artifacts.mjs'
+import { conceptBriefs } from '../src/leads.mjs'
 
 const job = { jobKey: '1:1:1', briefVersion: 1, conceptNumber: 1, direction: 'Brand-led', brief: { businessName: 'Fictional business', requiredPalette: ['#123456'] } }
 
@@ -27,6 +28,35 @@ test('invalid job paths cannot write outside the private concept folder', async 
   const options = { backendRoot: os.tmpdir(), env: {} }
   await assert.rejects(() => prepareConcept(job, { id: '../../elsewhere' }, options), /Invalid design job/)
   await assert.rejects(() => prepareConcept({ ...job, briefVersion: -1 }, { id: 1 }, options), /Invalid design job/)
+})
+
+test('image-required briefs reject missing and partial viewport evidence before any object upload', async () => {
+  const folder = await mkdtemp(path.join(os.tmpdir(), 'sixsummit-imagery-'))
+  const store = memoryStore()
+  const pilot = JSON.parse(await readFile(new URL('../config/pilot.json', import.meta.url)))
+  const imageJobs = conceptBriefs({ id: 1, businessName: 'Private fixture only', phone: '+13065550101', logoStatus: 'not_found' }, pilot)
+  try {
+    await mkdir(path.join(folder, 'authored'))
+    await mkdir(path.join(folder, 'review'))
+    await writeFile(path.join(folder, 'authored/index.html'), '<h1>Private concept fixture</h1>')
+    for (const name of ['wide.png', 'narrow.png']) await writeFile(path.join(folder, 'review', name), 'capture fixture')
+    const findings = { ok: true, findingCount: 0 }
+    const saveFindings = () => writeFile(path.join(folder, 'review/findings.json'), JSON.stringify(findings))
+    await saveFindings()
+    for (const imageJob of imageJobs) await assert.rejects(() => uploadConcept(store, folder, imageJob, { id: 1 }), /Content imagery/)
+    assert.equal(store.objects.size, 0)
+    findings.contentImageRequired = true
+    findings.viewports = Object.fromEntries(['compact', 'narrow', 'medium', 'wide'].map(name => [name, { imagery: { openingContentCount: 1 } }]))
+    findings.viewports.narrow.imagery.openingContentCount = 0
+    await saveFindings()
+    for (const imageJob of imageJobs) await assert.rejects(() => uploadConcept(store, folder, imageJob, { id: 1 }), /Content imagery/)
+    assert.equal(store.objects.size, 0)
+    findings.viewports.narrow.imagery.openingContentCount = 1
+    await saveFindings()
+    const result = await uploadConcept(store, folder, imageJobs[0], { id: 1 })
+    assert.ok(result.artifactManifest.endsWith('/manifest.json'))
+    assert.ok(store.objects.size > 0)
+  } finally { await rm(folder, { recursive: true, force: true }) }
 })
 
 test('S3 original logos are preserved and generated work cannot be configured inside the checkout', async () => {
