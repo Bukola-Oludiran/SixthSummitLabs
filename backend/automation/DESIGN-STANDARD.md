@@ -52,6 +52,39 @@ the imagery evidence in `findings.json` as well as desktop/mobile openings and f
 Test useful interactions and keyboard access. The report confirms minimum image presence and
 mechanical behaviour; it cannot judge image relevance or originality.
 
+### Review whether the whole page has enough imagery
+
+The one-image check is a minimum presence check. It does not establish that the page has enough
+imagery for its business, content or composition. Do not treat `openingContentCount >= 1` as a
+visual-review pass, and do not replace it with an arbitrary larger image quota.
+
+The reviewer first reads the business brief and inspects the desktop/mobile full-page captures,
+forming an independent judgement before reading the author's claim that the design is complete.
+In the media section of `REVIEW.txt`, account for each substantial content section. Identify its
+customer-facing purpose, the actual image filename(s) and what they contribute, or a specific reason
+that section works as text alone. Name any missing visual subject, the section needing it and the
+revision required. A contact strip or practical FAQ may work well without another picture; a service,
+product or materials section may need imagery that the opening photograph does not provide.
+
+Assess relevance, useful variety, crop, resolution and placement at both desktop and mobile sizes.
+Check whether images explain meaningful service/material differences or support a customer's
+decision. Repeated crops of one photo are treatments of one source, not evidence of different work
+or subjects. Decorative filler, duplicate images and unrelated stock do not remedy a missing subject.
+Extra images need a purpose too. Preserve the distinction between conceptual imagery and actual
+business work; an unsourced portfolio is a defect even when it makes the page look richer.
+
+Finish the media review with `pass`, `revise` or `blocked` and reasons tied to the captures. A single
+image may pass when it supports the particular design and the other sections have convincing
+text-only treatment. "The minimum passed", "looks good" or "more images are unnecessary" alone are
+insufficient reasons. Return the page for revision if useful imagery is missing, including when
+all browser findings pass. If a necessary asset cannot be obtained truthfully, mark the media review
+blocked and report that shortfall instead of counting the concept as complete.
+
+The coordinator checks this section-level review against the actual captures and asset provenance
+before accepting handoff. After fixes, the reviewer rechecks the affected sections and mobile layout;
+the author's promise to add images is not a completed revision. This remains an agent's visual
+assessment for draft handoff, not staff approval or permission to publish.
+
 Have a different available worker review finished pages. In `REVIEW.txt`, record concrete observations
 for business fit, imagery/crops, typography, composition/section rhythm and mobile. Name any weakness
 and the fix made. A clean browser report alone does not pass this review. Compare all three concepts

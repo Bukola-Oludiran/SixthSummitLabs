@@ -60,7 +60,7 @@ Assign a source record, lead brand kit or concept to only one worker at a time.
 | Research | Initially one worker per target city; later split distinct category batches | Check sources, website evidence and duplicate identities before importing |
 | Brand preparation | One worker per business; research an original or make one proposed VectorCraft identity | Freeze one verified brand kit per lead/version before any of its concept authors start |
 | Homepage authoring | One worker per concept, across businesses or the same business after its brand kit is frozen | Give all three authors the shared facts, identity and three composition directions |
-| Quality review | A different available worker inspects a finished concept while other authors continue | Collect actual screenshots, findings and interaction notes; return fixes to the owning author |
+| Quality review | A different available worker inspects a finished concept while other authors continue | Collect screenshots, section-level media judgement, findings and interaction notes; return fixes to the owning author |
 
 Research workers return candidate JSON, real source URLs, logo provenance and
 held reasons in their own external folders. Give them portions of the remaining
@@ -98,7 +98,11 @@ interaction notes, unresolved issues, and whether files are closed for handoff.
 A completed agent thread is not proof that its artifact passed. Before each
 upload, independently verify the job's current eligibility and version, final
 files, unchanged shared logo, required palette, passing findings and inspected
-captures. Wait for the author/reviewer to finish using that folder, then upload
+captures. Read the reviewer's section-level media assessment and compare its
+reasoning with the actual captures; a passing one-image check does not establish
+adequate imagery across the page. Resolve `revise` or `blocked` findings before
+accepting a completed handoff. Wait for the author/reviewer to finish using that
+folder, then upload
 sequentially. Count a concept completed only after its verified R2 manifest and
 `needs_review` state can be read back from CRM.
 
@@ -211,7 +215,12 @@ honest visual/interaction review notes in `REVIEW.txt`. Passing findings alone
 does not establish good design or visual approval.
 Have another available worker review the rendered composition, media, type and
 mobile treatment against `DESIGN-STANDARD.md`. Compare sibling concepts and a
-different business in the batch. Return interchangeable or unfinished designs
+different business in the batch. Require the standard's section-level media
+review in `REVIEW.txt`: image roles and filenames or specific text-only reasons,
+missing visual subjects, and an evidence-based `pass`, `revise` or `blocked`
+verdict. Useful imagery must support the whole page, not just satisfy the opening
+image minimum. Repeated crops and filler do not establish useful variety. Return
+interchangeable or unfinished designs
 for revision even if all mechanical findings pass. Report a truthful shortfall
 when quality or media is incomplete rather than count it toward thirty.
 
