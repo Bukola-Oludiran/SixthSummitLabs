@@ -41,6 +41,7 @@
     "prospects:dev": "node scripts/prospects.mjs",
     "business:brief": "node scripts/business-brief.mjs",
     "test": "node --test test/*.test.mjs",
-    "crm:frontend:smoke": "node scripts/smoke-frontend.mjs"
+    "crm:frontend:smoke": "node scripts/smoke-frontend.mjs",
+    "crm:previews:smoke": "node scripts/smoke-design-previews.mjs"
   }
 }

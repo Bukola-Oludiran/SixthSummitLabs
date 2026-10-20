@@ -9,6 +9,7 @@ import { newDesignShare, ensureDesignShare, publishReviewedDesigns, prospectGall
 import { uploadConcept, restoreConcept } from '../src/design-artifacts.mjs'
 import { memoryStore } from './helpers/object-store.mjs'
 import { prospectHandler } from '../src/prospect-http.mjs'
+import { previewFrameTag } from '../src/preview-frame.mjs'
 
 async function fixture() {
   const backendRoot = await mkdtemp(path.join(os.tmpdir(), 'sixsummit-share-'))
@@ -17,6 +18,8 @@ async function fixture() {
   await mkdir(path.join(folder, 'review'))
   await writeFile(path.join(folder, 'authored/index.html'), '<h1>Reviewed concept</h1>')
   await writeFile(path.join(folder, 'authored/assets/logo.svg'), '<svg/>')
+  await writeFile(path.join(folder, 'authored/app.js'), 'document.body.dataset.interactive = "yes"')
+  await writeFile(path.join(folder, 'authored/styles.css'), 'body { color: #123456; }')
   await writeFile(path.join(folder, 'authored/AUTHORING.txt'), 'Private author instructions')
   await writeFile(path.join(folder, 'brief.json'), 'Private call notes')
   await writeFile(path.join(folder, 'review/wide.png'), 'test capture')
@@ -149,7 +152,7 @@ test('approved S3 assets stream through the website sandbox and revocation block
     const address = `${base}/concepts/1/files/index.html`
     const response = await fetch(address)
     assert.equal(response.status, 200)
-    assert.equal(await response.text(), '<h1>Reviewed concept</h1>')
+    assert.equal(await response.text(), '<h1>Reviewed concept</h1>' + previewFrameTag.toString())
     assert.match(response.headers.get('content-security-policy'), /sandbox allow-scripts;/)
     assert.doesNotMatch(response.headers.get('content-security-policy'), /allow-same-origin/)
     assert.equal(response.headers.get('cache-control'), 'no-store')
@@ -209,6 +212,66 @@ test('private draft captures require the staff token and live row access, even b
     assert.equal((await fetch(url.replace('/concepts/9/', '/concepts/10/'), { headers })).status, 404)
     revoked = true
     assert.equal((await fetch(url, { headers })).status, 403)
+  } finally {
+    server.closeAllConnections()
+    await new Promise(resolve => server.close(resolve))
+    await rm(f.backendRoot, { recursive: true, force: true })
+  }
+})
+
+test('live draft previews serve only scoped authored files without publishing or exposing staff credentials', async () => {
+  const f = await fixture()
+  let revoked = false
+  let time = 0
+  const staffDetail = async (token, role, leadId) => {
+    if (token !== 'private-staff-token') throw Object.assign(new Error('Denied'), { status: 401 })
+    if (revoked || role !== 'sixsummit_caller') throw Object.assign(new Error('Denied'), { status: 403 })
+    if (leadId !== f.lead.id) throw Object.assign(new Error('Missing'), { status: 404 })
+    return { lead: f.lead, concepts: [f.job] }
+  }
+  const server = createServer(prospectHandler({ ...f, staffDetail, previewOptions: { now: () => time, ttlMs: 1000 } }))
+  server.listen(0, '127.0.0.1')
+  await once(server, 'listening')
+  try {
+    const base = `http://127.0.0.1:${server.address().port}`
+    const issue = `${base}/prospect-api/staff/leads/7/concepts/9/preview`
+    const headers = { Authorization: 'Bearer private-staff-token', 'X-Role': 'sixsummit_caller' }
+    assert.equal((await fetch(issue, { method: 'POST' })).status, 401)
+    assert.equal((await fetch(issue, { headers })).status, 405)
+    assert.equal((await fetch(issue.replace('/9/', '/10/'), { method: 'POST', headers })).status, 404)
+    const response = await fetch(issue, { method: 'POST', headers })
+    assert.equal(response.status, 200)
+    assert.equal(response.headers.get('access-control-allow-origin'), null)
+    assert.equal(response.headers.get('cache-control'), 'no-store')
+    const preview = await response.json()
+    assert.doesNotMatch(JSON.stringify(preview), /private-staff-token|artifactManifest|s3:/)
+    const url = base + preview.siteUrl
+    const html = await fetch(url)
+    assert.equal(html.status, 200)
+    assert.equal(await html.text(), '<h1>Reviewed concept</h1>' + previewFrameTag.toString())
+    assert.match(html.headers.get('content-type'), /text\/html/)
+    assert.match(html.headers.get('content-security-policy'), /sandbox allow-scripts;/)
+    assert.doesNotMatch(html.headers.get('content-security-policy'), /allow-same-origin/)
+    assert.match(html.headers.get('content-security-policy'), /connect-src 'none'/)
+    assert.equal((await fetch(url, { method: 'HEAD' })).status, 200)
+    assert.equal(await (await fetch(url, { method: 'HEAD' })).text(), '')
+    for (const [name, type] of [['app.js', 'text/javascript'], ['styles.css', 'text/css'], ['assets/logo.svg', 'image/svg+xml']]) {
+      const asset = await fetch(url.replace('index.html', name))
+      assert.equal(asset.status, 200)
+      assert.equal(asset.headers.get('content-type'), type)
+    }
+    for (const name of ['AUTHORING.txt', 'identity.vectorcraft', 'brief.json', 'review/wide.png'])
+      assert.equal((await fetch(url.replace('index.html', name))).status, 404)
+    assert.equal((await fetch(url, { method: 'POST' })).status, 405)
+    assert.equal((await fetch(`${base}/prospect-api/designs/${f.lead.designShareToken}/concepts/1/files/index.html`)).status, 404)
+    assert.equal(f.job.status, 'needs_review')
+    assert.equal(f.job.publicationManifest, undefined)
+    revoked = true
+    assert.equal((await fetch(url.replace('index.html', 'app.js'))).status, 403)
+    revoked = false
+    const next = await (await fetch(issue, { method: 'POST', headers })).json()
+    time = 1001
+    assert.equal((await fetch(base + next.siteUrl)).status, 404)
   } finally {
     server.closeAllConnections()
     await new Promise(resolve => server.close(resolve))

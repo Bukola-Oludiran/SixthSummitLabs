@@ -11,7 +11,7 @@ Local NocoBase CRM and workers for researching small businesses, preparing priva
 - OpenStreetMap discovery, evidence-based qualification, deduplication, restart-safe daily allowance and three versioned design jobs per qualified business.
 - Freeform ASA handoff, original-logo copying, observed-palette requirements, browser checks and an explicit human visual-review state.
 - Custom React staff workspace at `/crm`, with business records, research, protected call actions, notes, design review and analytics. NocoBase administration remains at `/crm/admin/sixsummit`.
-- Same-origin prospect galleries at `/designs/<token>`, automatic CRM links, and S3-backed delivery with authenticated staff review captures.
+- Same-origin live prospect galleries at `/designs/<token>`, automatic CRM links, authenticated live draft review, desktop/mobile sizing and full-screen previews.
 - A single Node backend process and HTTP listener for NocoBase, CRM APIs, prospect routes, WebSockets and the publication timer. `npm start` runs compiled production code; `npm run dev` runs the source server without UI bundlers or a watcher.
 
 **Codex routine:** [setup and commands](automation/README.md), [daily prompt](automation/DAILY-LEADS.md), and [schedule specification](automation/schedule.json). The requested cadence is 08:00 daily in America/Edmonton. Local credentials, a manual live pilot and actual task registration are still pending; the JSON file does not activate a schedule. Codex can research with its own web search and author directly using the installed skills, so a separate SearXNG endpoint and ASA author runner are optional for this routine. The website and backend are deployed through [Cloudflare and Railway](../deploy/README.md); deployment alone does not verify workflow permissions or R2 uploads. Discovery alone does not qualify a business. No automated outreach is enabled. Demonstration records do not count toward real leads or sales metrics.
@@ -85,6 +85,29 @@ Without an author, jobs become `awaiting_author`, not failed or ready. A human c
 Set `ASA_DIR` to the ASA checkout with its installed dependencies, and optionally `CODEX_SKILLS_DIR` to the installed skills directory. The browser helper captures four widths and audits assets, interactions and basic accessibility. Passing technical checks and uploading the complete verified S3 bundle produces **`needs_review`**; a person must inspect the page and approve it before setting it ready. Existing rendered jobs require an explicit versioned rebrief to regenerate. This backend no longer automatically produces V7 template pages.
 
 ## Prospect design galleries
+
+Both the staff **Designs** tab and the prospect gallery display live HTML/CSS/JS websites with
+**Desktop**, **Mobile** and **Full screen** controls. Full screen uses browser fullscreen where
+available and a full-window modal otherwise; **Exit full screen** or Escape returns to the viewer.
+Screenshots remain available as a separate reference. Browser sizing changes the actual concept
+viewport rather than stretching a captured image. Full-screen entry starts a fresh concept frame.
+
+Staff can review uploaded drafts before approval. `POST /prospect-api/staff/leads/:leadId/concepts/:conceptId/preview`
+requires the caller's CRM token and role, then issues a 15-minute, single-concept preview URL. The
+single-process backend holds a bounded in-memory preview session and rechecks current CRM row access
+for every authored file request. Expiry, revoked access, a new brief version or a replaced manifest
+invalidates the URL; the viewer renews it or offers Refresh. CRM credentials are never placed in the
+URL or generated page. Only publishable authored files are served, excluding briefs, review notes
+and editable masters. Opening a staff preview does not approve or publish the concept.
+
+Published client pages use the same isolated live viewer. A small trusted Escape-key relay is added
+at delivery time so focus inside the sandboxed page can close its expanded view; stored R2 snapshots
+remain unchanged. The host accepts that message only from its own active frame. Scripts retain
+their opaque origin, blocked API access and blocked submissions.
+
+After the root frontend build, run `npm run crm:previews:smoke` from `backend` for fixture-only Chromium
+checks of draft/client interaction, actual viewport sizes, fullscreen/fallback/Escape behaviour and
+CRM isolation. This test never loads `.env` or writes to production CRM/R2.
 
 Lead imports now store a unique, unlisted **`designShareUrl`** on each CRM lead and a **`previewUrl`** on each concept. The gallery link is available immediately, including when research or authoring is still pending. Prospects see only approved, published designs; unfinished concepts show a preparation message. The call workspace and managed Leads/Homepage concepts tables expose the links.
 

@@ -12,6 +12,7 @@ import {
   safeLink,
 } from './domain'
 import { Badge, Empty, ErrorNotice, Icon, Loading, Modal, useRemote, WorkspaceLink } from './ui'
+import WebsitePreview from '../components/WebsitePreview'
 
 export default function LeadDetail({ leadId, api, user, isAdmin, navigate, notify }) {
   const [tab, setTab] = useState('activity')
@@ -705,7 +706,7 @@ function Designs({ concepts, lead, api, isAdmin, busy, review }) {
             </div>
             <h2>{job?.direction || 'A direction for this business'}</h2>
             {uploaded ? (
-              <PrivateCaptures api={api} leadId={lead.id} conceptId={job.id} />
+              <PrivateDesignPreview api={api} leadId={lead.id} conceptId={job.id} title={`${lead.businessName} — direction ${number}`} />
             ) : (
               <div className="crm-concept-pending">
                 <Icon name="designs" size={32} />
@@ -771,6 +772,41 @@ function Designs({ concepts, lead, api, isAdmin, busy, review }) {
       })}
     </div>
   )
+}
+function PrivateDesignPreview({ api, leadId, conceptId, title }) {
+  const [mode, setMode] = useState('live')
+  const [attempt, setAttempt] = useState(0)
+  const [preview, setPreview] = useState({ loading: true })
+  useEffect(() => {
+    if (mode !== 'live') return
+    const controller = new AbortController()
+    let timer
+    setPreview({ loading: true })
+    fetch(`/prospect-api/staff/leads/${leadId}/concepts/${conceptId}/preview`, {
+      method: 'POST', headers: api.headers(), credentials: 'omit', cache: 'no-store', signal: controller.signal,
+    }).then(async response => {
+      if (!response.ok) {
+        if (response.status === 401) api.expired?.()
+        throw new Error('The live preview is unavailable. Try refreshing it, or view the captured design.')
+      }
+      const data = await response.json()
+      if (!/^\/prospect-api\/previews\/[A-Za-z0-9_-]{43}\/files\/index\.html$/.test(data.siteUrl) || !Number.isFinite(Date.parse(data.expiresAt))) throw new Error('The live preview is unavailable. Try again.')
+      if (controller.signal.aborted) return
+      setPreview({ loading: false, url: data.siteUrl })
+      timer = setTimeout(() => setAttempt(value => value + 1), Math.max(1000, Date.parse(data.expiresAt) - Date.now() - 60000))
+    }).catch(error => { if (!controller.signal.aborted) setPreview({ loading: false, error: error.message }) })
+    return () => { controller.abort(); clearTimeout(timer) }
+  }, [api, leadId, conceptId, mode, attempt])
+  return <>
+    <div className="crm-capture-controls" aria-label="Design preview type">
+      <button type="button" aria-pressed={mode === 'live'} onClick={() => setMode('live')}>Live website</button>
+      <button type="button" aria-pressed={mode === 'captures'} onClick={() => setMode('captures')}>Screenshots</button>
+    </div>
+    {mode === 'captures' ? <PrivateCaptures api={api} leadId={leadId} conceptId={conceptId} />
+      : preview.loading ? <Loading>Opening live preview…</Loading>
+      : preview.error ? <div><p className="crm-warning">{preview.error}</p><button className="crm-button crm-button--small" onClick={() => setAttempt(value => value + 1)}>Retry live preview</button></div>
+      : <WebsitePreview src={preview.url} title={title} onRefresh={() => setAttempt(value => value + 1)} />}
+  </>
 }
 function PrivateCaptures({ api, leadId, conceptId }) {
   const [viewport, setViewport] = useState('desktop')

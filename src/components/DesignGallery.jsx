@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Wordmark } from './icons'
 import { settings } from '../site.config'
+import WebsitePreview from './WebsitePreview'
 import './DesignGallery.css'
 
 const tokenPattern = /^[A-Za-z0-9_-]{43}$/
@@ -10,7 +11,6 @@ export default function DesignGallery() {
   const [gallery, setGallery] = useState(null)
   const [state, setState] = useState(token ? 'loading' : 'entry')
   const [selected, setSelected] = useState(Number(new URLSearchParams(window.location.search).get('concept')) || 1)
-  const [viewport, setViewport] = useState('desktop')
   const [link, setLink] = useState('')
   const [entryError, setEntryError] = useState('')
   const [retry, setRetry] = useState(0)
@@ -112,9 +112,8 @@ export default function DesignGallery() {
               </div>
               {concept?.ready ? (
                 <div className="design-viewer">
-                  <div className="design-viewer-bar"><div><span className="design-status-dot" />Direction {concept.number}<span className="design-preview-label">Website concept</span></div><div className="design-size" aria-label="Preview size"><button aria-pressed={viewport === 'desktop'} onClick={() => setViewport('desktop')}>Desktop</button><button aria-pressed={viewport === 'mobile'} onClick={() => setViewport('mobile')}>Mobile</button></div></div>
-                  <div className={`design-canvas is-${viewport}`}><iframe key={`${concept.number}-${viewport}`} src={concept.siteUrl} title={`${gallery.businessName} — direction ${concept.number} ${viewport} preview`} sandbox="allow-scripts" referrerPolicy="no-referrer" /></div>
-                  <div className="design-viewer-note"><span>This is a design concept. Some features are for demonstration.</span><a href={viewport === 'desktop' ? concept.desktopUrl : concept.mobileUrl} target="_blank" rel="noreferrer">View captured design ↗</a></div>
+                  <WebsitePreview key={concept.number} src={concept.siteUrl} title={`${gallery.businessName} — direction ${concept.number}`} />
+                  <div className="design-viewer-note"><span>This is a design concept. Some features are for demonstration.</span><span><a href={concept.desktopUrl} target="_blank" rel="noreferrer">Desktop capture ↗</a>{' · '}<a href={concept.mobileUrl} target="_blank" rel="noreferrer">Mobile capture ↗</a></span></div>
                 </div>
               ) : (
                 <div className="design-pending"><span aria-hidden="true">△</span><h2>A little care goes into every direction.</h2><p>This design is being prepared. Your contact will let you know when it’s ready.</p><button onClick={() => setRetry((value) => value + 1)}>Check for updates ↻</button></div>
