@@ -20,12 +20,19 @@ If its only source is a raster, keep it as the original; do not silently trace, 
 A requested redesign may explore alternatives while keeping the original separately available.
 
 Choose the appropriate signature: wordmark, letterform, symbol with type, emblem or another supported
-direction. A separate icon is optional. Look for one memorable formal idea tied to the business;
-avoid defaulting to a circle with initials or selecting a stock motif from a keyword. Explore enough
-different ideas to make a meaningful choice, without imposing a fixed number on every request.
+direction. A separate icon is optional. The logo identifies the business; it need not illustrate its
+entire offer. Treat observed motifs as possibilities, not instructions to combine them all.
+
+For a new identity, read [concept development and critique](references/concept-and-review.md).
+Explore materially different ideas before committing to polished geometry. Compare rough directions
+at similar visual size, explain what makes each particular to the brief, and record the reason for
+selection. Recolouring one symbol is not concept exploration. For a small refinement, keep the
+approved concept and work on the requested defect; do not reopen the whole identity.
 
 Read [logo principles](references/logo-principles.md) while developing the mark and type. Use those
 criteria to explain choices and revise weak work; do not turn them into a universal house style.
+The [research synthesis](references/research-synthesis.md) documents primary sources, their limits
+and the reasoning behind this guidance. Consult it when choosing between competing design approaches.
 
 ## Construct in VectorCraft
 
@@ -42,6 +49,9 @@ See [VectorCraft production](references/vectorcraft-production.md) for the verif
 pattern. Build named, editable paths and live type in the master. Use Boolean or compound geometry
 for real counters and cutouts; a background-coloured cover is not a transparent hole. Work with
 installed, appropriately licensed typefaces and refine the wordmark's actual spacing.
+For a new wordmark, compare plausible type directions using the exact business name before selecting
+a family or drawing custom letters. Inspect individual pairs and the rhythm of the whole word at
+its intended size. A bespoke ligature or replaced character must keep the name readable.
 
 A flat one-colour proof is a useful construction test. Colour, gradients or richer treatments can
 support an identity when justified; they should not disguise a weak outline or become the only
@@ -65,15 +75,23 @@ python3 <skill-dir>/scripts/proof.py \
   --out ./logo-output/proof
 ```
 
-Omit mark or wordmark arguments when that form is not part of the identity. Open `proof/index.html`
+Omit mark or wordmark arguments when that form is not part of the identity. Match the brief with
+`--mark-sizes` and `--wordmark-widths` when the default proof dimensions do not fit. Open `proof/index.html`
 in an available browser, inspect the sizes and reversed variants, and check rendered PNGs using the
-image viewer. `findings.json` checks file structure only; it cannot judge originality, spacing,
-silhouette quality, cutout readability or appropriate minimum size. Fix observed problems and
-inspect again. Also reopen/render the saved `.vectorcraft` master to check it matches the exports.
+image viewer. `findings.json` reports structural validity, supplied reversed variants and pending
+visual checks separately. Exit zero means the structural checks and variant presence passed; it
+does not certify appearance, originality or a finished review. Follow the critique reference to
+record actual observations, revise material defects and inspect again. Also reopen/render the saved
+`.vectorcraft` master to check it matches the exports.
 
 When a mark replaces a character in a wordmark, preserve the intended reading of the whole name.
 Judge its perceived size and baseline optically, rather than forcing matching bounding-box heights;
 check the join to the next letter and avoid typing the replaced character a second time.
+
+Inspect the logo in the intended application as well as the proof sheet: for website work, use the
+actual desktop and mobile header with neighbouring navigation and the intended background. Include
+other applications only when relevant to the brief. Preserve the same recognisable identity across
+optical or compact variants; do not silently substitute a different logo in CSS.
 
 ## Handoff
 
