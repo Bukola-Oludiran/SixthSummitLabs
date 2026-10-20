@@ -8,9 +8,17 @@ successful designs. Keep draft approval and publication with staff.
 
 Read ASA Page's `references/art-direction.md`. Prepare a shared media kit alongside the business's
 logo and facts. Keep each asset's source or generation provenance, reuse status and local filename
-in `ASSET-PROVENANCE.json` outside the checkout. Use original business photos when usable; properly
-licensed stock or generated conceptual imagery can illustrate the trade when originals are missing.
-Use an available image-generation skill/tool for appropriate conceptual photography. Do not silently
+in `ASSET-PROVENANCE.json` outside the checkout. Original business assets, public-domain and openly
+licensed photos/illustrations, properly licensed stock, and generated conceptual imagery are all
+valid sources. ImageGen is optional; select and mix sources by relevance, quality and the direction,
+with no required generated-image quota. Existing suitable imagery need not be regenerated.
+For sourced assets, record the original asset page, creator, licence identifier/URL, attribution
+requirements and any modifications. Verify reuse and adaptation permissions for the intended use;
+a publicly accessible image is not automatically openly licensed. Keep required attribution in the
+authored page or a bundled credits page as well as internal provenance. Download permitted assets
+into the external job's local assets; the prospect sandbox cannot rely on third-party hotlinks.
+Use an available image-generation skill/tool when conceptual photography suits a missing subject
+or a custom composition. Do not silently
 fall back to blank panels or logos when obtaining photographs takes more work. Report a media blocker
 if suitable imagery cannot be obtained.
 
@@ -19,7 +27,8 @@ near its opening, at desktop and mobile widths. Logos, brand signatures, icons, 
 decorative CSS shapes do not count. Visual trades benefit from supporting images with different
 subjects or details when these add information. Decide image selection, crop and focal point for
 each concept, rather than placing the same picture into the same right-hand rectangle three times.
-Stock and generated imagery must not imply the business owns a pictured shop, employs pictured people,
+Illustrative stock, open-collection and generated imagery must not imply the business owns a
+pictured shop, employs pictured people,
 sells a pictured product or completed a pictured project. Keep that distinction in asset provenance;
 do not describe conceptual imagery as an actual business portfolio.
 
@@ -78,6 +87,8 @@ Run ASA preview with `--require-content-image` into `review/`. All four viewport
 the imagery evidence in `findings.json` as well as desktop/mobile openings and full-page screenshots.
 Test useful interactions and keyboard access. The report confirms minimum image presence and
 mechanical behaviour; it cannot judge image relevance or originality.
+Review sourced and generated assets against the same visual standard. Source type alone neither
+earns a pass nor justifies replacing a suitable image; check provenance and required credits too.
 
 The reviewer assesses the art-direction dimensions above in the actual rendered page and records
 visible evidence or a specific weakness in `REVIEW.txt`. A note naming texture, colour or interaction

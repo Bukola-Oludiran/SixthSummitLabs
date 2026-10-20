@@ -196,9 +196,13 @@ Make three meaningfully different page compositions. Brand continuity, clear
 service/contact, and distinctive business story are priorities, not three fixed
 layout recipes. Every concept needs substantive business-relevant imagery near
 its opening at desktop and mobile sizes. Prepare original, properly licensed or
-generated conceptual media with provenance as described in the design standard;
-logos, icons, gradients and decorative CSS shapes do not count. At least concept
-one must visibly use the observed brand palette when one
+generated conceptual media with provenance as described in the design standard.
+Public-domain and openly licensed image collections are valid sources; ImageGen
+is optional, and a concept can mix sources. Record the original source, creator,
+licence and any required attribution, including required credits in the authored
+page. Download permitted assets locally for the sandbox rather than hotlinking.
+Logos, icons, gradients and decorative CSS shapes do not count as content imagery.
+At least concept one must visibly use the observed brand palette when one
 exists. Learn from the ASA reference studies of 6ixSummit Labs and Akili; translate
 the design reasoning to this business rather than copying their pages.
 Read `references/design-studies.md` explicitly before coding. Develop texture,

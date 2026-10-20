@@ -29,6 +29,10 @@ Authors and reviewers also apply the Akili/6ixSummit reference principles:
 composition, material texture, photographic grading, continuity and purposeful
 interaction. Chosen live effects need active-state evidence and usable touch,
 keyboard and reduced-motion alternatives, not just a static screenshot.
+ImageGen is optional. Authors may mix business assets, public-domain/openly
+licensed images, licensed stock and generated imagery, retaining source/licence
+provenance and any required public attribution. Assets are bundled locally and
+uploaded to R2 with the design.
 
 The prompt explicitly delegates independent work through native Codex subagents.
 One coordinator manages a shared pool of up to three workers, respecting the
