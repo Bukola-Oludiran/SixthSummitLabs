@@ -28,6 +28,33 @@ opening composition, type relationship, image role/crop, section rhythm and prim
 labels describe communication priorities, not fixed layout templates. One direction retains observed
 colours. Compare the planned silhouettes and change any that depend on palette swaps to differ.
 
+## Translate the Akili and 6ixSummit lessons into the design
+
+Read ASA Page's `references/design-studies.md`, including its refreshed observations of both live
+sites and their pointer states. Treat these as a source of art direction throughout authoring and
+review. In `ART-DIRECTION.md`, describe the chosen material/texture, focal hierarchy and depth,
+photographic tone, section rhythm and interaction vocabulary, with a business-specific reason.
+
+6ixSummit connects graded city imagery, grain, translucent depth and a pointer reveal into one
+digital atmosphere; its reveal protects text readability. Akili connects aerial composition, a warm
+photographic grade, a technical grid and a surveying-style pointer response into its engineering
+subject. Transfer those relationships to this business. The reference's exact colours, grain,
+crosshair or lens are possible techniques, not a shared style for every prospect.
+
+| Dimension | Authoring expectation | Reviewer evidence |
+| --- | --- | --- |
+| Composition | Arrange image, title, action, visual mass, negative space and section transitions as a deliberate hierarchy | A convincing focal point and reading path in the opening and full page, including mobile |
+| Texture and material | Give surfaces a relevant material quality through imagery, controlled grain/detail, layering or deliberate smoothness | Texture contributes to the business's atmosphere and remains crisp and readable at the intended scale |
+| Colour and grading | Connect surfaces, type and photographic tone; use exposure, white balance, hue, saturation and local scrims deliberately | Images feel related without losing detail; original logos and decision-relevant product/material colours remain faithful |
+| Interaction | Develop a relevant behaviour such as image exploration, a masked reveal, material inspection or subtle spatial response when it serves the direction | The live behaviour works, strengthens the subject and preserves text, controls and image visibility |
+| Continuity | Develop a motif through several design decisions rather than repeating an icon | Image framing, layout, material, type or behaviour form one recognisable visual world |
+
+Use `$asa-media` for appropriate lens, grading or procedural fragments, or author custom CSS/SVG/
+canvas behaviour. A chosen live treatment belongs in the delivered page; a still or an unimplemented
+plan does not provide interactivity. A generic link hover alone does not fulfil a direction built
+around exploration. Select the treatments that fit the concept rather than adding every effect.
+Keep a strong composition for touch, keyboard and reduced-motion use as well as the pointer state.
+
 ## Author for the actual business
 
 Choose image scale, type, spacing and section transitions together. Carry a recognisable motif through
@@ -51,6 +78,20 @@ Run ASA preview with `--require-content-image` into `review/`. All four viewport
 the imagery evidence in `findings.json` as well as desktop/mobile openings and full-page screenshots.
 Test useful interactions and keyboard access. The report confirms minimum image presence and
 mechanical behaviour; it cannot judge image relevance or originality.
+
+The reviewer assesses the art-direction dimensions above in the actual rendered page and records
+visible evidence or a specific weakness in `REVIEW.txt`. A note naming texture, colour or interaction
+is not proof that the resulting page has those qualities. Inspect whether the material treatment,
+photographic tone, typography and hierarchy work together; return an interchangeable design for
+revision even when it contains enough images and has zero browser findings.
+
+For chosen pointer/motion treatments, retain normal-motion and active-pointer captures alongside
+the default/reduced-motion renders. `preview.sh --motion` captures normal motion; exercise pointer
+states in a browser. Test entry, movement over images and nearby headlines/contact controls, exit,
+touch, keyboard and reduced motion. Check readability in the actual changed state. Decorative
+layers must leave clicks and focus operable; a colour reveal must not wash out copy. Original logos
+must stay faithful, and the mobile/static experience must retain the intended character. Record
+what was exercised and its result, then recheck fixes before accepting the visual handoff.
 
 ### Review whether the whole page has enough imagery
 

@@ -25,6 +25,10 @@ verified drafts remain unchanged; this standard governs subsequent authoring.
 The reviewer also assesses each substantial section's imagery or reason for a
 text-only treatment, and returns missing visual subjects for revision. A passing
 one-image check alone cannot pass that review; there is no fixed image quota.
+Authors and reviewers also apply the Akili/6ixSummit reference principles:
+composition, material texture, photographic grading, continuity and purposeful
+interaction. Chosen live effects need active-state evidence and usable touch,
+keyboard and reduced-motion alternatives, not just a static screenshot.
 
 The prompt explicitly delegates independent work through native Codex subagents.
 One coordinator manages a shared pool of up to three workers, respecting the

@@ -78,6 +78,8 @@ for that lead/version. Resolve a shared media kit with actual local image files,
 source/reuse provenance and per-concept crop plans before homepage fan-out. Write
 `ART-DIRECTION.md` for the three compositions using the design standard. A missing
 image source is a problem to resolve or report, not a reason to omit imagery.
+Include the selected texture/material, focal hierarchy/depth, photographic grade,
+section rhythm and interaction, drawing on ASA's Akili/6ixSummit reference study.
 Copy the same verified kit into each assigned concept
 folder and give authors the same three-direction plan. For resumed work, reuse
 the identity in already uploaded concepts; restore it through the coordinator
@@ -199,6 +201,10 @@ logos, icons, gradients and decorative CSS shapes do not count. At least concept
 one must visibly use the observed brand palette when one
 exists. Learn from the ASA reference studies of 6ixSummit Labs and Akili; translate
 the design reasoning to this business rather than copying their pages.
+Read `references/design-studies.md` explicitly before coding. Develop texture,
+composition, colour grading, depth and interaction together as described in the
+design standard. Use `$asa-media` or custom behaviour for a chosen live treatment;
+include its working implementation and static/touch/reduced-motion alternatives.
 
 Write customer-facing copy using confirmed facts and business-specific language.
 Use the copy skills to review it. Do not invent testimonials, ratings, statistics,
@@ -220,8 +226,12 @@ review in `REVIEW.txt`: image roles and filenames or specific text-only reasons,
 missing visual subjects, and an evidence-based `pass`, `revise` or `blocked`
 verdict. Useful imagery must support the whole page, not just satisfy the opening
 image minimum. Repeated crops and filler do not establish useful variety. Return
-interchangeable or unfinished designs
-for revision even if all mechanical findings pass. Report a truthful shortfall
+interchangeable or unfinished designs for revision even if all mechanical
+findings pass. The reviewer also assesses the reference principles in actual
+texture, composition, photographic grading, continuity and implemented behaviour.
+For chosen effects, retain normal-motion and active-pointer evidence and test
+entry/movement/exit, text/control readability, touch, keyboard and reduced motion.
+Do not pass a planned interaction based only on static captures. Report a truthful shortfall
 when quality or media is incomplete rather than count it toward thirty.
 
 Only after passing browser findings, inspecting the rendered result and receiving
