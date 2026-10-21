@@ -52,7 +52,7 @@ export const nav = [
 ]
 
 export const hero = {
-  headline: ['Websites built', 'around your'],
+  headline: ['Applications built', 'around your'],
   headlineAccent: 'business.',
   lede: 'We design and build websites that show what you do and help customers get in touch. We also build booking tools, custom apps and automations for the work behind the scenes.',
   secondaryCta: 'See our work',
